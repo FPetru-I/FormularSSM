@@ -412,7 +412,7 @@
   .sig-name-input { border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:14px;background:var(--surface2);color:var(--text);outline:none;transition:border-color 0.15s;width:100%;margin-bottom:6px;box-sizing:border-box; }
   .sig-name-input:focus { border-color:var(--accent); }
   .sig-canvas-wrap { position:relative;border:1.5px solid var(--border);border-radius:6px;background:#fff;overflow:hidden; }
-  .sig-canvas-wrap canvas { display:block;width:100%;height:150px;cursor:crosshair;touch-action:none;pointer-events:all;position:relative;z-index:2; }
+  .sig-canvas-wrap canvas { display:block;width:100%;cursor:crosshair;touch-action:none;pointer-events:all;position:relative;z-index:2; }
   .sig-actions { display:flex;justify-content:flex-end;margin-top:6px; }
   .sig-btn-clear { font-size:11px;font-weight:600;color:var(--text-muted);background:none;border:1px solid var(--border);border-radius:4px;padding:4px 12px;cursor:pointer;transition:all 0.15s; }
   .sig-btn-clear:hover { border-color:var(--no);color:var(--no); }
@@ -3577,88 +3577,80 @@ var sigCanvases      = {};
 function initSignatures() {
   ['inspector', 'sef'].forEach(function(id) {
     var canvas = document.getElementById('canvas-' + id);
-    if (!canvas) return;
     var wrap   = document.getElementById('wrap-' + id);
     var ph     = document.getElementById('ph-' + id);
+    if (!canvas || !wrap) return;
 
-    // Set canvas resolution
-    function resize() {
-      var w = wrap.getBoundingClientRect().width || 400;
-      canvas.width  = Math.round(w);
-      canvas.height = 150;
-    }
-    resize();
-    window.addEventListener('resize', resize);
-    setTimeout(resize, 500);
+    // Set canvas size to match container
+    var rect = wrap.getBoundingClientRect();
+    canvas.width  = rect.width  > 0 ? Math.floor(rect.width) : 400;
+    canvas.height = 150;
+    canvas.style.height = '150px';
 
-    var ctx = canvas.getContext('2d');
+    var ctx     = canvas.getContext('2d');
     var drawing = false;
-    var lastX = 0, lastY = 0;
+    var ox = 0, oy = 0;   // canvas offset from page
 
-    function setStyle() {
-      ctx.strokeStyle = '#111';
-      ctx.lineWidth   = 2.5;
-      ctx.lineCap     = 'round';
-      ctx.lineJoin    = 'round';
-    }
-
-    function getXY(e) {
-      var rect = canvas.getBoundingClientRect();
-      var scX  = canvas.width  / rect.width;
-      var scY  = canvas.height / rect.height;
-      var src  = e.touches ? e.touches[0] : e;
-      return {
-        x: (src.clientX - rect.left) * scX,
-        y: (src.clientY - rect.top)  * scY
-      };
+    function updateOffset() {
+      var r = canvas.getBoundingClientRect();
+      ox = r.left + window.scrollX;
+      oy = r.top  + window.scrollY;
     }
 
     canvas.addEventListener('mousedown', function(e) {
-      e.preventDefault();
+      updateOffset();
       drawing = true;
-      setStyle();
-      var p = getXY(e); lastX = p.x; lastY = p.y;
+      ctx.beginPath();
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth   = 2;
+      ctx.lineCap     = 'round';
+      var x = e.pageX - ox;
+      var y = e.pageY - oy;
+      ctx.moveTo(x, y);
       if (ph) ph.style.display = 'none';
     });
 
     canvas.addEventListener('mousemove', function(e) {
       if (!drawing) return;
-      e.preventDefault();
-      var p = getXY(e);
-      ctx.beginPath();
-      ctx.moveTo(lastX, lastY);
-      ctx.lineTo(p.x, p.y);
+      var x = e.pageX - ox;
+      var y = e.pageY - oy;
+      ctx.lineTo(x, y);
       ctx.stroke();
-      lastX = p.x; lastY = p.y;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
       sigCanvases[id] = true;
     });
 
-    canvas.addEventListener('mouseup',    function(e) { drawing = false; });
-    canvas.addEventListener('mouseleave', function(e) { drawing = false; });
+    canvas.addEventListener('mouseup',    function() { drawing = false; ctx.beginPath(); });
+    canvas.addEventListener('mouseleave', function() { drawing = false; ctx.beginPath(); });
 
     canvas.addEventListener('touchstart', function(e) {
       e.preventDefault();
-      e.stopPropagation();
+      updateOffset();
       drawing = true;
-      setStyle();
-      var p = getXY(e); lastX = p.x; lastY = p.y;
+      ctx.beginPath();
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth   = 2;
+      ctx.lineCap     = 'round';
+      var t = e.touches[0];
+      ctx.moveTo(t.pageX - ox, t.pageY - oy);
       if (ph) ph.style.display = 'none';
     }, { passive: false });
 
     canvas.addEventListener('touchmove', function(e) {
       e.preventDefault();
-      e.stopPropagation();
       if (!drawing) return;
-      var p = getXY(e);
-      ctx.beginPath();
-      ctx.moveTo(lastX, lastY);
-      ctx.lineTo(p.x, p.y);
+      var t = e.touches[0];
+      var x = t.pageX - ox;
+      var y = t.pageY - oy;
+      ctx.lineTo(x, y);
       ctx.stroke();
-      lastX = p.x; lastY = p.y;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
       sigCanvases[id] = true;
     }, { passive: false });
 
-    canvas.addEventListener('touchend', function(e) { drawing = false; });
+    canvas.addEventListener('touchend', function() { drawing = false; ctx.beginPath(); });
   });
 }
 
