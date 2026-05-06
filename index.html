@@ -412,11 +412,11 @@
   .sig-name-input { border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:14px;background:var(--surface2);color:var(--text);outline:none;transition:border-color 0.15s;width:100%;margin-bottom:6px;box-sizing:border-box; }
   .sig-name-input:focus { border-color:var(--accent); }
   .sig-canvas-wrap { position:relative;border:1.5px solid var(--border);border-radius:6px;background:#fff;overflow:hidden; }
-  .sig-canvas-wrap canvas { display:block;width:100%;height:150px;cursor:crosshair;touch-action:none; }
+  .sig-canvas-wrap canvas { display:block;width:100%;height:150px;cursor:crosshair;touch-action:none;pointer-events:all;position:relative;z-index:2; }
   .sig-actions { display:flex;justify-content:flex-end;margin-top:6px; }
   .sig-btn-clear { font-size:11px;font-weight:600;color:var(--text-muted);background:none;border:1px solid var(--border);border-radius:4px;padding:4px 12px;cursor:pointer;transition:all 0.15s; }
   .sig-btn-clear:hover { border-color:var(--no);color:var(--no); }
-  .sig-placeholder { position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px;color:#bbb;pointer-events:none;transition:opacity 0.2s;text-align:center;width:90%; }
+  .sig-placeholder { position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px;color:#bbb;pointer-events:none;transition:opacity 0.2s;text-align:center;width:90%;z-index:1; }
 
 </style>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -3578,43 +3578,87 @@ function initSignatures() {
   ['inspector', 'sef'].forEach(function(id) {
     var canvas = document.getElementById('canvas-' + id);
     if (!canvas) return;
-    var wrap = document.getElementById('wrap-' + id);
-    function resize() { canvas.width = wrap.offsetWidth || 400; canvas.height = 150; }
+    var wrap   = document.getElementById('wrap-' + id);
+    var ph     = document.getElementById('ph-' + id);
+
+    // Set canvas resolution
+    function resize() {
+      var w = wrap.getBoundingClientRect().width || 400;
+      canvas.width  = Math.round(w);
+      canvas.height = 150;
+    }
     resize();
-    setTimeout(resize, 300);
+    window.addEventListener('resize', resize);
+    setTimeout(resize, 500);
 
     var ctx = canvas.getContext('2d');
-    ctx.strokeStyle = '#1a1917'; ctx.lineWidth = 2;
-    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    var drawing = false, lastX = 0, lastY = 0;
+    var drawing = false;
+    var lastX = 0, lastY = 0;
 
-    function getPos(e) {
-      var r = canvas.getBoundingClientRect();
-      var sx = canvas.width / r.width, sy = canvas.height / r.height;
-      if (e.touches) return { x:(e.touches[0].clientX-r.left)*sx, y:(e.touches[0].clientY-r.top)*sy };
-      return { x:(e.clientX-r.left)*sx, y:(e.clientY-r.top)*sy };
+    function setStyle() {
+      ctx.strokeStyle = '#111';
+      ctx.lineWidth   = 2.5;
+      ctx.lineCap     = 'round';
+      ctx.lineJoin    = 'round';
     }
-    function startDraw(e) {
-      if (e.type==='touchstart'){e.preventDefault();e.stopPropagation();}
-      drawing=true; var p=getPos(e); lastX=p.x; lastY=p.y;
-      document.getElementById('ph-'+id).style.opacity='0';
+
+    function getXY(e) {
+      var rect = canvas.getBoundingClientRect();
+      var scX  = canvas.width  / rect.width;
+      var scY  = canvas.height / rect.height;
+      var src  = e.touches ? e.touches[0] : e;
+      return {
+        x: (src.clientX - rect.left) * scX,
+        y: (src.clientY - rect.top)  * scY
+      };
     }
-    function draw(e) {
+
+    canvas.addEventListener('mousedown', function(e) {
+      e.preventDefault();
+      drawing = true;
+      setStyle();
+      var p = getXY(e); lastX = p.x; lastY = p.y;
+      if (ph) ph.style.display = 'none';
+    });
+
+    canvas.addEventListener('mousemove', function(e) {
       if (!drawing) return;
-      if (e.type==='touchmove'){e.preventDefault();e.stopPropagation();}
-      var p=getPos(e);
-      ctx.beginPath(); ctx.moveTo(lastX,lastY); ctx.lineTo(p.x,p.y); ctx.stroke();
-      lastX=p.x; lastY=p.y; sigCanvases[id]=true;
-    }
-    function endDraw(){ drawing=false; }
+      e.preventDefault();
+      var p = getXY(e);
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(p.x, p.y);
+      ctx.stroke();
+      lastX = p.x; lastY = p.y;
+      sigCanvases[id] = true;
+    });
 
-    canvas.addEventListener('mousedown', startDraw);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', endDraw);
-    canvas.addEventListener('mouseleave', endDraw);
-    canvas.addEventListener('touchstart', startDraw, {passive:false});
-    canvas.addEventListener('touchmove', draw, {passive:false});
-    canvas.addEventListener('touchend', endDraw);
+    canvas.addEventListener('mouseup',    function(e) { drawing = false; });
+    canvas.addEventListener('mouseleave', function(e) { drawing = false; });
+
+    canvas.addEventListener('touchstart', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      drawing = true;
+      setStyle();
+      var p = getXY(e); lastX = p.x; lastY = p.y;
+      if (ph) ph.style.display = 'none';
+    }, { passive: false });
+
+    canvas.addEventListener('touchmove', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!drawing) return;
+      var p = getXY(e);
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(p.x, p.y);
+      ctx.stroke();
+      lastX = p.x; lastY = p.y;
+      sigCanvases[id] = true;
+    }, { passive: false });
+
+    canvas.addEventListener('touchend', function(e) { drawing = false; });
   });
 }
 
@@ -3622,8 +3666,9 @@ function clearSig(id) {
   var c = document.getElementById('canvas-'+id);
   if (!c) return;
   c.getContext('2d').clearRect(0,0,c.width,c.height);
-  sigCanvases[id]=false;
-  document.getElementById('ph-'+id).style.opacity='1';
+  sigCanvases[id] = false;
+  var ph = document.getElementById('ph-'+id);
+  if (ph) ph.style.display = 'block';
 }
 
 function getSigDataUrl(id) {
