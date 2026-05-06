@@ -404,6 +404,20 @@
     border-color:var(--accent); box-shadow:0 0 0 3px rgba(26,77,143,0.1); background:#fff;
   }
 
+  /* ── Semnături ── */
+  .sig-grid { display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:20px; }
+  @media(max-width:600px){ .sig-grid { grid-template-columns:1fr; } }
+  .sig-box { display:flex;flex-direction:column;gap:8px; }
+  .sig-box label { font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted); }
+  .sig-name-input { border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:14px;background:var(--surface2);color:var(--text);outline:none;transition:border-color 0.15s;width:100%;margin-bottom:6px;box-sizing:border-box; }
+  .sig-name-input:focus { border-color:var(--accent); }
+  .sig-canvas-wrap { position:relative;border:1.5px solid var(--border);border-radius:6px;background:#fff;overflow:hidden; }
+  .sig-canvas-wrap canvas { display:block;width:100%;height:150px;cursor:crosshair;touch-action:none; }
+  .sig-actions { display:flex;justify-content:flex-end;margin-top:6px; }
+  .sig-btn-clear { font-size:11px;font-weight:600;color:var(--text-muted);background:none;border:1px solid var(--border);border-radius:4px;padding:4px 12px;cursor:pointer;transition:all 0.15s; }
+  .sig-btn-clear:hover { border-color:var(--no);color:var(--no); }
+  .sig-placeholder { position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px;color:#bbb;pointer-events:none;transition:opacity 0.2s;text-align:center;width:90%; }
+
 </style>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -2546,46 +2560,69 @@
     </div>
   </div>
 
-  <!-- ===== SECȚIUNEA 17 — FEEDBACK FORM (temporar) ===== -->
+  <!-- ===== SECȚIUNEA 17 — CONCLUZII FINALE ===== -->
   <div class="section">
     <div class="section-header">
       <div class="section-num" style="font-size:9px">17</div>
-      <div class="section-title">Feedback form <span style="font-weight:400;color:var(--text-muted);font-size:11px">(temporar)</span></div>
+      <div class="section-title">Concluzii finale</div>
     </div>
     <div class="questions-list">
-      <!-- 17.1 Rating stele -->
-      <div class="question-row">
-        <div style="display:flex;gap:12px;align-items:flex-start;flex-direction:column;">
-          <div style="display:flex;gap:12px;align-items:center;">
-            <span class="q-index">17.1</span>
-            <span class="q-text">Cum ați evalua experiența cu acest formular?</span>
-          </div>
-          <div class="star-rating" id="starRating">
-            <span class="star" data-val="1" onclick="setRating(1)">★</span>
-            <span class="star" data-val="2" onclick="setRating(2)">★</span>
-            <span class="star" data-val="3" onclick="setRating(3)">★</span>
-            <span class="star" data-val="4" onclick="setRating(4)">★</span>
-            <span class="star" data-val="5" onclick="setRating(5)">★</span>
-            <span id="ratingLabel" style="font-size:12px;color:var(--text-muted);margin-left:8px;"></span>
-          </div>
+      <div style="padding:16px 20px;">
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;">
+          <span class="q-index">17.1</span>
+          <span class="q-text">Note și concluzii generale în urma inspecției</span>
         </div>
-      </div>
-      <!-- 17.2 Sugestii text -->
-      <div class="question-row" style="border-bottom:none;">
-        <div style="display:flex;gap:12px;align-items:flex-start;flex-direction:column;">
-          <div style="display:flex;gap:12px;align-items:center;">
-            <span class="q-index">17.2</span>
-            <span class="q-text">Dacă aveți sugestii pentru îmbunătățirea formularului, le puteți adăuga mai jos</span>
-          </div>
-          <textarea id="fb-sugestii" rows="3" placeholder="Sugestiile dvs. ne ajută să îmbunătățim formularul..."
-            style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;transition:border-color 0.15s,box-shadow 0.15s;"
-            onfocus="this.style.borderColor='var(--accent)';this.style.boxShadow='0 0 0 3px rgba(26,77,143,0.1)'"
-            onblur="this.style.borderColor='';this.style.boxShadow=''"
-            oninput="fbSugestii=this.value"></textarea>
-        </div>
+        <textarea id="concluzii-text" rows="6"
+          placeholder="Introduceți notele și concluziile generale..."
+          style="width:100%;border:1px solid var(--border);border-radius:4px;padding:10px;font-family:inherit;font-size:14px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;transition:border-color 0.15s,box-shadow 0.15s;box-sizing:border-box;"
+          onfocus="this.style.borderColor='var(--accent)';this.style.boxShadow='0 0 0 3px rgba(26,77,143,0.1)'"
+          onblur="this.style.borderColor='var(--border)';this.style.boxShadow='none'"
+          oninput="concluziiText=this.value"></textarea>
       </div>
     </div>
   </div>
+
+  <!-- ===== SECȚIUNEA 18 — SEMNĂTURI ===== -->
+  <div class="section" style="overflow:visible;">
+    <div class="section-header">
+      <div class="section-num" style="font-size:9px">18</div>
+      <div class="section-title">Semnături</div>
+    </div>
+    <div class="sig-grid">
+
+      <!-- Inspector -->
+      <div class="sig-box">
+        <label>Semnătura inspectorului</label>
+        <input class="sig-name-input" type="text" id="sig-inspector-name"
+          placeholder="Nume și prenume inspector"
+          oninput="sigInspectorName=this.value"/>
+        <div class="sig-canvas-wrap" id="wrap-inspector">
+          <canvas id="canvas-inspector"></canvas>
+          <span class="sig-placeholder" id="ph-inspector">Semnați aici cu degetul sau mouse-ul</span>
+        </div>
+        <div class="sig-actions">
+          <button class="sig-btn-clear" onclick="clearSig('inspector')">✕ Șterge</button>
+        </div>
+      </div>
+
+      <!-- Șef de echipă -->
+      <div class="sig-box">
+        <label>Semnătura șefului de echipă</label>
+        <input class="sig-name-input" type="text" id="sig-sef-name"
+          placeholder="Nume și prenume șef de echipă"
+          oninput="sigSefName=this.value"/>
+        <div class="sig-canvas-wrap" id="wrap-sef">
+          <canvas id="canvas-sef"></canvas>
+          <span class="sig-placeholder" id="ph-sef">Semnați aici cu degetul sau mouse-ul</span>
+        </div>
+        <div class="sig-actions">
+          <button class="sig-btn-clear" onclick="clearSig('sef')">✕ Șterge</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 
   <!-- ACTIONS -->
   <div class="actions-bar">
@@ -2902,6 +2939,7 @@ function buildQuestions() {
   }
   document.getElementById('totalQ').textContent = total;
   updateProgress();
+  initSignatures();
 }
 
 function selectAnswer(btn) {
@@ -3039,6 +3077,11 @@ function buildPayload() {
     numFisiere: images.filter(Boolean).length,
     feedbackRating: fbRating,
     feedbackSugestii: fbSugestii,
+    concluzii:        document.getElementById('concluzii-text') ? document.getElementById('concluzii-text').value : '',
+    sigInspectorName: sigInspectorName,
+    sigSefName:       sigSefName,
+    sigInspector:     getSigDataUrl('inspector'),
+    sigSef:           getSigDataUrl('sef'),
     sections
   };
 }
@@ -3522,6 +3565,71 @@ function showToast(msg, type = '') {
   t.textContent = msg;
   t.className = 'toast show ' + type;
   setTimeout(() => t.className = 'toast', 4500);
+}
+
+
+// ── Variabile semnături și concluzii ──
+var concluziiText    = '';
+var sigInspectorName = '';
+var sigSefName       = '';
+var sigCanvases      = {};
+
+function initSignatures() {
+  ['inspector', 'sef'].forEach(function(id) {
+    var canvas = document.getElementById('canvas-' + id);
+    if (!canvas) return;
+    var wrap = document.getElementById('wrap-' + id);
+    function resize() { canvas.width = wrap.offsetWidth || 400; canvas.height = 150; }
+    resize();
+    setTimeout(resize, 300);
+
+    var ctx = canvas.getContext('2d');
+    ctx.strokeStyle = '#1a1917'; ctx.lineWidth = 2;
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    var drawing = false, lastX = 0, lastY = 0;
+
+    function getPos(e) {
+      var r = canvas.getBoundingClientRect();
+      var sx = canvas.width / r.width, sy = canvas.height / r.height;
+      if (e.touches) return { x:(e.touches[0].clientX-r.left)*sx, y:(e.touches[0].clientY-r.top)*sy };
+      return { x:(e.clientX-r.left)*sx, y:(e.clientY-r.top)*sy };
+    }
+    function startDraw(e) {
+      if (e.type==='touchstart'){e.preventDefault();e.stopPropagation();}
+      drawing=true; var p=getPos(e); lastX=p.x; lastY=p.y;
+      document.getElementById('ph-'+id).style.opacity='0';
+    }
+    function draw(e) {
+      if (!drawing) return;
+      if (e.type==='touchmove'){e.preventDefault();e.stopPropagation();}
+      var p=getPos(e);
+      ctx.beginPath(); ctx.moveTo(lastX,lastY); ctx.lineTo(p.x,p.y); ctx.stroke();
+      lastX=p.x; lastY=p.y; sigCanvases[id]=true;
+    }
+    function endDraw(){ drawing=false; }
+
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', endDraw);
+    canvas.addEventListener('mouseleave', endDraw);
+    canvas.addEventListener('touchstart', startDraw, {passive:false});
+    canvas.addEventListener('touchmove', draw, {passive:false});
+    canvas.addEventListener('touchend', endDraw);
+  });
+}
+
+function clearSig(id) {
+  var c = document.getElementById('canvas-'+id);
+  if (!c) return;
+  c.getContext('2d').clearRect(0,0,c.width,c.height);
+  sigCanvases[id]=false;
+  document.getElementById('ph-'+id).style.opacity='1';
+}
+
+function getSigDataUrl(id) {
+  var c = document.getElementById('canvas-'+id);
+  if (!c || !sigCanvases[id]) return null;
+  return c.toDataURL('image/png');
 }
 
 // INIT — întrebările sunt statice în HTML, nu mai e nevoie de buildQuestions()
