@@ -2799,7 +2799,7 @@ const SP_FOLDER  = "Rapoarte_SSM";  // folder în Documents unde se salvează PD
 // =====================================================
 // CONFIGURARE PROXY — tokenul GitHub e în GAS, nu aici
 // =====================================================
-const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbxO-Lu-Z88uURgti9k1v9W3-5Qm0VvDd8mIxjuBF_1VXAHQYrcGBIIXZFAT6bIXzrlMdw/exec';
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbwWPI4ePKS8cuXZhZwrOBnyrVB7Bp7mXO8RJ9PLiqOSo9hp4X6BW_Ldv-4BMztGdOo7OQ/exec';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
@@ -3416,7 +3416,18 @@ async function trimiteRaport() {
       method:   'POST',
       redirect: 'follow',
       headers:  { 'Content-Type': 'text/plain' },
-      body:     JSON.stringify({ pdfHtmlBase64: pdfBase64, nrRaport: document.getElementById('meta-raport').value || '', localitate: document.getElementById('meta-location').value || '', data: document.getElementById('meta-date').value || '' })
+      body:     JSON.stringify({
+          pdfHtmlBase64: pdfBase64,
+          nrRaport:      payload.nrRaport    || '',
+          inspector:     payload.name        || '',
+          email:         payload.email       || '',
+          data:          payload.date        || '',
+          localitate:    payload.location    || '',
+          tipLucrare:    payload.tipLucrare  || '',
+          observatii:    payload.observatii  || '',
+          concluzii:     payload.concluzii   || '',
+          sections:      payload.sections    || {}
+        })
     });
 
     const text = await res.text();
