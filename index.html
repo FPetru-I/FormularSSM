@@ -404,6 +404,14 @@
     border-color:var(--accent); box-shadow:0 0 0 3px rgba(26,77,143,0.1); background:#fff;
   }
 
+
+  .sig-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
   /* ── Semnături ── */
   .sig-grid { display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:20px; }
   @media(max-width:600px){ .sig-grid { grid-template-columns:1fr; } }
@@ -411,8 +419,8 @@
   .sig-box label { font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted); }
   .sig-name-input { border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:14px;background:var(--surface2);color:var(--text);outline:none;transition:border-color 0.15s;width:100%;margin-bottom:6px;box-sizing:border-box; }
   .sig-name-input:focus { border-color:var(--accent); }
-  .sig-canvas-wrap { border:1.5px solid var(--border);border-radius:6px;background:#fff;height:150px;display:block; }
-  .sig-canvas-wrap canvas { display:block;width:100%;height:100%;touch-action:none;cursor:crosshair; }
+  .sig-canvas-wrap { border:1.5px solid var(--border);border-radius:6px;background:#fff;display:block;overflow:hidden; }
+
   .sig-actions { display:flex;justify-content:flex-end;margin-top:6px; }
   .sig-btn-clear { font-size:11px;font-weight:600;color:var(--text-muted);background:none;border:1px solid var(--border);border-radius:4px;padding:4px 12px;cursor:pointer;transition:all 0.15s; }
   .sig-btn-clear:hover { border-color:var(--no);color:var(--no); }
@@ -2584,41 +2592,36 @@
   </div>
 
   <!-- ===== SECȚIUNEA 18 — SEMNĂTURI ===== -->
-  <div class="section" style="overflow:visible;">
-    <div class="section-header">
-      <div class="section-num" style="font-size:9px">18</div>
-      <div class="section-title">Semnături</div>
-    </div>
-    <div class="sig-grid">
+  <div style="background:#fff;border:1px solid #ddd;border-radius:8px;margin-bottom:20px;padding:20px;">
+    <h3 style="margin:0 0 20px 0;font-size:14px;font-weight:600;color:#333;">Semnături</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
 
       <!-- Inspector -->
-      <div class="sig-box">
-        <label>Semnătura inspectorului</label>
-        <input class="sig-name-input" type="text" id="sig-inspector-name"
-          placeholder="Nume și prenume inspector"
+      <div>
+        <label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;color:#888;margin-bottom:6px;">Semnătura inspectorului</label>
+        <input type="text" id="sig-inspector-name" placeholder="Nume și prenume inspector"
+          style="width:100%;border:1px solid #ddd;border-radius:4px;padding:8px;font-size:14px;margin-bottom:8px;box-sizing:border-box;"
           oninput="sigInspectorName=this.value"/>
-        <p id="ph-inspector" style="font-size:12px;color:#bbb;margin:0 0 4px 0;text-align:center;">Semnați aici cu degetul sau mouse-ul</p>
-        <div class="sig-canvas-wrap" id="wrap-inspector">
-          <canvas id="canvas-inspector"></canvas>
-        </div>
-        <div class="sig-actions">
-          <button class="sig-btn-clear" onclick="clearSig('inspector')">✕ Șterge</button>
-        </div>
+        <canvas id="canvas-inspector" width="400" height="200"
+          style="border:1px solid #333;display:block;width:100%;border-radius:4px;background:#fff;"></canvas>
+        <button onclick="sigCanvases['inspector'].clear()"
+          style="margin-top:6px;padding:4px 12px;border:1px solid #ddd;border-radius:4px;background:none;cursor:pointer;font-size:12px;">
+          ✕ Șterge
+        </button>
       </div>
 
       <!-- Șef de echipă -->
-      <div class="sig-box">
-        <label>Semnătura șefului de echipă</label>
-        <input class="sig-name-input" type="text" id="sig-sef-name"
-          placeholder="Nume și prenume șef de echipă"
+      <div>
+        <label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;color:#888;margin-bottom:6px;">Semnătura șefului de echipă</label>
+        <input type="text" id="sig-sef-name" placeholder="Nume și prenume șef de echipă"
+          style="width:100%;border:1px solid #ddd;border-radius:4px;padding:8px;font-size:14px;margin-bottom:8px;box-sizing:border-box;"
           oninput="sigSefName=this.value"/>
-        <p id="ph-sef" style="font-size:12px;color:#bbb;margin:0 0 4px 0;text-align:center;">Semnați aici cu degetul sau mouse-ul</p>
-        <div class="sig-canvas-wrap" id="wrap-sef">
-          <canvas id="canvas-sef"></canvas>
-        </div>
-        <div class="sig-actions">
-          <button class="sig-btn-clear" onclick="clearSig('sef')">✕ Șterge</button>
-        </div>
+        <canvas id="canvas-sef" width="400" height="200"
+          style="border:1px solid #333;display:block;width:100%;border-radius:4px;background:#fff;"></canvas>
+        <button onclick="sigCanvases['sef'].clear()"
+          style="margin-top:6px;padding:4px 12px;border:1px solid #ddd;border-radius:4px;background:none;cursor:pointer;font-size:12px;">
+          ✕ Șterge
+        </button>
       </div>
 
     </div>
@@ -2941,7 +2944,7 @@ function buildQuestions() {
   document.getElementById('totalQ').textContent = total;
   updateProgress();
   // Delay signatures init to ensure layout is complete
-  requestAnimationFrame(function() { setTimeout(initSignatures, 100); });
+  setTimeout(initSignatures, 300);
 }
 
 function selectAnswer(btn) {
@@ -3577,56 +3580,30 @@ var sigSefName       = '';
 var sigCanvases      = {};
 
 function initSignatures() {
-  ['inspector', 'sef'].forEach(function(id) {
-    var canvas = document.getElementById('canvas-' + id);
-    var ph     = document.getElementById('ph-' + id);
-    if (!canvas) return;
+  var canvasInspector = document.getElementById('canvas-inspector');
+  var canvasSef       = document.getElementById('canvas-sef');
 
-    // ── Resize cu devicePixelRatio (din documentație) ──
-    function resizeCanvas() {
-      var ratio  = Math.max(window.devicePixelRatio || 1, 1);
-      var w      = canvas.offsetWidth  || 400;
-      var h      = canvas.offsetHeight || 150;
-      canvas.width  = w * ratio;
-      canvas.height = h * ratio;
-      canvas.getContext('2d').scale(ratio, ratio);
-      if (sigCanvases[id]) sigCanvases[id].clear();
-    }
-
-    // ── Inițializare SignaturePad ──
-    var pad = new SignaturePad(canvas, {
-      backgroundColor: 'rgb(255,255,255)',
-      penColor:        'rgb(0,0,0)',
-      minWidth:        0.5,
-      maxWidth:        2.5,
-    });
-    sigCanvases[id] = pad;
-
-    // ── Ascunde placeholder la primul stroke ──
-    pad.addEventListener('beginStroke', function() {
-      if (ph) ph.style.display = 'none';
-    }, { once: false });
-
-    // ── Resize ──
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-  });
+  if (canvasInspector) {
+    sigCanvases['inspector'] = new SignaturePad(canvasInspector);
+    console.log('SignaturePad inspector OK');
+  }
+  if (canvasSef) {
+    sigCanvases['sef'] = new SignaturePad(canvasSef);
+    console.log('SignaturePad sef OK');
+  }
 }
 
 function clearSig(id) {
   var pad = sigCanvases[id];
-  if (pad) {
-    pad.clear();
-    // After clear, signaturePad.isEmpty() returns correct value
-  }
-  var ph = document.getElementById('ph-'+id);
+  if (pad) pad.clear();
+  var ph = document.getElementById('ph-' + id);
   if (ph) ph.style.display = 'block';
 }
 
 function getSigDataUrl(id) {
   var pad = sigCanvases[id];
   if (!pad || pad.isEmpty()) return null;
-  return pad.toDataURL(); // PNG by default
+  return pad.toDataURL();
 }
 
 // INIT — întrebările sunt statice în HTML, nu mai e nevoie de buildQuestions()
