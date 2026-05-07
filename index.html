@@ -412,7 +412,7 @@
   .sig-name-input { border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:14px;background:var(--surface2);color:var(--text);outline:none;transition:border-color 0.15s;width:100%;margin-bottom:6px;box-sizing:border-box; }
   .sig-name-input:focus { border-color:var(--accent); }
   .sig-canvas-wrap { position:relative;border:1.5px solid var(--border);border-radius:6px;background:#fff;overflow:hidden; }
-  .sig-canvas-wrap canvas { display:block;width:100% !important;cursor:crosshair;touch-action:none; }
+  .sig-canvas-wrap canvas { display:block;width:100%;height:150px;touch-action:none; }
   .sig-actions { display:flex;justify-content:flex-end;margin-top:6px; }
   .sig-btn-clear { font-size:11px;font-weight:600;color:var(--text-muted);background:none;border:1px solid var(--border);border-radius:4px;padding:4px 12px;cursor:pointer;transition:all 0.15s; }
   .sig-btn-clear:hover { border-color:var(--no);color:var(--no); }
@@ -422,6 +422,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@5.1.3/dist/signature_pad.umd.min.js"></script>
 </head>
 <body>
 
@@ -2597,7 +2598,7 @@
           placeholder="Nume și prenume inspector"
           oninput="sigInspectorName=this.value"/>
         <div class="sig-canvas-wrap" id="wrap-inspector">
-          <canvas id="canvas-inspector" width="400" height="150"></canvas>
+          <canvas id="canvas-inspector"></canvas>
           <span class="sig-placeholder" id="ph-inspector">Semnați aici cu degetul sau mouse-ul</span>
         </div>
         <div class="sig-actions">
@@ -2612,7 +2613,7 @@
           placeholder="Nume și prenume șef de echipă"
           oninput="sigSefName=this.value"/>
         <div class="sig-canvas-wrap" id="wrap-sef">
-          <canvas id="canvas-sef" width="400" height="150"></canvas>
+          <canvas id="canvas-sef"></canvas>
           <span class="sig-placeholder" id="ph-sef">Semnați aici cu degetul sau mouse-ul</span>
         </div>
         <div class="sig-actions">
@@ -3580,85 +3581,49 @@ function initSignatures() {
     var ph     = document.getElementById('ph-' + id);
     if (!canvas) return;
 
-    // Set canvas internal dimensions
-    canvas.width  = canvas.offsetWidth  || 400;
-    canvas.height = 150;
+    // ── Resize cu devicePixelRatio (din documentație) ──
+    function resizeCanvas() {
+      var ratio = Math.max(window.devicePixelRatio || 1, 1);
+      canvas.width  = canvas.offsetWidth  * ratio;
+      canvas.height = canvas.offsetHeight * ratio;
+      canvas.getContext('2d').scale(ratio, ratio);
+      if (sigCanvases[id]) sigCanvases[id].clear();
+    }
 
-    var ctx       = canvas.getContext('2d');
-    var isDrawing = false;
-    var lastX     = 0;
-    var lastY     = 0;
-
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth   = 2;
-    ctx.lineCap     = 'round';
-    ctx.lineJoin    = 'round';
-
-    // ── Mouse events (exact din tutorial) ──
-    canvas.addEventListener('mousedown', function(e) {
-      isDrawing = true;
-      lastX = e.offsetX;
-      lastY = e.offsetY;
-      if (ph) ph.style.display = 'none';
+    // ── Inițializare SignaturePad ──
+    var pad = new SignaturePad(canvas, {
+      backgroundColor: 'rgb(255,255,255)',
+      penColor:        'rgb(0,0,0)',
+      minWidth:        0.5,
+      maxWidth:        2.5,
     });
+    sigCanvases[id] = pad;
 
-    canvas.addEventListener('mousemove', function(e) {
-      if (!isDrawing) return;
-      ctx.beginPath();
-      ctx.moveTo(lastX, lastY);
-      ctx.lineTo(e.offsetX, e.offsetY);
-      ctx.stroke();
-      lastX = e.offsetX;
-      lastY = e.offsetY;
-      sigCanvases[id] = true;
-    });
-
-    canvas.addEventListener('mouseup', function() { isDrawing = false; });
-    canvas.addEventListener('mouseout', function() { isDrawing = false; });
-
-    // ── Touch events (din tutorial) ──
-    canvas.addEventListener('touchstart', function(e) {
-      e.preventDefault();
-      var touch = e.touches[0];
-      var rect  = canvas.getBoundingClientRect();
-      isDrawing = true;
-      lastX = touch.clientX - rect.left;
-      lastY = touch.clientY - rect.top;
+    // ── Ascunde placeholder la primul stroke ──
+    pad.addEventListener('beginStroke', function() {
       if (ph) ph.style.display = 'none';
-    }, { passive: false });
+    }, { once: false });
 
-    canvas.addEventListener('touchmove', function(e) {
-      e.preventDefault();
-      if (!isDrawing) return;
-      var touch = e.touches[0];
-      var rect  = canvas.getBoundingClientRect();
-      ctx.beginPath();
-      ctx.moveTo(lastX, lastY);
-      ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
-      ctx.stroke();
-      lastX = touch.clientX - rect.left;
-      lastY = touch.clientY - rect.top;
-      sigCanvases[id] = true;
-    }, { passive: false });
-
-    canvas.addEventListener('touchend',    function() { isDrawing = false; });
-    canvas.addEventListener('touchcancel', function() { isDrawing = false; });
+    // ── Resize ──
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
   });
 }
 
 function clearSig(id) {
-  var c = document.getElementById('canvas-'+id);
-  if (!c) return;
-  c.getContext('2d').clearRect(0,0,c.width,c.height);
-  sigCanvases[id] = false;
+  var pad = sigCanvases[id];
+  if (pad) {
+    pad.clear();
+    // After clear, signaturePad.isEmpty() returns correct value
+  }
   var ph = document.getElementById('ph-'+id);
   if (ph) ph.style.display = 'block';
 }
 
 function getSigDataUrl(id) {
-  var c = document.getElementById('canvas-'+id);
-  if (!c || !sigCanvases[id]) return null;
-  return c.toDataURL('image/png');
+  var pad = sigCanvases[id];
+  if (!pad || pad.isEmpty()) return null;
+  return pad.toDataURL(); // PNG by default
 }
 
 // INIT — întrebările sunt statice în HTML, nu mai e nevoie de buildQuestions()
