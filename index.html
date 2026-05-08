@@ -448,7 +448,7 @@
   <div class="meta-grid" style="grid-template-columns:1fr;">
     <div class="field-group">
       <label>Număr raport <span class="req">*</span></label>
-      <input type="text" id="meta-raport" placeholder="ex. RPT-2026-001"/>
+      <input type="text" id="meta-raport" placeholder="Se încarcă..." readonly style="background:var(--surface2);color:var(--text-muted);"/>
     </div>
     <div class="field-group">
       <label>Nume complet <span class="req">*</span></label>
@@ -2799,7 +2799,7 @@ const SP_FOLDER  = "Rapoarte_SSM";  // folder în Documents unde se salvează PD
 // =====================================================
 // CONFIGURARE PROXY — tokenul GitHub e în GAS, nu aici
 // =====================================================
-const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbzIisvn--3krUeO32wDmeOrIFfGwt680klDuKlyYWu7wAh7L-0CjXzY9dbA4KwvbMBZUA/exec';
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbyJxLwHG8gytn2vFVq7OCo2ZjMvKjnLUqzC9fjtby6YOMQa8-VnafmCaBeAqrA_UNz95w/exec';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
@@ -2943,6 +2943,7 @@ function buildQuestions() {
   }
   document.getElementById('totalQ').textContent = total;
   updateProgress();
+  loadNextReportNumber();
   // Delay signatures init to ensure layout is complete
   setTimeout(initSignatures, 300);
 }
@@ -3666,6 +3667,28 @@ function getSigDataUrl(id) {
   var pad = sigCanvases[id];
   if (!pad || pad.isEmpty()) return null;
   return pad.toDataURL();
+}
+
+
+// ── Auto-completare număr raport ──
+async function loadNextReportNumber() {
+  var input = document.getElementById('meta-raport');
+  if (!input) return;
+  try {
+    var res  = await fetch(GAS_PROXY_URL + '?action=nextNr', { method: 'GET' });
+    var data = await res.json();
+    if (data.nextNr) {
+      input.value       = data.nextNr;
+      input.placeholder = data.nextNr;
+      input.style.color = 'var(--text)';
+    }
+  } catch(err) {
+    console.error('Nu am putut încărca numărul raportului:', err);
+    input.placeholder = 'ex. R1';
+  }
+  input.removeAttribute('readonly');
+  input.style.background = '';
+  input.style.color      = '';
 }
 
 // INIT — întrebările sunt statice în HTML, nu mai e nevoie de buildQuestions()
