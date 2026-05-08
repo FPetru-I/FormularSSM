@@ -448,7 +448,7 @@
   <div class="meta-grid" style="grid-template-columns:1fr;">
     <div class="field-group">
       <label>Număr raport <span class="req">*</span></label>
-      <input type="text" id="meta-raport" placeholder="Se încarcă..." readonly style="background:var(--surface2);color:var(--text-muted);"/>
+      <input type="text" id="meta-raport" placeholder="Se încarcă..."/>
     </div>
     <div class="field-group">
       <label>Nume complet <span class="req">*</span></label>
@@ -3675,21 +3675,30 @@ async function loadNextReportNumber() {
   var input = document.getElementById('meta-raport');
   if (!input) return;
   try {
-    var res  = await fetch(GAS_PROXY_URL + '?action=nextNr', { method: 'GET' });
-    var data = await res.json();
-    if (data.nextNr) {
-      input.value       = data.nextNr;
-      input.placeholder = data.nextNr;
-      input.style.color = 'var(--text)';
+    // Citim direct din GitHub API lista de fișiere din folderul rapoarte
+    var res = await fetch(
+      'https://api.github.com/repos/FPetru-I/RapoarteSSM/contents/rapoarte',
+      { headers: { 'Accept': 'application/vnd.github+json' } }
+    );
+    if (res.ok) {
+      var files    = await res.json();
+      var pdfCount = files.filter(function(f) {
+        return f.name.toLowerCase().endsWith('.pdf');
+      }).length;
+      var nextNr = 'R' + (pdfCount + 1);
+      input.value = nextNr;
+    } else {
+      input.value = 'R1';
     }
   } catch(err) {
-    console.error('Nu am putut încărca numărul raportului:', err);
-    input.placeholder = 'ex. R1';
+    console.error('Eroare nr raport:', err);
+    input.value = 'R1';
   }
   input.removeAttribute('readonly');
   input.style.background = '';
-  input.style.color      = '';
+  input.style.color      = 'var(--text)';
 }
+
 
 // INIT — întrebările sunt statice în HTML, nu mai e nevoie de buildQuestions()
 (function initForm() {
