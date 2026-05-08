@@ -3304,6 +3304,7 @@ async function trimiteRaport() {
 
     // ── 3. Generăm PDF-ul pentru GitHub ──
     overlayMsg.textContent = 'Se generează PDF-ul...';
+    const pdfHtml   = buildPDFHtml(payload, imgData);
     const pdfBase64 = await (async function() {
       // Parsăm HTML-ul PDF și extragem doar body-ul + CSS-ul
       const parser  = new DOMParser();
