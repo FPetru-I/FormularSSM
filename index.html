@@ -2799,7 +2799,7 @@ const SP_FOLDER  = "Rapoarte_SSM";  // folder în Documents unde se salvează PD
 // =====================================================
 // CONFIGURARE PROXY — tokenul GitHub e în GAS, nu aici
 // =====================================================
-const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbyJxLwHG8gytn2vFVq7OCo2ZjMvKjnLUqzC9fjtby6YOMQa8-VnafmCaBeAqrA_UNz95w/exec';
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycby0dJvNj0xuzMIohggtErNnIHMht2nGOeGMPHyr31mv7UvF5DYW503cO0Sh1tGThsoJGg/exec';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
@@ -2943,7 +2943,7 @@ function buildQuestions() {
   }
   document.getElementById('totalQ').textContent = total;
   updateProgress();
-  loadNextReportNumber();
+  setTimeout(loadNextReportNumber, 500);
   // Delay signatures init to ensure layout is complete
   setTimeout(initSignatures, 300);
 }
@@ -3672,32 +3672,36 @@ function getSigDataUrl(id) {
 
 // ── Auto-completare număr raport ──
 async function loadNextReportNumber() {
+  console.log('loadNextReportNumber called');
   var input = document.getElementById('meta-raport');
-  if (!input) return;
+  if (!input) { console.error('meta-raport input not found'); return; }
   try {
-    // Citim direct din GitHub API lista de fișiere din folderul rapoarte
+    console.log('Fetching GitHub API...');
     var res = await fetch(
       'https://api.github.com/repos/FPetru-I/RapoarteSSM/contents/rapoarte',
       { headers: { 'Accept': 'application/vnd.github+json' } }
     );
+    console.log('GitHub API response:', res.status);
     if (res.ok) {
       var files    = await res.json();
       var pdfCount = files.filter(function(f) {
         return f.name.toLowerCase().endsWith('.pdf');
       }).length;
-      var nextNr = 'R' + (pdfCount + 1);
-      input.value = nextNr;
+      console.log('PDF count:', pdfCount);
+      input.value = 'R' + (pdfCount + 1);
     } else {
+      console.warn('GitHub API error:', res.status);
       input.value = 'R1';
     }
   } catch(err) {
     console.error('Eroare nr raport:', err);
     input.value = 'R1';
   }
-  input.removeAttribute('readonly');
   input.style.background = '';
   input.style.color      = 'var(--text)';
+  input.placeholder      = 'ex. R1';
 }
+
 
 
 // INIT — întrebările sunt statice în HTML, nu mai e nevoie de buildQuestions()
