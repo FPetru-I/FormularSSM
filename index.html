@@ -3296,46 +3296,14 @@ async function trimiteRaport() {
     const activeImages = images.filter(Boolean);
     const imgData = await Promise.all(activeImages.map(f => fileToBase64(f)));
 
-    // ── 2. Obținem numărul raportului din GitHub ──
-    overlayMsg.textContent = 'Se obține numărul raportului...';
-    let nrRaportAuto = 'R?';
-    try {
-      const ghRes = await fetch(
-        'https://api.github.com/repos/FPetru-I/RapoarteSSM/contents/rapoarte',
-        { headers: { 'Accept': 'application/vnd.github+json' } }
-      );
-      if (ghRes.ok) {
-        const ghFiles = await ghRes.json();
-        const pdfCount = ghFiles.filter(f => f.name.toLowerCase().endsWith('.pdf')).length;
-        nrRaportAuto = 'R' + (pdfCount + 1);
-      }
-    } catch(e) {
-      console.warn('Nu am putut obține nr raport:', e);
-    }
-
-    // ── 3. Generăm PDF-ul cu numărul raportului inclus ──
-    overlayMsg.textContent = 'Se generează PDF-ul...';
+    // ── 2. Construim payload (nrRaport gol deocamdată) ──
+    overlayMsg.textContent = 'Se pregătesc datele...';
     await new Promise(r => setTimeout(r, 100));
     const payload = buildPayload();
-    payload.nrRaport = nrRaportAuto;
-    const pdfHtml = buildPDFHtml(payload, imgData);
+    payload.nrRaport = '';
 
-    // ── 4. Deschidem PDF local pentru print ──
-    const win = window.open('', '_blank');
-    if (win) {
-      win.document.write(pdfHtml);
-      win.document.close();
-      win.addEventListener('load', () => setTimeout(() => win.print(), 300));
-    }
-
-    // ── 5. Pregătim payload pentru GAS proxy ──
-    overlayMsg.textContent = 'Se încarcă în GitHub...';
-    const ts       = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-    const nr       = (payload.nrRaport || 'fara-nr').replace(/[^a-zA-Z0-9-_]/g, '-');
-    const fileName = 'Raport-' + nr + '-' + ts + '.pdf';
-    // ── 6. Generăm PDF real din HTML (cu tot cu design) ──
-    overlayMsg.textContent = 'Se generează PDF-ul pentru GitHub...';
-
+    // ── 3. Generăm PDF-ul pentru GitHub ──
+    overlayMsg.textContent = 'Se generează PDF-ul...';
     const pdfBase64 = await (async function() {
       // Parsăm HTML-ul PDF și extragem doar body-ul + CSS-ul
       const parser  = new DOMParser();
@@ -3428,39 +3396,53 @@ async function trimiteRaport() {
       return pdf.output('datauristring').split(',')[1];
     })();
 
-
-    // ── 7. Trimitem PDF-ul real la GAS proxy ──
+    // ── 4. Trimitem la GAS și obținem numărul raportului ──
     overlayMsg.textContent = 'Se încarcă în GitHub...';
     const res = await fetch(GAS_PROXY_URL, {
       method:   'POST',
       redirect: 'follow',
       headers:  { 'Content-Type': 'text/plain' },
       body:     JSON.stringify({
-          pdfHtmlBase64: pdfBase64,
-          nrRaport:      payload.nrRaport    || '',
-          inspector:     payload.name        || '',
-          email:         payload.email       || '',
-          data:          payload.date        || '',
-          localitate:    payload.location    || '',
-          tipLucrare:    payload.tipLucrare  || '',
-          observatii:    payload.observatii  || '',
-          concluzii:     payload.concluzii   || '',
-          sections:      payload.sections    || {}
-        })
+        pdfHtmlBase64: pdfBase64,
+        nrRaport:      '',
+        inspector:     payload.name        || '',
+        email:         payload.email       || '',
+        data:          payload.date        || '',
+        localitate:    payload.location    || '',
+        tipLucrare:    payload.tipLucrare  || '',
+        observatii:    payload.observatii  || '',
+        concluzii:     payload.concluzii   || '',
+        sections:      payload.sections    || {}
+      })
     });
 
     const text = await res.text();
     let result = {};
     try { result = JSON.parse(text); } catch(e) { result = { status: 'error', message: text }; }
 
-    overlay.classList.remove('show');
-
-    if (result.status === 'success') {
-      showToast('✔ Raportul a fost salvat în GitHub: ' + (result.fileName || fileName), 'success');
-    } else {
+    if (result.status !== 'success') {
+      overlay.classList.remove('show');
       console.error('GAS error:', result);
-      showToast('Eroare server: ' + (result.message || 'necunoscută') + '. PDF-ul a fost deschis local.', 'error');
+      showToast('Eroare server: ' + (result.message || 'necunoscută'), 'error');
+      return;
     }
+
+    // ── 5. GAS a returnat nrRaport — regenerăm PDF cu numărul corect ──
+    const nrRaportFinal = result.nrRaport || 'R?';
+    overlayMsg.textContent = 'Se finalizează PDF-ul cu nr. ' + nrRaportFinal + '...';
+    payload.nrRaport = nrRaportFinal;
+    const pdfHtmlFinal = buildPDFHtml(payload, imgData);
+
+    // ── 6. Deschidem PDF local cu numărul corect ──
+    const win = window.open('', '_blank');
+    if (win) {
+      win.document.write(pdfHtmlFinal);
+      win.document.close();
+      win.addEventListener('load', () => setTimeout(() => win.print(), 300));
+    }
+
+    overlay.classList.remove('show');
+    showToast('✔ Raportul ' + nrRaportFinal + ' a fost salvat în GitHub: ' + result.fileName, 'success');
 
   } catch(err) {
     overlay.classList.remove('show');
