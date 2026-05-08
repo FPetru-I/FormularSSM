@@ -3296,13 +3296,31 @@ async function trimiteRaport() {
     const activeImages = images.filter(Boolean);
     const imgData = await Promise.all(activeImages.map(f => fileToBase64(f)));
 
-    // ── 2. Generăm PDF-ul ──
+    // ── 2. Obținem numărul raportului din GitHub ──
+    overlayMsg.textContent = 'Se obține numărul raportului...';
+    let nrRaportAuto = 'R?';
+    try {
+      const ghRes = await fetch(
+        'https://api.github.com/repos/FPetru-I/RapoarteSSM/contents/rapoarte',
+        { headers: { 'Accept': 'application/vnd.github+json' } }
+      );
+      if (ghRes.ok) {
+        const ghFiles = await ghRes.json();
+        const pdfCount = ghFiles.filter(f => f.name.toLowerCase().endsWith('.pdf')).length;
+        nrRaportAuto = 'R' + (pdfCount + 1);
+      }
+    } catch(e) {
+      console.warn('Nu am putut obține nr raport:', e);
+    }
+
+    // ── 3. Generăm PDF-ul cu numărul raportului inclus ──
     overlayMsg.textContent = 'Se generează PDF-ul...';
     await new Promise(r => setTimeout(r, 100));
     const payload = buildPayload();
+    payload.nrRaport = nrRaportAuto;
     const pdfHtml = buildPDFHtml(payload, imgData);
 
-    // ── 3. Deschidem PDF local pentru print ──
+    // ── 4. Deschidem PDF local pentru print ──
     const win = window.open('', '_blank');
     if (win) {
       win.document.write(pdfHtml);
@@ -3310,12 +3328,12 @@ async function trimiteRaport() {
       win.addEventListener('load', () => setTimeout(() => win.print(), 300));
     }
 
-    // ── 4. Pregătim payload pentru GAS proxy ──
+    // ── 5. Pregătim payload pentru GAS proxy ──
     overlayMsg.textContent = 'Se încarcă în GitHub...';
     const ts       = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
     const nr       = (payload.nrRaport || 'fara-nr').replace(/[^a-zA-Z0-9-_]/g, '-');
     const fileName = 'Raport-' + nr + '-' + ts + '.pdf';
-    // ── 5. Generăm PDF real din HTML (cu tot cu design) ──
+    // ── 6. Generăm PDF real din HTML (cu tot cu design) ──
     overlayMsg.textContent = 'Se generează PDF-ul pentru GitHub...';
 
     const pdfBase64 = await (async function() {
@@ -3411,7 +3429,7 @@ async function trimiteRaport() {
     })();
 
 
-    // ── 6. Trimitem PDF-ul real la GAS proxy ──
+    // ── 7. Trimitem PDF-ul real la GAS proxy ──
     overlayMsg.textContent = 'Se încarcă în GitHub...';
     const res = await fetch(GAS_PROXY_URL, {
       method:   'POST',
