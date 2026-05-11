@@ -3583,7 +3583,7 @@ function buildPDFHtml(p, imgData) {
       const badge = item.answer === 'DA' ? '#1a6b3c' : item.answer === 'NU' ? '#8f1a1a' : '#5a5752';
       const imgs  = (qImages[qkey]||[]).filter(Boolean);
       rows.push(`<div class="row">
-        <div class="col-q">${sec}.${i+1}. ${item.question}</div>
+        <div class="col-q"><span style="display:block;text-align:left;word-spacing:normal;white-space:normal">${sec}.${i+1}. ${item.question}</span></div>
         <div class="col-r"><span class="badge" style="background:${badge}">${ans}</span></div>
         <div class="col-c">${item.comment || '—'}${imgs.map(img=>`<div style="margin-top:6px"><img src="${img.dataUrl}" style="max-width:100%;max-height:160px;border-radius:3px;border:1px solid #ddd;display:block"/></div>`).join('')}</div>
       </div>`);
@@ -3677,7 +3677,7 @@ function buildPDFHtml(p, imgData) {
 
     .row { display: flex; border-bottom: 1px solid #e0deda; background: #fafaf8; page-break-inside: avoid; break-inside: avoid; }
     .row:last-child { border-bottom: none; }
-    .col-q { flex: 0 0 55%; padding: 7px 8px; border-right: 1px solid #e0deda; line-height: 1.5; text-align: left; word-break: normal; word-spacing: normal; hyphens: none; -webkit-hyphens: none; }
+    .col-q { flex: 0 0 55%; padding: 7px 8px; border-right: 1px solid #e0deda; line-height: 1.5; overflow-wrap: break-word; }
     .col-r { flex: 0 0 12%; padding: 7px 8px; border-right: 1px solid #e0deda; text-align: center; vertical-align: middle; display: flex; align-items: center; justify-content: center; }
     .col-c { flex: 1; padding: 7px 8px; line-height: 1.5; text-align: left; word-break: normal; word-spacing: normal; }
 
@@ -3695,7 +3695,7 @@ function buildPDFHtml(p, imgData) {
 
     @media print {
       html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .col-q, .col-c { text-align: left !important; word-spacing: normal !important; }
+      .col-q span, .col-c { text-align: left !important; word-spacing: normal !important; white-space: normal !important; }
     }
     @page { margin: 1.5cm; size: A4; }
 </style>
