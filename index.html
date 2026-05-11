@@ -2801,7 +2801,7 @@ const SP_FOLDER  = "Rapoarte_SSM";  // folder în Documents unde se salvează PD
 // =====================================================
 // CONFIGURARE PROXY — tokenul GitHub e în GAS, nu aici
 // =====================================================
-const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbw5sG8qaNGbQ42K8l1Z5QbRpI2EOsqDigzEGRY6RYTVhN9-DUbz0aP5yROjBl3EbIWgIQ/exec';
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbw7BSqS5m-VucVAZ5yYVRiOpeHUquD-HLzFx_IjgHt6Hj3nG9f93soRRpMIll6D_33Q0Q/exec';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
@@ -3296,13 +3296,26 @@ async function trimiteRaport() {
     const activeImages = images.filter(Boolean);
     const imgData = await Promise.all(activeImages.map(f => fileToBase64(f)));
 
-    // ── 2. Construim payload (nrRaport gol deocamdată) ──
-    overlayMsg.textContent = 'Se pregătesc datele...';
-    await new Promise(r => setTimeout(r, 100));
-    const payload = buildPayload();
-    payload.nrRaport = '';
+    // ── 2. Obținem numărul raportului de la GAS ──
+    overlayMsg.textContent = 'Se obține numărul raportului...';
+    let nrRaport = 'R1';
+    try {
+      const nrRes = await fetch(GAS_PROXY_URL + '?action=nextNr', {
+        method: 'GET',
+        redirect: 'follow'
+      });
+      const nrText = await nrRes.text();
+      const nrData = JSON.parse(nrText);
+      if (nrData.nextNr) nrRaport = nrData.nextNr;
+    } catch(e) {
+      console.warn('Nu am putut obține nr raport de la GAS:', e);
+    }
 
-    // ── 3. Generăm PDF-ul pentru GitHub ──
+    // ── 3. Construim payload cu numărul corect ──
+    const payload = buildPayload();
+    payload.nrRaport = nrRaport;
+
+    // ── 4. Generăm PDF-ul cu numărul corect ──
     overlayMsg.textContent = 'Se generează PDF-ul...';
     const pdfHtml   = buildPDFHtml(payload, imgData);
     const pdfBase64 = await (async function() {
@@ -3397,7 +3410,8 @@ async function trimiteRaport() {
       return pdf.output('datauristring').split(',')[1];
     })();
 
-    // ── 4. Trimitem la GAS și obținem numărul raportului ──
+
+    // ── 5. Trimitem PDF-ul la GAS cu numărul deja atribuit ──
     overlayMsg.textContent = 'Se încarcă în GitHub...';
     const res = await fetch(GAS_PROXY_URL, {
       method:   'POST',
@@ -3405,7 +3419,7 @@ async function trimiteRaport() {
       headers:  { 'Content-Type': 'text/plain' },
       body:     JSON.stringify({
         pdfHtmlBase64: pdfBase64,
-        nrRaport:      '',
+        nrRaport:      nrRaport,
         inspector:     payload.name        || '',
         email:         payload.email       || '',
         data:          payload.date        || '',
@@ -3424,26 +3438,23 @@ async function trimiteRaport() {
     if (result.status !== 'success') {
       overlay.classList.remove('show');
       console.error('GAS error:', result);
-      showToast('Eroare server: ' + (result.message || 'necunoscută'), 'error');
+      showToast('Eroare server: ' + (result.message || 'necunoscută') + '. PDF-ul a fost deschis local.', 'error');
+      // Deschidem PDF local oricum
+      const winErr = window.open('', '_blank');
+      if (winErr) { winErr.document.write(pdfHtml); winErr.document.close(); }
       return;
     }
-
-    // ── 5. GAS a returnat nrRaport — regenerăm PDF cu numărul corect ──
-    const nrRaportFinal = result.nrRaport || 'R?';
-    overlayMsg.textContent = 'Se finalizează PDF-ul cu nr. ' + nrRaportFinal + '...';
-    payload.nrRaport = nrRaportFinal;
-    const pdfHtmlFinal = buildPDFHtml(payload, imgData);
 
     // ── 6. Deschidem PDF local cu numărul corect ──
     const win = window.open('', '_blank');
     if (win) {
-      win.document.write(pdfHtmlFinal);
+      win.document.write(pdfHtml);
       win.document.close();
       win.addEventListener('load', () => setTimeout(() => win.print(), 300));
     }
 
     overlay.classList.remove('show');
-    showToast('✔ Raportul ' + nrRaportFinal + ' a fost salvat în GitHub: ' + result.fileName, 'success');
+    showToast('✔ Raportul ' + nrRaport + ' salvat în GitHub: ' + result.fileName, 'success');
 
   } catch(err) {
     overlay.classList.remove('show');
