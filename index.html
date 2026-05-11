@@ -3240,13 +3240,12 @@ function fileToBase64(file) {
 
 // DOWNLOAD PDF (client-side, cu imagini embedded ca base64)
 async function downloadPDF() {
-
-  const overlay = document.getElementById('overlay');
+  const overlay    = document.getElementById('overlay');
   const overlayMsg = document.querySelector('.overlay div:last-child');
   overlay.classList.add('show');
-  overlayMsg.textContent = 'Se citesc imaginile...';
 
-  // Citim toate imaginile ca Base64 înainte să construim HTML-ul
+  // ── 1. Citim imaginile ──
+  overlayMsg.textContent = 'Se citesc imaginile...';
   const activeImages = images.filter(Boolean);
   let imgData = [];
   try {
@@ -3257,11 +3256,25 @@ async function downloadPDF() {
     return;
   }
 
+  // ── 2. Obținem numărul raportului de la GAS ──
+  overlayMsg.textContent = 'Se obține numărul raportului...';
+  let nrRaport = '';
+  try {
+    const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', {
+      method: 'GET', redirect: 'follow'
+    });
+    const nrData = JSON.parse(await nrRes.text());
+    if (nrData.nextNr) nrRaport = nrData.nextNr;
+  } catch(e) {
+    console.warn('Nu am putut obține nr raport:', e);
+  }
+
+  // ── 3. Generăm PDF-ul cu numărul corect ──
   overlayMsg.textContent = 'Se generează PDF-ul...';
   await new Promise(r => setTimeout(r, 200));
-
-  const payload = buildPayload();
-  const html = buildPDFHtml(payload, imgData);
+  const payload    = buildPayload();
+  payload.nrRaport = nrRaport;
+  const html       = buildPDFHtml(payload, imgData);
 
   const win = window.open('', '_blank');
   if (!win) {
@@ -3271,16 +3284,11 @@ async function downloadPDF() {
   }
   win.document.write(html);
   win.document.close();
-
-  // Așteptăm ca imaginile să se încarce în fereastra nouă, apoi print
   win.addEventListener('load', () => {
     overlay.classList.remove('show');
     setTimeout(() => win.print(), 300);
   });
-  // Fallback dacă load nu se declanșează
-  setTimeout(() => {
-    overlay.classList.remove('show');
-  }, 3000);
+  setTimeout(() => { overlay.classList.remove('show'); }, 3000);
 }
 
 async function trimiteRaport() {
