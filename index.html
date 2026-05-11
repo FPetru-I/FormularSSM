@@ -3593,7 +3593,7 @@ function buildPDFHtml(p, imgData) {
       const badge = item.answer === 'DA' ? '#1a6b3c' : item.answer === 'NU' ? '#8f1a1a' : '#5a5752';
       const imgs  = (qImages[qkey]||[]).filter(Boolean);
       rows.push(`<tr>
-        <td style="text-align:left">${sec}.${i+1}. ${item.question}</td>
+        <td style="text-align:left">${sec}.${i+1}. ${item.question.replace(/\//g, "&#8288;/&#8288;")}</td>
         <td style="text-align:center"><span style="background:${badge};color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:600">${ans}</span></td>
         <td style="text-align:left">${item.comment || '—'}${imgs.map(img=>`<div style="margin-top:6px"><img src="${img.dataUrl}" style="max-width:100%;max-height:160px;border-radius:3px;border:1px solid #ddd;display:block"/></div>`).join('')}</td>
       </tr>`);
@@ -3605,7 +3605,7 @@ function buildPDFHtml(p, imgData) {
       rows.push(`<tr class="sec-header"><td colspan="3">Secțiunea ${sec}: ${SECTION_NAMES[sec]}</td></tr>`);
       p.sections[sec].forEach((item, i) => {
         rows.push(`<tr>
-          <td colspan="2" style="text-align:left">${sec}.${i+1}. ${item.question}</td>
+          <td colspan="2" style="text-align:left">${sec}.${i+1}. ${item.question.replace(/\//g, "&#8288;/&#8288;")}</td>
           <td style="text-align:left">${item.answer || '—'}</td>
         </tr>`);
       });
