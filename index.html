@@ -3473,15 +3473,13 @@ async function trimiteRaport() {
       return;
     }
 
-    // ── 6. Marchez numărul ca folosit și generez PDF-ul final pentru download ──
+    // ── 6. Marchez numărul ca folosit și deschid PDF-ul local (același HTML) ──
     cachedNrUsed   = true;
     cachedNrRaport = null;
 
-    overlayMsg.textContent = 'Se generează PDF-ul final...';
-    const pdfHtmlFinal = buildPDFHtml(payload, imgData);
     const win = window.open('', '_blank');
     if (win) {
-      win.document.write(pdfHtmlFinal);
+      win.document.write(pdfHtml);
       win.document.close();
       win.addEventListener('load', () => setTimeout(() => win.print(), 300));
     }
