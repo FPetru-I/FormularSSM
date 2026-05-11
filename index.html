@@ -2594,18 +2594,30 @@
   </div>
 
   <!-- ===== SECȚIUNEA 18 — SEMNĂTURI ===== -->
-  <div style="background:#fff;border:1px solid #ddd;border-radius:8px;margin-bottom:20px;padding:20px;">
-    <h3 style="margin:0 0 12px 0;font-size:14px;font-weight:600;color:#333;">Semnătura inspectorului</h3>
-    <input type="text" id="sig-inspector-name" placeholder="Nume și prenume inspector"
-      style="width:100%;border:1px solid #ddd;border-radius:4px;padding:8px;font-size:14px;margin-bottom:10px;box-sizing:border-box;"
-      oninput="sigInspectorName=this.value"/>
-    <div id="sig-debug" style="font-size:11px;color:#888;margin-bottom:6px;">Inițializare...</div>
-    <canvas id="canvas-inspector" width="600" height="200"
-      style="display:block;cursor:crosshair;touch-action:none;border:2px solid #333;border-radius:4px;background:#fff;"></canvas>
-    <button onclick="clearSig('inspector')"
-      style="margin-top:8px;padding:5px 14px;border:1px solid #ddd;border-radius:4px;background:none;cursor:pointer;font-size:12px;">
-      ✕ Șterge
-    </button>
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="font-size:9px">18</div>
+      <div class="section-title">Semnătura inspectorului</div>
+    </div>
+    <div class="questions-list">
+      <div style="padding:16px 20px;">
+        <div id="sig-debug" style="font-size:11px;color:#888;margin-bottom:10px;">Inițializare...</div>
+        <div style="display:flex;flex-direction:column;gap:10px;max-width:480px;">
+          <input type="text" id="sig-inspector-name"
+            placeholder="Nume și prenume inspector"
+            style="border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:14px;background:var(--surface2);color:var(--text);outline:none;width:100%;box-sizing:border-box;"
+            onfocus="this.style.borderColor='var(--accent)'"
+            onblur="this.style.borderColor=''"
+            oninput="sigInspectorName=this.value"/>
+          <canvas id="canvas-inspector" width="600" height="180"
+            style="display:block;cursor:crosshair;touch-action:none;border:1.5px solid var(--border);border-radius:6px;background:#fff;max-width:100%;"></canvas>
+          <button onclick="clearSig('inspector')"
+            style="align-self:flex-start;padding:5px 14px;border:1px solid var(--border);border-radius:4px;background:none;cursor:pointer;font-size:12px;color:var(--text-muted);font-family:inherit;">
+            ✕ Șterge semnătura
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
 
@@ -3584,6 +3596,26 @@ function buildPDFHtml(p, imgData) {
   rows.push(`<tr class="sec-header"><td colspan="3">Secțiunea 17: Feedback form (temporar)</td></tr>`);
   rows.push(`<tr><td colspan="2">17.1. Evaluare formular</td><td>${starStr} (${fbRating}/5)</td></tr>`);
   rows.push(`<tr><td colspan="2">17.2. Sugestii pentru îmbunătățire</td><td>${p.feedbackSugestii || '—'}</td></tr>`);
+
+  // ── Secțiunea 18: Semnătură inspector ──
+  rows.push(`<tr class="sec-header"><td colspan="3">Secțiunea 18: Semnătura inspectorului</td></tr>`);
+  rows.push(`<tr>
+    <td colspan="3" style="padding:16px 10px;">
+      <table style="width:100%;border-collapse:collapse;">
+        <tr>
+          <td style="width:50%;padding:8px 12px;border:1px solid #e0deda;vertical-align:top;">
+            <div style="font-size:13px;font-weight:500;margin-bottom:10px;">${p.sigInspectorName || ''}</div>
+            ${p.sigInspector
+              ? `<img src="${p.sigInspector}" style="max-width:280px;height:100px;object-fit:contain;display:block;border:1px solid #eee;border-radius:4px;"/>`
+              : `<div style="height:80px;border-bottom:1.5px solid #999;width:280px;"></div>`
+            }
+          </td>
+          <td style="width:50%;padding:8px 12px;border:1px solid #e0deda;vertical-align:top;">
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>`);
 
   // Generăm tag-urile <img> cu src=data:... embedded complet
   const imgCards = imgData.map((img, i) => `
