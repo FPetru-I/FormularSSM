@@ -3680,16 +3680,16 @@ function buildPDFHtml(p, imgData) {
   <title></title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Arial, sans-serif; font-size: 12px; color: #1a1917; padding: 20px; background: #fff; }
+    body { font-family: Arial, sans-serif; font-size: 12px; color: #1a1917; padding: 20px; background: #fff; text-align: left; -webkit-text-size-adjust: 100%; }
 
     .meta { display: flex; flex-wrap: wrap; gap: 0; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; }
     .meta-item { flex: 1 1 33%; padding: 10px 12px; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; }
     .meta-item:nth-child(3n) { border-right: none; }
     .meta-item .lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; color: #888; margin-bottom: 3px; }
     .meta-item .val { font-size: 13px; font-weight: 500; }
-    table { width: 100%; border-collapse: collapse; margin-bottom: 28px; font-size: 11px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 28px; font-size: 11px; table-layout: fixed; }
     th { background: #f0efec; text-align: left; padding: 7px 8px; border: 1px solid #ccc; font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em; }
-    td { padding: 7px 8px; border: 1px solid #e0deda; vertical-align: top; line-height: 1.5; }
+    td { padding: 7px 8px; border: 1px solid #e0deda; vertical-align: top; line-height: 1.5; text-align: left; word-spacing: normal; hyphens: none; -webkit-hyphens: none; word-break: normal; }
     tr { page-break-inside: avoid; break-inside: avoid; }
     tr:nth-child(even) td { background: #fafaf8; }
     .sec-header td, tr.sec-header td, tr.sec-header:nth-child(even) td, tr.sec-header:nth-child(odd) td { background: #e8eef7 !important; font-weight: 700; font-size: 12px; color: #1a4d8f; padding: 8px 10px; border: 1px solid #b8c8e8; }
@@ -3718,7 +3718,7 @@ function buildPDFHtml(p, imgData) {
   </div>
   <table>
     <thead><tr>
-      <th style="width:55%">Întrebare</th>
+      <th style="width:55%;word-break:normal;">Întrebare</th>
       <th style="width:10%;text-align:center">Răspuns</th>
       <th>Comentariu</th>
     </tr></thead>
