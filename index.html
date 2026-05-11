@@ -3466,16 +3466,7 @@ async function trimiteRaport() {
     overlay.classList.remove('show');
     showToast('✔ ' + nrRaport + ' salvat în GitHub: ' + result.fileName, 'success');
 
-    // Prefetch numărul următor pentru viitoarea descărcare/salvare
-    try {
-      const nextRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', { method: 'GET', redirect: 'follow' });
-      const nextData = JSON.parse(await nextRes.text());
-      if (nextData.nextNr) {
-        cachedNrRaport = nextData.nextNr;
-        cachedNrUsed   = false;
-        console.log('Nr raport următor preîncărcat:', cachedNrRaport);
-      }
-    } catch(e) { console.warn('Nu am putut preîncărca nr următor:', e); }
+    // Nr raport folosit - la următoarea acțiune va fi preluat din nou din GitHub
 
   } catch(err) {
     overlay.classList.remove('show');
