@@ -3473,7 +3473,7 @@ async function trimiteRaport() {
       return;
     }
 
-    // ── 6. Marchez numărul ca folosit și deschid PDF-ul local (același HTML) ──
+    // ── 6. Deschid PDF-ul local și prefetch numărul următor ──
     cachedNrUsed   = true;
     cachedNrRaport = null;
 
@@ -3486,6 +3486,17 @@ async function trimiteRaport() {
 
     overlay.classList.remove('show');
     showToast('✔ ' + nrRaport + ' salvat în GitHub: ' + result.fileName, 'success');
+
+    // Prefetch numărul următor pentru viitoarea descărcare/salvare
+    try {
+      const nextRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', { method: 'GET', redirect: 'follow' });
+      const nextData = JSON.parse(await nextRes.text());
+      if (nextData.nextNr) {
+        cachedNrRaport = nextData.nextNr;
+        cachedNrUsed   = false;
+        console.log('Nr raport următor preîncărcat:', cachedNrRaport);
+      }
+    } catch(e) { console.warn('Nu am putut preîncărca nr următor:', e); }
 
   } catch(err) {
     overlay.classList.remove('show');
@@ -3760,6 +3771,23 @@ function getSigDataUrl(id) {
     if (t.id === 'obs-text-input')   { obsText    = t.value; return; }
     if (t.id === 'fb-sugestii-input'){ fbSugestii = t.value; return; }
   });
+})();
+
+// ── Preluăm numărul raportului la încărcarea paginii ──
+(async function fetchNrRaportOnLoad() {
+  try {
+    const res  = await fetch(GAS_PROXY_URL + '?action=nextNr', {
+      method: 'GET', redirect: 'follow'
+    });
+    const data = JSON.parse(await res.text());
+    if (data.nextNr) {
+      cachedNrRaport = data.nextNr;
+      cachedNrUsed   = false;
+      console.log('Nr raport preîncărcat:', cachedNrRaport);
+    }
+  } catch(e) {
+    console.warn('Nu am putut preîncărca nr raport:', e);
+  }
 })();
 
 // GAS Proxy connection status
