@@ -3760,6 +3760,9 @@ function getSigDataUrl(id) {
     if (t.id === 'obs-text-input')   { obsText    = t.value; return; }
     if (t.id === 'fb-sugestii-input'){ fbSugestii = t.value; return; }
   });
+
+  // Inițializăm semnăturile după ce DOM-ul e gata
+  setTimeout(initSignatures, 500);
 })();
 
 // ── Preluăm numărul raportului la încărcarea paginii ──
