@@ -2596,7 +2596,7 @@
   <!-- ===== SECȚIUNEA 18 — SEMNĂTURI ===== -->
   <div style="background:#fff;border:1px solid #ddd;border-radius:8px;margin-bottom:20px;padding:20px;">
     <h3 style="margin:0 0 20px 0;font-size:14px;font-weight:600;color:#333;">Semnături</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;">
 
       <!-- Inspector -->
       <div>
@@ -2604,9 +2604,11 @@
         <input type="text" id="sig-inspector-name" placeholder="Nume și prenume inspector"
           style="width:100%;border:1px solid #ddd;border-radius:4px;padding:8px;font-size:14px;margin-bottom:8px;box-sizing:border-box;"
           oninput="sigInspectorName=this.value"/>
-        <canvas id="canvas-inspector" width="400" height="200"
-          style="border:1px solid #333;display:block;width:100%;border-radius:4px;background:#fff;"></canvas>
-        <button onclick="sigCanvases['inspector'].clear()"
+        <div style="border:2px solid #333;border-radius:6px;background:#fff;">
+          <canvas id="canvas-inspector" width="500" height="180"
+            style="display:block;cursor:crosshair;touch-action:none;max-width:100%;"></canvas>
+        </div>
+        <button onclick="sigCanvases['inspector'] && sigCanvases['inspector'].clear()"
           style="margin-top:6px;padding:4px 12px;border:1px solid #ddd;border-radius:4px;background:none;cursor:pointer;font-size:12px;">
           ✕ Șterge
         </button>
@@ -2618,9 +2620,11 @@
         <input type="text" id="sig-sef-name" placeholder="Nume și prenume șef de echipă"
           style="width:100%;border:1px solid #ddd;border-radius:4px;padding:8px;font-size:14px;margin-bottom:8px;box-sizing:border-box;"
           oninput="sigSefName=this.value"/>
-        <canvas id="canvas-sef" width="400" height="200"
-          style="border:1px solid #333;display:block;width:100%;border-radius:4px;background:#fff;"></canvas>
-        <button onclick="sigCanvases['sef'].clear()"
+        <div style="border:2px solid #333;border-radius:6px;background:#fff;">
+          <canvas id="canvas-sef" width="500" height="180"
+            style="display:block;cursor:crosshair;touch-action:none;max-width:100%;"></canvas>
+        </div>
+        <button onclick="sigCanvases['sef'] && sigCanvases['sef'].clear()"
           style="margin-top:6px;padding:4px 12px;border:1px solid #ddd;border-radius:4px;background:none;cursor:pointer;font-size:12px;">
           ✕ Șterge
         </button>
@@ -3705,12 +3709,16 @@ function initSignatures() {
   var canvasSef       = document.getElementById('canvas-sef');
 
   if (canvasInspector) {
-    sigCanvases['inspector'] = new SignaturePad(canvasInspector);
-    console.log('SignaturePad inspector OK');
+    sigCanvases['inspector'] = new SignaturePad(canvasInspector, {
+      backgroundColor: 'rgb(255,255,255)',
+      penColor:        'rgb(0,0,0)'
+    });
   }
   if (canvasSef) {
-    sigCanvases['sef'] = new SignaturePad(canvasSef);
-    console.log('SignaturePad sef OK');
+    sigCanvases['sef'] = new SignaturePad(canvasSef, {
+      backgroundColor: 'rgb(255,255,255)',
+      penColor:        'rgb(0,0,0)'
+    });
   }
 }
 
