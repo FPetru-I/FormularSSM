@@ -2595,42 +2595,17 @@
 
   <!-- ===== SECȚIUNEA 18 — SEMNĂTURI ===== -->
   <div style="background:#fff;border:1px solid #ddd;border-radius:8px;margin-bottom:20px;padding:20px;">
-    <h3 style="margin:0 0 20px 0;font-size:14px;font-weight:600;color:#333;">Semnături</h3>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;">
-
-      <!-- Inspector -->
-      <div>
-        <label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;color:#888;margin-bottom:6px;">Semnătura inspectorului</label>
-        <input type="text" id="sig-inspector-name" placeholder="Nume și prenume inspector"
-          style="width:100%;border:1px solid #ddd;border-radius:4px;padding:8px;font-size:14px;margin-bottom:8px;box-sizing:border-box;"
-          oninput="sigInspectorName=this.value"/>
-        <div style="border:2px solid #333;border-radius:6px;background:#fff;">
-          <canvas id="canvas-inspector" width="500" height="180"
-            style="display:block;cursor:crosshair;touch-action:none;max-width:100%;"></canvas>
-        </div>
-        <button onclick="sigCanvases['inspector'] && sigCanvases['inspector'].clear()"
-          style="margin-top:6px;padding:4px 12px;border:1px solid #ddd;border-radius:4px;background:none;cursor:pointer;font-size:12px;">
-          ✕ Șterge
-        </button>
-      </div>
-
-      <!-- Șef de echipă -->
-      <div>
-        <label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;color:#888;margin-bottom:6px;">Semnătura șefului de echipă</label>
-        <input type="text" id="sig-sef-name" placeholder="Nume și prenume șef de echipă"
-          style="width:100%;border:1px solid #ddd;border-radius:4px;padding:8px;font-size:14px;margin-bottom:8px;box-sizing:border-box;"
-          oninput="sigSefName=this.value"/>
-        <div style="border:2px solid #333;border-radius:6px;background:#fff;">
-          <canvas id="canvas-sef" width="500" height="180"
-            style="display:block;cursor:crosshair;touch-action:none;max-width:100%;"></canvas>
-        </div>
-        <button onclick="sigCanvases['sef'] && sigCanvases['sef'].clear()"
-          style="margin-top:6px;padding:4px 12px;border:1px solid #ddd;border-radius:4px;background:none;cursor:pointer;font-size:12px;">
-          ✕ Șterge
-        </button>
-      </div>
-
-    </div>
+    <h3 style="margin:0 0 12px 0;font-size:14px;font-weight:600;color:#333;">Semnătura inspectorului</h3>
+    <input type="text" id="sig-inspector-name" placeholder="Nume și prenume inspector"
+      style="width:100%;border:1px solid #ddd;border-radius:4px;padding:8px;font-size:14px;margin-bottom:10px;box-sizing:border-box;"
+      oninput="sigInspectorName=this.value"/>
+    <div id="sig-debug" style="font-size:11px;color:#888;margin-bottom:6px;">Inițializare...</div>
+    <canvas id="canvas-inspector" width="600" height="200"
+      style="display:block;cursor:crosshair;touch-action:none;border:2px solid #333;border-radius:4px;background:#fff;"></canvas>
+    <button onclick="clearSig('inspector')"
+      style="margin-top:8px;padding:5px 14px;border:1px solid #ddd;border-radius:4px;background:none;cursor:pointer;font-size:12px;">
+      ✕ Șterge
+    </button>
   </div>
 
 
@@ -3705,28 +3680,34 @@ var sigSefName       = '';
 var sigCanvases      = {};
 
 function initSignatures() {
-  var canvasInspector = document.getElementById('canvas-inspector');
-  var canvasSef       = document.getElementById('canvas-sef');
+  var dbg    = document.getElementById('sig-debug');
+  var canvas = document.getElementById('canvas-inspector');
 
-  if (canvasInspector) {
-    sigCanvases['inspector'] = new SignaturePad(canvasInspector, {
-      backgroundColor: 'rgb(255,255,255)',
-      penColor:        'rgb(0,0,0)'
-    });
+  if (!canvas) {
+    if (dbg) dbg.textContent = '❌ Canvas negăsit!';
+    return;
   }
-  if (canvasSef) {
-    sigCanvases['sef'] = new SignaturePad(canvasSef, {
+
+  if (typeof SignaturePad === 'undefined') {
+    if (dbg) dbg.textContent = '❌ SignaturePad library negăsită!';
+    return;
+  }
+
+  try {
+    sigCanvases['inspector'] = new SignaturePad(canvas, {
       backgroundColor: 'rgb(255,255,255)',
       penColor:        'rgb(0,0,0)'
     });
+    if (dbg) dbg.textContent = '✅ SignaturePad activ — puteți semna';
+    dbg.style.color = 'green';
+  } catch(e) {
+    if (dbg) dbg.textContent = '❌ Eroare: ' + e.message;
   }
 }
 
 function clearSig(id) {
   var pad = sigCanvases[id];
   if (pad) pad.clear();
-  var ph = document.getElementById('ph-' + id);
-  if (ph) ph.style.display = 'block';
 }
 
 function getSigDataUrl(id) {
