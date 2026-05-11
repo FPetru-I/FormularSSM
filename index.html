@@ -2638,7 +2638,7 @@
     </div>
     <div class="actions-right">
       <button class="btn btn-secondary" onclick="downloadPDF()">⬇ Descarcă PDF</button>
-      <button class="btn btn-primary" id="submitBtn" onclick="trimiteRaport()">📤 Salvează în GitHub</button>
+      <button class="btn btn-primary" id="submitBtn" onclick="trimiteRaport()">📤 Salvează și Descarcă</button>
     </div>
   </div>
 
@@ -3256,20 +3256,34 @@ async function downloadPDF() {
     return;
   }
 
-  // ── 2. Obținem numărul raportului de la GAS ──
+  // ── 2. Obținem numărul raportului ──
+  // Dacă avem un număr cached și nefolosit, îl refolosim
+  // Dacă a fost deja salvat (cachedNrUsed=true), luăm unul nou
   overlayMsg.textContent = 'Se obține numărul raportului...';
   let nrRaport = '';
-  try {
-    const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', {
-      method: 'GET', redirect: 'follow'
-    });
-    const nrData = JSON.parse(await nrRes.text());
-    if (nrData.nextNr) nrRaport = nrData.nextNr;
-  } catch(e) {
-    console.warn('Nu am putut obține nr raport:', e);
+  if (cachedNrRaport && !cachedNrUsed) {
+    // Refolosim numărul deja obținut (ex: după o descărcare anterioară)
+    nrRaport = cachedNrRaport;
+    console.log('Refolosim nrRaport cached:', nrRaport);
+  } else {
+    // Obținem un număr nou de la GAS
+    try {
+      const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', {
+        method: 'GET', redirect: 'follow'
+      });
+      const nrData = JSON.parse(await nrRes.text());
+      if (nrData.nextNr) {
+        nrRaport       = nrData.nextNr;
+        cachedNrRaport = nrRaport;
+        cachedNrUsed   = false;
+        console.log('Nr raport nou de la GAS:', nrRaport);
+      }
+    } catch(e) {
+      console.warn('Nu am putut obține nr raport:', e);
+    }
   }
 
-  // ── 3. Generăm PDF-ul cu numărul corect ──
+  // ── 3. Generăm și deschidem PDF-ul ──
   overlayMsg.textContent = 'Se generează PDF-ul...';
   await new Promise(r => setTimeout(r, 200));
   const payload    = buildPayload();
@@ -3304,23 +3318,31 @@ async function trimiteRaport() {
     const activeImages = images.filter(Boolean);
     const imgData = await Promise.all(activeImages.map(f => fileToBase64(f)));
 
-    // ── 2. Obținem numărul raportului de la GAS ──
+    // ── 2. Obținem numărul raportului ──
+    // Dacă există un număr cached și nefolosit (ex: după descărcare locală), îl refolosim
     overlayMsg.textContent = 'Se obține numărul raportului...';
-    let nrRaport = 'R1';
-    try {
-      const nrRes = await fetch(GAS_PROXY_URL + '?action=nextNr', {
-        method: 'GET',
-        redirect: 'follow'
-      });
-      const nrText = await nrRes.text();
-      const nrData = JSON.parse(nrText);
-      if (nrData.nextNr) nrRaport = nrData.nextNr;
-    } catch(e) {
-      console.warn('Nu am putut obține nr raport de la GAS:', e);
+    let nrRaport = '';
+    if (cachedNrRaport && !cachedNrUsed) {
+      nrRaport = cachedNrRaport;
+      console.log('Refolosim nrRaport cached:', nrRaport);
+    } else {
+      try {
+        const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', {
+          method: 'GET', redirect: 'follow'
+        });
+        const nrData = JSON.parse(await nrRes.text());
+        if (nrData.nextNr) {
+          nrRaport       = nrData.nextNr;
+          cachedNrRaport = nrRaport;
+          cachedNrUsed   = false;
+        }
+      } catch(e) {
+        console.warn('Nu am putut obține nr raport:', e);
+      }
     }
 
     // ── 3. Construim payload cu numărul corect ──
-    const payload = buildPayload();
+    const payload    = buildPayload();
     payload.nrRaport = nrRaport;
 
     // ── 4. Generăm PDF-ul cu numărul corect ──
@@ -3419,7 +3441,8 @@ async function trimiteRaport() {
     })();
 
 
-    // ── 5. Trimitem PDF-ul la GAS cu numărul deja atribuit ──
+    
+    // ── 5. Trimitem PDF-ul la GAS cu numărul atribuit ──
     overlayMsg.textContent = 'Se încarcă în GitHub...';
     const res = await fetch(GAS_PROXY_URL, {
       method:   'POST',
@@ -3447,22 +3470,24 @@ async function trimiteRaport() {
       overlay.classList.remove('show');
       console.error('GAS error:', result);
       showToast('Eroare server: ' + (result.message || 'necunoscută') + '. PDF-ul a fost deschis local.', 'error');
-      // Deschidem PDF local oricum
-      const winErr = window.open('', '_blank');
-      if (winErr) { winErr.document.write(pdfHtml); winErr.document.close(); }
       return;
     }
 
-    // ── 6. Deschidem PDF local cu numărul corect ──
+    // ── 6. Marchez numărul ca folosit și generez PDF-ul final pentru download ──
+    cachedNrUsed   = true;
+    cachedNrRaport = null;
+
+    overlayMsg.textContent = 'Se generează PDF-ul final...';
+    const pdfHtmlFinal = buildPDFHtml(payload, imgData);
     const win = window.open('', '_blank');
     if (win) {
-      win.document.write(pdfHtml);
+      win.document.write(pdfHtmlFinal);
       win.document.close();
       win.addEventListener('load', () => setTimeout(() => win.print(), 300));
     }
 
     overlay.classList.remove('show');
-    showToast('✔ Raportul ' + nrRaport + ' salvat în GitHub: ' + result.fileName, 'success');
+    showToast('✔ ' + nrRaport + ' salvat în GitHub: ' + result.fileName, 'success');
 
   } catch(err) {
     overlay.classList.remove('show');
@@ -3655,6 +3680,10 @@ function showToast(msg, type = '') {
   setTimeout(() => t.className = 'toast', 4500);
 }
 
+
+// ── Cache număr raport ──
+var cachedNrRaport = null;   // numărul obținut de la GAS
+var cachedNrUsed   = false;  // true după ce a fost salvat în GitHub
 
 // ── Variabile semnături și concluzii ──
 var concluziiText    = '';
