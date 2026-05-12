@@ -438,7 +438,7 @@
 
 <header class="page-header">
   <div class="org">Organizație — Departament</div>
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v1</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v2</span></h1>
   <div class="subtitle">Completați toate câmpurile obligatorii. PDF-ul va fi generat automat după trimitere.</div>
 </header>
 
@@ -3912,9 +3912,9 @@ function buildPDFHtml(p, imgData) {
 
     .row { display: flex; border-bottom: 1px solid #e0deda; background: #fafaf8; page-break-inside: avoid; break-inside: avoid; }
     .row:last-child { border-bottom: none; }
-    .col-q { flex: 0 0 55%; padding: 7px 8px; border-right: 1px solid #e0deda; line-height: 1.5; overflow-wrap: break-word; font-family: inherit; font-size: inherit; }
+    .col-q { flex: 0 0 55%; padding: 7px 8px; border-right: 1px solid #e0deda; line-height: 1.5; overflow-wrap: break-word; font-size: 11px !important; }
     .col-r { flex: 0 0 12%; padding: 7px 8px; border-right: 1px solid #e0deda; text-align: center; vertical-align: middle; display: flex; align-items: center; justify-content: center; }
-    .col-c { flex: 1; padding: 7px 8px; line-height: 1.5; text-align: left; word-break: normal; word-spacing: normal; }
+    .col-c { flex: 1; padding: 7px 8px; line-height: 1.5; text-align: left; word-break: normal; word-spacing: normal; font-size: 11px !important; }
 
     .sec-header { display: flex; background: #e8eef7; border-bottom: 1px solid #b8c8e8; page-break-inside: avoid; break-inside: avoid; }
     .sec-header .col-q { flex: 1; font-weight: 700; font-size: 12px; color: #1a4d8f; padding: 8px 10px; border-right: none; background: #e8eef7; }
@@ -3934,6 +3934,7 @@ function buildPDFHtml(p, imgData) {
     }
     @-moz-document url-prefix() {
       * { text-align: left !important; word-spacing: normal !important; }
+      .col-q, .col-c { font-size: 11px !important; }
     }
     @page { margin: 1.5cm; size: A4; }
 </style>
