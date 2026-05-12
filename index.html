@@ -128,7 +128,7 @@
 
 <header class="page-header">
   <div class="org">Organizație — Departament</div>
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v6</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v7</span></h1>
   <div class="subtitle">Completați toate câmpurile obligatorii. PDF-ul va fi generat automat după trimitere.</div>
 </header>
 
@@ -3586,7 +3586,7 @@ function buildPDFHtml(p, imgData) {
   <title></title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: unset; }
-    body { font-size: 12px; color: #1a1917; padding: 20px; background: #fff; -webkit-text-size-adjust: 100%; }
+    body { font-size: 12px; color: #1a1917; padding: 10px 20px 0 20px; background: #fff; -webkit-text-size-adjust: 100%; }
 
     .meta { display: flex; flex-wrap: wrap; gap: 0; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; }
     .meta-item { flex: 1 1 33%; padding: 10px 12px; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; }
@@ -3622,11 +3622,13 @@ function buildPDFHtml(p, imgData) {
       html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .col-q span, .col-c { text-align: left !important; word-spacing: normal !important; white-space: normal !important; }
     }
-    @-moz-document url-prefix() {
+    .tbl > .row:last-child { page-break-after: avoid; break-after: avoid; }
+    .tbl > div:last-child { page-break-after: avoid; break-after: avoid; }
+        @-moz-document url-prefix() {
       * { text-align: left !important; word-spacing: normal !important; }
       .col-q, .col-c { font-size: 11px !important; }
     }
-    @page { margin: 1.5cm; size: A4; }
+    @page { margin: 1cm 1.5cm; size: A4; }
 </style>
   </head><body>
   <div class="meta">
