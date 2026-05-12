@@ -6,6 +6,18 @@
 <title> </title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
+  /* CSS Reset */
+  html,body,div,span,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,address,cite,code,
+  del,dfn,em,img,ins,kbd,q,s,samp,small,strong,sub,sup,tt,var,b,u,i,dl,dt,dd,
+  ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,
+  article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,
+  menu,nav,output,ruby,section,summary,time,mark,audio,video {
+    margin: 0; padding: 0; border: 0; font-size: 100%;
+    font: inherit; vertical-align: baseline; text-align: left;
+    word-spacing: normal; letter-spacing: normal;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+
   :root {
     --bg:#f4f3ef;--surface:#fff;--surface2:#f9f8f5;--border:#dddbd4;
     --border-strong:#b8b5ac;--text:#1a1917;--text-muted:#6b6860;
@@ -13,7 +25,6 @@
     --yes:#1a6b3c;--yes-bg:#eaf5ee;--no:#8f1a1a;--no-bg:#f5eaea;
     --na:#1a6b9e;--na-bg:#e0f0fa;--danger:#c0392b;--radius:6px;
   }
-  *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh;}
   .page-header{background:var(--accent);color:#fff;padding:24px 32px;}
   .page-header .org{font-size:11px;opacity:0.7;margin-bottom:4px;}
@@ -117,7 +128,7 @@
 
 <header class="page-header">
   <div class="org">Organizație — Departament</div>
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v3</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v4</span></h1>
   <div class="subtitle">Completați toate câmpurile obligatorii. PDF-ul va fi generat automat după trimitere.</div>
 </header>
 
