@@ -3259,66 +3259,38 @@ async function downloadPDF() {
   const overlayMsg = document.querySelector('.overlay div:last-child');
   overlay.classList.add('show');
 
-  // ── 1. Citim imaginile ──
-  overlayMsg.textContent = 'Se citesc imaginile...';
-  const activeImages = images.filter(Boolean);
-  let imgData = [];
   try {
-    imgData = await Promise.all(activeImages.map(f => fileToBase64(f)));
-  } catch(e) {
-    overlay.classList.remove('show');
-    showToast('Eroare la citirea imaginilor.', 'error');
-    return;
-  }
+    overlayMsg.textContent = 'Se citesc imaginile...';
+    const activeImages = images.filter(Boolean);
+    const imgData = await Promise.all(activeImages.map(f => fileToBase64(f)));
 
-  // ── 2. Obținem numărul raportului ──
-  // Dacă avem un număr cached și nefolosit, îl refolosim
-  // Dacă a fost deja salvat (cachedNrUsed=true), luăm unul nou
-  overlayMsg.textContent = 'Se obține numărul raportului...';
-  let nrRaport = '';
-  if (cachedNrRaport && !cachedNrUsed) {
-    // Refolosim numărul deja obținut (ex: după o descărcare anterioară)
-    nrRaport = cachedNrRaport;
-    console.log('Refolosim nrRaport cached:', nrRaport);
-  } else {
-    // Obținem un număr nou de la GAS
-    try {
-      const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', {
-        method: 'GET', redirect: 'follow'
-      });
-      const nrData = JSON.parse(await nrRes.text());
-      if (nrData.nextNr) {
-        nrRaport       = nrData.nextNr;
-        cachedNrRaport = nrRaport;
-        cachedNrUsed   = false;
-        console.log('Nr raport nou de la GAS:', nrRaport);
-      }
-    } catch(e) {
-      console.warn('Nu am putut obține nr raport:', e);
+    overlayMsg.textContent = 'Se obține numărul raportului...';
+    let nrRaport = '';
+    if (cachedNrRaport && !cachedNrUsed) {
+      nrRaport = cachedNrRaport;
+    } else {
+      try {
+        const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', { method: 'GET', redirect: 'follow' });
+        const nrData = JSON.parse(await nrRes.text());
+        if (nrData.nextNr) { nrRaport = nrData.nextNr; cachedNrRaport = nrRaport; cachedNrUsed = false; }
+      } catch(e) {}
     }
-  }
 
-  // ── 3. Generăm și deschidem PDF-ul ──
-  overlayMsg.textContent = 'Se generează PDF-ul...';
-  await new Promise(r => setTimeout(r, 200));
-  const payload    = buildPayload();
-  payload.nrRaport = nrRaport;
-  const html       = buildPDFHtml(payload, imgData);
+    overlayMsg.textContent = 'Se generează PDF-ul...';
+    const payload = buildPayload();
+    payload.nrRaport = nrRaport;
 
-  const win = window.open('', '_blank');
-  if (!win) {
+    const pdf = buildJsPDF(payload, imgData);
+    pdf.save('Raport_' + (nrRaport || 'SSM') + '.pdf');
+
     overlay.classList.remove('show');
-    showToast('Popup blocat de browser. Permite popup-uri pentru acest site.', 'error');
-    return;
+  } catch(err) {
+    overlay.classList.remove('show');
+    console.error('Eroare PDF:', err);
+    showToast('Eroare generare PDF: ' + err.message, 'error');
   }
-  win.document.write(html);
-  win.document.close();
-  win.addEventListener('load', () => {
-    overlay.classList.remove('show');
-    setTimeout(() => win.print(), 300);
-  });
-  setTimeout(() => { overlay.classList.remove('show'); }, 3000);
 }
+
 
 async function trimiteRaport() {
   if (!validate()) return;
@@ -3511,6 +3483,257 @@ async function trimiteRaport() {
   }
 }
 
+function buildJsPDF(p, imgData) {
+  const { jsPDF } = window.jspdf;
+  const pdf   = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const pageW = 210;
+  const pageH = 297;
+  const mL    = 12;  // margin left
+  const mR    = 12;  // margin right
+  const mT    = 14;  // margin top
+  const mB    = 14;  // margin bottom
+  const usableW = pageW - mL - mR;
+  let y = mT;
+
+  // ── Helpers ──
+  function checkPage(needed) {
+    if (y + needed > pageH - mB) {
+      pdf.addPage();
+      y = mT;
+    }
+  }
+
+  function drawText(text, x, yPos, opts) {
+    pdf.setFont(opts.font || 'helvetica', opts.style || 'normal');
+    pdf.setFontSize(opts.size || 9);
+    pdf.setTextColor(opts.color || '#1a1917');
+    pdf.text(text, x, yPos, { maxWidth: opts.maxWidth || usableW, align: 'left' });
+  }
+
+  function textHeight(text, fontSize, maxW) {
+    pdf.setFontSize(fontSize);
+    const lines = pdf.splitTextToSize(text, maxW);
+    return lines.length * (fontSize * 0.3528 * 1.4);
+  }
+
+  // ── META header ──
+  pdf.setFillColor('#f0efec');
+  pdf.rect(mL, y, usableW, 22, 'F');
+  pdf.setDrawColor('#dddddd');
+  pdf.rect(mL, y, usableW, 22, 'S');
+
+  const metaFields = [
+    ['NR. RAPORT', p.nrRaport || '—'],
+    ['NUME', p.name || '—'],
+    ['EMAIL', p.email || '—'],
+    ['DATA', p.date || '—'],
+    ['LOCALITATE', p.location || '—'],
+    ['TIP LUCRARE', p.tipLucrare || '—'],
+  ];
+  const colW = usableW / 3;
+  metaFields.forEach(function([lbl, val], idx) {
+    const col = idx % 3;
+    const row = Math.floor(idx / 3);
+    const mx = mL + col * colW + 3;
+    const my = y + row * 11 + 4;
+    drawText(lbl, mx, my, { size: 7, color: '#888888', style: 'bold' });
+    drawText(val, mx, my + 5, { size: 10, color: '#1a1917', style: 'normal', maxWidth: colW - 4 });
+  });
+  y += 28;
+
+  // ── Table header ──
+  const colQ = usableW * 0.55;
+  const colR = usableW * 0.12;
+  const colC = usableW * 0.33;
+  const rowH = 6;
+
+  function drawHeader() {
+    pdf.setFillColor('#f0efec');
+    pdf.rect(mL, y, usableW, rowH, 'F');
+    pdf.setDrawColor('#cccccc');
+    pdf.rect(mL, y, usableW, rowH, 'S');
+    drawText('ÎNTREBARE', mL + 2, y + 4, { size: 7, color: '#555', style: 'bold' });
+    drawText('RĂSPUNS', mL + colQ + 2, y + 4, { size: 7, color: '#555', style: 'bold' });
+    drawText('COMENTARIU', mL + colQ + colR + 2, y + 4, { size: 7, color: '#555', style: 'bold' });
+    y += rowH;
+  }
+  drawHeader();
+
+  // ── Section names ──
+  const SECTION_NAMES = ['','Verificare generală șantier','Lucrări electrice','Lucru la înălțime',
+    'Risc de cădere a obiectelor și manipularea încărcăturilor','Utilaje și echipamente cu piese în mișcare',
+    'Excavații și lucrări în sol','Manipularea și depozitarea materialelor','Substanțe chimice și periculoase',
+    'Lucru izolat','Risc de incendiu','Spații închise','Operațiuni de tăiere',
+    'Lucrări de betonare și turnare','Feedback inspector asupra lucrării',
+    'Feedback șef de echipă asupra lucrării','Observații','Concluzii finale','Semnătura inspectorului'];
+
+  // ── Draw rows ──
+  function drawSectionHeader(text) {
+    const h = 7;
+    checkPage(h + 2);
+    pdf.setFillColor('#e8eef7');
+    pdf.rect(mL, y, usableW, h, 'F');
+    pdf.setDrawColor('#b8c8e8');
+    pdf.rect(mL, y, usableW, h, 'S');
+    drawText(text, mL + 3, y + 5, { size: 9, color: '#1a4d8f', style: 'bold' });
+    y += h;
+  }
+
+  function drawRow(qText, ans, comment, bgColor) {
+    pdf.setFontSize(8);
+    const qLines   = pdf.splitTextToSize(qText, colQ - 4);
+    const cLines   = pdf.splitTextToSize(comment || '—', colC - 4);
+    const lineH    = 3.8;
+    const maxLines = Math.max(qLines.length, cLines.length, 1);
+    const h        = Math.max(maxLines * lineH + 4, 8);
+
+    checkPage(h);
+
+    // Background
+    pdf.setFillColor(bgColor || '#fafaf8');
+    pdf.rect(mL, y, usableW, h, 'F');
+    pdf.setDrawColor('#e0deda');
+    pdf.rect(mL, y, usableW, h, 'S');
+    // Column dividers
+    pdf.line(mL + colQ, y, mL + colQ, y + h);
+    pdf.line(mL + colQ + colR, y, mL + colQ + colR, y + h);
+
+    // Question text
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(8);
+    pdf.setTextColor('#1a1917');
+    pdf.text(qLines, mL + 2, y + 3.5, { lineHeightFactor: 1.4, align: 'left' });
+
+    // Answer badge
+    if (ans && ans !== '—') {
+      const badgeColor = ans === 'DA' ? '#1a6b3c' : ans === 'NU' ? '#8f1a1a' : '#5a5752';
+      const bw = 10; const bh = 5;
+      const bx = mL + colQ + (colR - bw) / 2;
+      const by = y + (h - bh) / 2;
+      pdf.setFillColor(badgeColor);
+      pdf.roundedRect(bx, by, bw, bh, 1, 1, 'F');
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(6.5);
+      pdf.setTextColor('#ffffff');
+      pdf.text(ans, bx + bw/2, by + 3.5, { align: 'center' });
+    }
+
+    // Comment text
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(8);
+    pdf.setTextColor('#1a1917');
+    pdf.text(cLines, mL + colQ + colR + 2, y + 3.5, { lineHeightFactor: 1.4, align: 'left' });
+
+    y += h;
+  }
+
+  // ── Render sections 1-13 ──
+  const sections = p.sections || {};
+  for (var sec = 1; sec <= 13; sec++) {
+    var items = sections[sec] || sections[String(sec)] || [];
+    if (!items.length) continue;
+
+    drawSectionHeader('Secțiunea ' + sec + ': ' + (SECTION_NAMES[sec] || ''));
+
+    // Compact DA/NA
+    var compactDA = [], compactNA = [], detailed = [];
+    items.forEach(function(item, idx2) {
+      var qkey = sec + '-' + idx2;
+      var hasNote = item.comment && item.comment.trim() !== '';
+      var hasImg  = (qImages[qkey]||[]).filter(Boolean).length > 0;
+      if ((item.answer === 'DA' || item.answer === 'N/A') && !hasNote && !hasImg) {
+        if (item.answer === 'DA') compactDA.push(sec + '.' + (idx2+1));
+        else compactNA.push(sec + '.' + (idx2+1));
+      } else {
+        detailed.push({ item: item, idx: idx2, qkey: qkey });
+      }
+    });
+
+    if (compactDA.length) drawRow('DA — întrebările: ' + compactDA.join(', '), 'DA', '—', '#f0f7f0');
+    if (compactNA.length) drawRow('N/A — întrebările: ' + compactNA.join(', '), 'N/A', '—', '#f5f5f5');
+    detailed.forEach(function(d) {
+      drawRow(sec + '.' + (d.idx+1) + '. ' + d.item.question, d.item.answer || '—', d.item.comment || '');
+    });
+  }
+
+  // ── Sections 14-15 (text) ──
+  [14, 15].forEach(function(sec) {
+    var items = sections[sec] || sections[String(sec)] || [];
+    if (!items.length) return;
+    drawSectionHeader('Secțiunea ' + sec + ': ' + (SECTION_NAMES[sec] || ''));
+    items.forEach(function(item, idx2) {
+      drawRow(sec + '.' + (idx2+1) + '. ' + item.question, '', item.answer || '—');
+    });
+  });
+
+  // ── Section 16: Observații ──
+  drawSectionHeader('Secțiunea 16: Observații');
+  drawRow('16.1. Încălcări ale regulilor de siguranță identificate', '', p.observatii || '—');
+  drawRow('16.2. Fișiere atașate', '', (p.numFisiere || 0) + ' fișiere');
+
+  // ── Section 17: Concluzii ──
+  drawSectionHeader('Secțiunea 17: Concluzii finale');
+  drawRow('17.1. Note și concluzii generale', '', p.concluzii || '—');
+
+  // ── Section 18: Semnătură ──
+  drawSectionHeader('Secțiunea 18: Semnătura inspectorului');
+  var sigH = 50;
+  checkPage(sigH);
+  pdf.setFillColor('#fafaf8');
+  pdf.rect(mL, y, usableW, sigH, 'F');
+  pdf.setDrawColor('#e0deda');
+  pdf.rect(mL, y, usableW, sigH, 'S');
+  pdf.line(mL + usableW/2, y, mL + usableW/2, y + sigH);
+
+  // Left: fields
+  var fields = [
+    ['Nume și prenume', p.sigInspectorName || ''],
+    ['Funcție', p.sigInspectorFunctie || ''],
+    ['Firma', p.sigInspectorFirma || ''],
+    ['Data', p.sigInspectorData || ''],
+  ];
+  var fy = y + 4;
+  fields.forEach(function(f) {
+    drawText(f[0], mL + 2, fy, { size: 7, color: '#888', style: 'bold' });
+    drawText(f[1] || '', mL + 2, fy + 4, { size: 9, color: '#1a1917' });
+    pdf.setDrawColor('#cccccc');
+    pdf.line(mL + 2, fy + 6, mL + usableW/2 - 2, fy + 6);
+    fy += 12;
+  });
+
+  // Right: signature image
+  drawText('Semnătură', mL + usableW/2 + 2, y + 5, { size: 7, color: '#888', style: 'bold' });
+  if (p.sigInspector) {
+    try {
+      pdf.addImage(p.sigInspector, 'PNG', mL + usableW/2 + 2, y + 8, usableW/2 - 4, 38);
+    } catch(e) {}
+  } else {
+    pdf.setDrawColor('#999999');
+    pdf.line(mL + usableW/2 + 2, y + sigH - 4, mL + usableW - 2, y + sigH - 4);
+  }
+  y += sigH + 4;
+
+  // ── Images ──
+  if (imgData && imgData.length > 0) {
+    pdf.addPage();
+    y = mT;
+    drawText('Imagini atașate (' + imgData.length + ')', mL, y, { size: 12, style: 'bold' });
+    y += 8;
+    imgData.forEach(function(img) {
+      try {
+        var imgW = usableW / 2 - 4;
+        var imgH = 60;
+        checkPage(imgH + 10);
+        pdf.addImage(img.dataUrl, 'JPEG', mL, y, imgW, imgH);
+        drawText(img.name || '', mL, y + imgH + 4, { size: 8, color: '#555' });
+        y += imgH + 12;
+      } catch(e) {}
+    });
+  }
+
+  return pdf;
+}
+
 function buildPDFHtml(p, imgData) {
   const SECTION_NAMES = [
     '',
@@ -3696,6 +3919,9 @@ function buildPDFHtml(p, imgData) {
     @media print {
       html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .col-q span, .col-c { text-align: left !important; word-spacing: normal !important; white-space: normal !important; }
+    }
+    @-moz-document url-prefix() {
+      * { text-align: left !important; word-spacing: normal !important; }
     }
     @page { margin: 1.5cm; size: A4; }
 </style>
