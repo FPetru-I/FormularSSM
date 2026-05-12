@@ -128,7 +128,7 @@
 
 <header class="page-header">
   <div class="org">Organizație — Departament</div>
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v5</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v6</span></h1>
   <div class="subtitle">Completați toate câmpurile obligatorii. PDF-ul va fi generat automat după trimitere.</div>
 </header>
 
@@ -2971,24 +2971,24 @@ async function downloadPDF() {
     payload.nrRaport = nrRaport;
     const html = buildPDFHtml(payload, imgData);
 
-    const win = window.open('', '_blank');
-    if (!win) {
-      overlay.classList.remove('show');
-      showToast('Popup blocat. Permite popup-uri pentru acest site.', 'error');
-      return;
-    }
-    win.document.write(html);
-    win.document.close();
-    win.addEventListener('load', () => {
-      overlay.classList.remove('show');
-      setTimeout(() => win.print(), 300);
-    });
-    setTimeout(() => { overlay.classList.remove('show'); }, 3000);
+    // Descarcă ca fișier HTML (se deschide direct în browser fără popup)
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = 'Raport_' + (nrRaport || 'SSM') + '.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+    overlay.classList.remove('show');
+    showToast('✔ PDF descărcat — deschide fișierul și printează din browser.', 'success');
 
   } catch(err) {
     overlay.classList.remove('show');
     console.error('Eroare PDF:', err);
-    showToast('Eroare generare PDF: ' + err.message, 'error');
+    showToast('Eroare: ' + err.message, 'error');
   }
 }
 
