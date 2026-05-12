@@ -128,7 +128,7 @@
 
 <header class="page-header">
   <div class="org">Organizație — Departament</div>
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v7</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v8</span></h1>
   <div class="subtitle">Completați toate câmpurile obligatorii. PDF-ul va fi generat automat după trimitere.</div>
 </header>
 
@@ -3586,7 +3586,7 @@ function buildPDFHtml(p, imgData) {
   <title></title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: unset; }
-    body { font-size: 12px; color: #1a1917; padding: 10px 20px 0 20px; background: #fff; -webkit-text-size-adjust: 100%; }
+    body { font-size: 12px; color: #1a1917; padding: 0; margin: 0; background: #fff; -webkit-text-size-adjust: 100%; width: 100%; }
 
     .meta { display: flex; flex-wrap: wrap; gap: 0; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; }
     .meta-item { flex: 1 1 33%; padding: 10px 12px; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; }
@@ -3619,7 +3619,6 @@ function buildPDFHtml(p, imgData) {
     .img-caption { font-size: 10px; color: #555; padding: 5px 8px; background: #f9f9f7; border-top: 1px solid #eee; }
 
     @media print {
-      html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .col-q span, .col-c { text-align: left !important; word-spacing: normal !important; white-space: normal !important; }
     }
     .tbl > .row:last-child { page-break-after: avoid; break-after: avoid; }
@@ -3628,7 +3627,20 @@ function buildPDFHtml(p, imgData) {
       * { text-align: left !important; word-spacing: normal !important; }
       .col-q, .col-c { font-size: 11px !important; }
     }
-    @page { margin: 1cm 1.5cm; size: A4; }
+    @page {
+      size: A4 portrait;
+      margin: 1cm 1.5cm;
+    }
+    @media print {
+      html, body {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
 </style>
   </head><body>
   <div class="meta">
