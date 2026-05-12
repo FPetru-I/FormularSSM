@@ -3279,11 +3279,22 @@ async function downloadPDF() {
     overlayMsg.textContent = 'Se generează PDF-ul...';
     const payload = buildPayload();
     payload.nrRaport = nrRaport;
+    const html = buildPDFHtml(payload, imgData);
 
-    const pdf = buildJsPDF(payload, imgData);
-    pdf.save('Raport_' + (nrRaport || 'SSM') + '.pdf');
+    const win = window.open('', '_blank');
+    if (!win) {
+      overlay.classList.remove('show');
+      showToast('Popup blocat. Permite popup-uri pentru acest site.', 'error');
+      return;
+    }
+    win.document.write(html);
+    win.document.close();
+    win.addEventListener('load', () => {
+      overlay.classList.remove('show');
+      setTimeout(() => win.print(), 300);
+    });
+    setTimeout(() => { overlay.classList.remove('show'); }, 3000);
 
-    overlay.classList.remove('show');
   } catch(err) {
     overlay.classList.remove('show');
     console.error('Eroare PDF:', err);
@@ -3334,8 +3345,16 @@ async function trimiteRaport() {
 
     // ── 4. Generăm PDF-ul cu numărul corect ──
     overlayMsg.textContent = 'Se generează PDF-ul...';
-    const pdfJsPDF  = buildJsPDF(payload, imgData);
-    const pdfBase64 = pdfJsPDF.output('datauristring').split(',')[1];
+    const pdfHtml   = buildPDFHtml(payload, imgData);
+    const pdfBase64 = await (async function() {
+      const parser  = new DOMParser();
+      const pdfDoc  = parser.parseFromString(pdfHtml, 'text/html');
+      const styleEl = pdfDoc.querySelector('style');
+      const css     = styleEl ? styleEl.textContent : '';
+      const body    = pdfDoc.body.innerHTML;
+      const fullHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"/><style>${css}</style></head><body>${body}</body></html>`;
+      return btoa(unescape(encodeURIComponent(fullHtml)));
+    })();
 ;
 
 
@@ -3375,8 +3394,13 @@ async function trimiteRaport() {
     cachedNrUsed   = true;
     cachedNrRaport = null;
 
-    // Descarcă PDF local direct cu jsPDF (fără fereastră print)
-    pdfJsPDF.save('Raport_' + nrRaport + '.pdf');
+    // Descarcă PDF local
+    const winLocal = window.open('', '_blank');
+    if (winLocal) {
+      winLocal.document.write(pdfHtml);
+      winLocal.document.close();
+      winLocal.addEventListener('load', () => setTimeout(() => winLocal.print(), 300));
+    }
 
     overlay.classList.remove('show');
     showToast('✔ ' + nrRaport + ' salvat în GitHub: ' + result.fileName, 'success');
