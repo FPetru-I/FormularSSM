@@ -438,7 +438,7 @@
 
 <header class="page-header">
   <div class="org">Organizație — Departament</div>
-  <h1>Formular de Raportare</h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v1</span></h1>
   <div class="subtitle">Completați toate câmpurile obligatorii. PDF-ul va fi generat automat după trimitere.</div>
 </header>
 
@@ -3895,8 +3895,8 @@ function buildPDFHtml(p, imgData) {
   <meta name="viewport" content="width=860"/>
   <title></title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Arial, sans-serif; font-size: 12px; color: #1a1917; padding: 20px; background: #fff; -webkit-text-size-adjust: 100%; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: unset; }
+    body { font-size: 12px; color: #1a1917; padding: 20px; background: #fff; -webkit-text-size-adjust: 100%; }
 
     .meta { display: flex; flex-wrap: wrap; gap: 0; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; }
     .meta-item { flex: 1 1 33%; padding: 10px 12px; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; }
@@ -3912,7 +3912,7 @@ function buildPDFHtml(p, imgData) {
 
     .row { display: flex; border-bottom: 1px solid #e0deda; background: #fafaf8; page-break-inside: avoid; break-inside: avoid; }
     .row:last-child { border-bottom: none; }
-    .col-q { flex: 0 0 55%; padding: 7px 8px; border-right: 1px solid #e0deda; line-height: 1.5; overflow-wrap: break-word; }
+    .col-q { flex: 0 0 55%; padding: 7px 8px; border-right: 1px solid #e0deda; line-height: 1.5; overflow-wrap: break-word; font-family: inherit; font-size: inherit; }
     .col-r { flex: 0 0 12%; padding: 7px 8px; border-right: 1px solid #e0deda; text-align: center; vertical-align: middle; display: flex; align-items: center; justify-content: center; }
     .col-c { flex: 1; padding: 7px 8px; line-height: 1.5; text-align: left; word-break: normal; word-spacing: normal; }
 
