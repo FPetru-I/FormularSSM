@@ -128,7 +128,7 @@
 
 <header class="page-header">
   <div class="org">Organizație — Departament</div>
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v8</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v9</span></h1>
   <div class="subtitle">Completați toate câmpurile obligatorii. PDF-ul va fi generat automat după trimitere.</div>
 </header>
 
@@ -2971,19 +2971,25 @@ async function downloadPDF() {
     payload.nrRaport = nrRaport;
     const html = buildPDFHtml(payload, imgData);
 
-    // Descarcă ca fișier HTML (se deschide direct în browser fără popup)
-    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href     = url;
-    a.download = 'Raport_' + (nrRaport || 'SSM') + '.html';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    const docTitle = 'Raport_' + (nrRaport || 'SSM')
+      + (payload.location ? '_' + payload.location : '')
+      + (payload.date    ? '_' + payload.date    : '');
 
-    overlay.classList.remove('show');
-    showToast('✔ PDF descărcat — deschide fișierul și printează din browser.', 'success');
+    const win = window.open('', '_blank');
+    if (!win) {
+      overlay.classList.remove('show');
+      showToast('Popup blocat. Permite popup-uri pentru acest site.', 'error');
+      return;
+    }
+    // Injectăm titlul în HTML înainte de a-l scrie
+    const htmlWithTitle = html.replace('<title></title>', '<title>' + docTitle + '</title>');
+    win.document.write(htmlWithTitle);
+    win.document.close();
+    win.addEventListener('load', () => {
+      overlay.classList.remove('show');
+      setTimeout(() => win.print(), 300);
+    });
+    setTimeout(() => { overlay.classList.remove('show'); }, 3000);
 
   } catch(err) {
     overlay.classList.remove('show');
@@ -3168,7 +3174,11 @@ async function trimiteRaport() {
     // Descarcă PDF local
     const winLocal = window.open('', '_blank');
     if (winLocal) {
-      winLocal.document.write(pdfHtml);
+      const localTitle = 'Raport_' + nrRaport
+        + (payload.location ? '_' + payload.location : '')
+        + (payload.date     ? '_' + payload.date     : '');
+      const pdfHtmlTitled = pdfHtml.replace('<title></title>', '<title>' + localTitle + '</title>');
+      winLocal.document.write(pdfHtmlTitled);
       winLocal.document.close();
       winLocal.addEventListener('load', () => setTimeout(() => winLocal.print(), 300));
     }
