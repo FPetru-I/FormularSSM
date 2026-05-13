@@ -128,7 +128,7 @@
 
 <header class="page-header">
   <div class="org">Organizație — Departament</div>
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v12</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v13</span></h1>
   <div class="subtitle">Completați toate câmpurile obligatorii. PDF-ul va fi generat automat după trimitere.</div>
 </header>
 
@@ -2949,7 +2949,7 @@ async function downloadPDF() {
     payload.nrRaport = nrRaport;
     const html = buildPDFHtml(payload, imgData);
 
-    const docTitle = 'Raport_' + (nrRaport || 'SSM')
+    const docTitle = (nrRaport || 'SSM')
       + (payload.location ? '_' + payload.location : '')
       + (payload.date    ? '_' + payload.date    : '');
 
@@ -3151,7 +3151,7 @@ async function trimiteRaport() {
     // Descarcă PDF local
     const winLocal = window.open('', '_blank');
     if (winLocal) {
-      const localTitle = 'Raport_' + nrRaport
+      const localTitle = nrRaport
         + (payload.location ? '_' + payload.location : '')
         + (payload.date     ? '_' + payload.date     : '');
       const pdfHtmlTitled = pdfHtml.replace('<title></title>', '<title>' + localTitle + '</title>');
