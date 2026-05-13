@@ -128,7 +128,7 @@
 
 <header class="page-header">
   <div class="org">Organizație — Departament</div>
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v15</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v21</span></h1>
   <div class="subtitle">Completați toate câmpurile obligatorii. PDF-ul va fi generat automat după trimitere.</div>
 </header>
 
@@ -2642,44 +2642,42 @@ function selectAnswer(btn) {
   const key = btn.dataset.key;
   const val = btn.dataset.val;
 
-  const prevVal    = answers[key] ? answers[key].value : null;
-  const isChanging = prevVal && prevVal !== val;
-  const row        = document.getElementById('row-' + key);
-  const commentSection = document.getElementById('comment-' + key);
+  const alreadySelected = btn.classList.contains('selected-' + val.toLowerCase().replace('/',''));
+  const prevVal = answers[key] ? answers[key].value : null;
 
-  // Clear button styles
+  const row = document.getElementById('row-' + key);
   row.querySelectorAll('.opt-btn').forEach(b => b.className = 'opt-btn');
   row.classList.remove('invalid');
 
-  // If answer changed or deselected — clear note and images
-  if (isChanging || (prevVal === val)) {
+  const commentSection = document.getElementById('comment-' + key);
+
+  if (alreadySelected) {
+    // Deselectare — clear note și imagini
+    answers[key].value = null;
     const ta = commentSection.querySelector('textarea');
-    if (ta) { ta.value = ''; setComment(key, ''); }
+    if (ta) { ta.value = ''; }
+    if (answers[key]) answers[key].comment = '';
     clearQImagesForKey(key);
     commentSection.classList.remove('open');
-  }
-
-  // Toggle off dacă același răspuns
-  if (prevVal === val) {
-    answers[key].value = null;
-    updateProgress();
-    return;
-  }
-
-  // Setăm noul răspuns
-  const cls = val === 'DA' ? 'selected-yes' : val === 'NU' ? 'selected-no' : 'selected-na';
-  btn.classList.add(cls);
-  answers[key].value = val;
-
-  // Deschide secțiunea note+imagini doar pentru DA sau NU
-  if (val === 'DA' || val === 'NU') {
-    commentSection.classList.add('open');
-    commentSection.querySelector('textarea').focus();
   } else {
-    // N/A — secțiunea rămâne închisă
-    commentSection.classList.remove('open');
-  }
+    const cls = val === 'DA' ? 'selected-yes' : val === 'NU' ? 'selected-no' : 'selected-na';
+    btn.classList.add(cls);
+    answers[key].value = val;
 
+    // Dacă trece de la DA/NU la N/A — șterge notele și imaginile și închide
+    if (val === 'N/A') {
+      const ta = commentSection.querySelector('textarea');
+      if (ta) { ta.value = ''; }
+      if (answers[key]) answers[key].comment = '';
+      clearQImagesForKey(key);
+      commentSection.classList.remove('open');
+      commentSection.style.display = 'none';
+    } else if (val === 'DA' || val === 'NU') {
+      commentSection.style.display = '';
+      commentSection.classList.add('open');
+      commentSection.querySelector('textarea').focus();
+    }
+  }
   updateProgress();
 }
 
