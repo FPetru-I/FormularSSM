@@ -128,7 +128,7 @@
 
 <header class="page-header">
   <div class="org">Organizație — Departament</div>
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v14</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v15</span></h1>
   <div class="subtitle">Completați toate câmpurile obligatorii. PDF-ul va fi generat automat după trimitere.</div>
 </header>
 
@@ -2481,7 +2481,7 @@ const SP_FOLDER  = "Rapoarte_SSM";  // folder în Documents unde se salvează PD
 // =====================================================
 // CONFIGURARE PROXY — tokenul GitHub e în GAS, nu aici
 // =====================================================
-const GAS_PROXY_URL = 'https://script.google.com/macros/u/2/s/AKfycbyUWKC07-DEnPvm_z-vJkQLUXNlyYr3ytbpyjxSUjoXTFJRSMXHqbgf4QUMsDd5CT6Btg/exec';
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbyUWKC07-DEnPvm_z-vJkQLUXNlyYr3ytbpyjxSUjoXTFJRSMXHqbgf4QUMsDd5CT6Btg/exec';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
@@ -2642,47 +2642,44 @@ function selectAnswer(btn) {
   const key = btn.dataset.key;
   const val = btn.dataset.val;
 
-  // Toggle: dacă e deja selectat, deselecteaza
-  const alreadySelected = btn.classList.contains('selected-' + val.toLowerCase().replace('/',''));
-
-  // Check if answer is changing (not just deselecting)
-  const prevVal = answers[key] ? answers[key].value : null;
+  const prevVal    = answers[key] ? answers[key].value : null;
   const isChanging = prevVal && prevVal !== val;
+  const row        = document.getElementById('row-' + key);
+  const commentSection = document.getElementById('comment-' + key);
 
-  // Clear all buttons in this row
-  const row = document.getElementById('row-' + key);
+  // Clear button styles
   row.querySelectorAll('.opt-btn').forEach(b => b.className = 'opt-btn');
   row.classList.remove('invalid');
 
-  const commentSection = document.getElementById('comment-' + key);
-
-  if (alreadySelected) {
-    answers[key].value = null;
-    // Clear note and images when deselecting
+  // If answer changed or deselected — clear note and images
+  if (isChanging || (prevVal === val)) {
     const ta = commentSection.querySelector('textarea');
     if (ta) { ta.value = ''; setComment(key, ''); }
     clearQImagesForKey(key);
     commentSection.classList.remove('open');
-  } else {
-    const cls = val === 'DA' ? 'selected-yes' : val === 'NU' ? 'selected-no' : 'selected-na';
-    btn.classList.add(cls);
-    answers[key].value = val;
-
-    // If answer changed, clear notes and images
-    if (isChanging) {
-      const ta = commentSection.querySelector('textarea');
-      if (ta) { ta.value = ''; setComment(key, ''); }
-      clearQImagesForKey(key);
-    }
-
-    // Deschide comentariu pentru DA sau NU
-    if (val === 'DA' || val === 'NU') {
-      commentSection.classList.add('open');
-      commentSection.querySelector('textarea').focus();
-    } else {
-      commentSection.classList.remove('open');
-    }
   }
+
+  // Toggle off dacă același răspuns
+  if (prevVal === val) {
+    answers[key].value = null;
+    updateProgress();
+    return;
+  }
+
+  // Setăm noul răspuns
+  const cls = val === 'DA' ? 'selected-yes' : val === 'NU' ? 'selected-no' : 'selected-na';
+  btn.classList.add(cls);
+  answers[key].value = val;
+
+  // Deschide secțiunea note+imagini doar pentru DA sau NU
+  if (val === 'DA' || val === 'NU') {
+    commentSection.classList.add('open');
+    commentSection.querySelector('textarea').focus();
+  } else {
+    // N/A — secțiunea rămâne închisă
+    commentSection.classList.remove('open');
+  }
+
   updateProgress();
 }
 
