@@ -127,9 +127,7 @@
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
 <header class="page-header">
-  <div class="org">Organizație — Departament</div>
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v23</span></h1>
-  <div class="subtitle">Completați toate câmpurile obligatorii. PDF-ul va fi generat automat după trimitere.</div>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v24</span></h1>
 </header>
 
 <div class="container">
@@ -2187,21 +2185,21 @@
           <span class="q-index">14.1</span>
           <span class="q-text" style="text-align:left">Cum au întâmpinat membrii echipei acțiunea de control? (ex.: Deschiși, au înțeles că este o oportunitate de îmbunătățire a modului de lucru etc.)</span>
         </div>
-        <textarea placeholder="Introduceți răspunsul..." rows="3" oninput="textAnswers['14-0']=this.value"></textarea>
+        <textarea placeholder="Introduceți răspunsul..." rows="3" oninput="textAnswers['14-0']=this.value" onkeyup="updateProgress()"></textarea>
       </div>
       <div class="text-question-row">
         <div class="tq-label">
           <span class="q-index">14.2</span>
           <span class="q-text" style="text-align:left">Care a fost reacția în fața neconformităților identificate și a propunerilor de remediere? (ex.: Cunoșteau normele și procedurile aduse în discuție legat de neconformitățile identificate; au acceptat propunerile etc.)</span>
         </div>
-        <textarea placeholder="Introduceți răspunsul..." rows="3" oninput="textAnswers['14-1']=this.value"></textarea>
+        <textarea placeholder="Introduceți răspunsul..." rows="3" oninput="textAnswers['14-1']=this.value" onkeyup="updateProgress()"></textarea>
       </div>
       <div class="text-question-row">
         <div class="tq-label">
           <span class="q-index">14.3</span>
           <span class="q-text" style="text-align:left">Cum apreciați în general calitatea interacțiunii cu șeful de lucrare și membrii echipei pe durata inspecției? (ex.: Au arătat interes; au evitat interacțiunea etc.)</span>
         </div>
-        <textarea placeholder="Introduceți răspunsul..." rows="3" oninput="textAnswers['14-2']=this.value"></textarea>
+        <textarea placeholder="Introduceți răspunsul..." rows="3" oninput="textAnswers['14-2']=this.value" onkeyup="updateProgress()"></textarea>
       </div>
     </div>
   </div>
@@ -2218,7 +2216,7 @@
           <span class="q-index">15.1</span>
           <span class="q-text" style="text-align:left">Cum apreciați în general calitatea interacțiunii cu inspectorul? (ex.: atitudine constructivă asupra procesului de inspecție; abordare profesionistă; neconformitățile menționate au fost evidențiate corect etc.)</span>
         </div>
-        <textarea placeholder="Introduceți răspunsul..." rows="3" oninput="textAnswers['15-0']=this.value"></textarea>
+        <textarea placeholder="Introduceți răspunsul..." rows="3" oninput="textAnswers['15-0']=this.value" onkeyup="updateProgress()"></textarea>
       </div>
     </div>
   </div>
@@ -2296,7 +2294,6 @@
 
         <!-- Rând 2: canvas semnătură -->
         <div style="display:flex;flex-direction:column;gap:8px;">
-          <div id="sig-debug" style="font-size:11px;color:#888;">Inițializare...</div>
           <canvas id="canvas-inspector"
             style="display:block;cursor:crosshair;touch-action:none;border:1.5px solid var(--border);border-radius:6px;background:#fff;width:100%;height:360px;"></canvas>
           <button onclick="clearSig('inspector')"
@@ -2686,12 +2683,22 @@ function updateComment(key, val) {
 }
 
 function updateProgress() {
-  var total = Object.keys(answers).length;
-  // fallback la count din DOM dacă answers nu e încă populat
-  if (total === 0) total = document.querySelectorAll('.opt-btn[data-key]').length / 3;
-  var done = Object.values(answers).filter(function(a){ return a.value !== null; }).length;
+  // Întrebări DA/NU/N/A
+  var totalDA = Object.keys(answers).length;
+  if (totalDA === 0) totalDA = document.querySelectorAll('.opt-btn[data-key]').length / 3;
+  var doneDA = Object.values(answers).filter(function(a){ return a.value !== null; }).length;
+
+  // Întrebări text (secțiunile 14-15)
+  var textAreas = document.querySelectorAll('.text-question-row textarea');
+  var totalText = textAreas.length;
+  var doneText  = 0;
+  textAreas.forEach(function(ta) { if (ta.value && ta.value.trim() !== '') doneText++; });
+
+  var total = Math.round(totalDA) + totalText;
+  var done  = doneDA + doneText;
+
   var pt = document.getElementById('progressText');
-  if (pt) pt.textContent = done + ' din ' + Math.round(total) + ' întrebări completate';
+  if (pt) pt.textContent = done + ' din ' + total + ' întrebări completate';
   var fill = document.getElementById('progressFill');
   if (fill) fill.style.width = (total > 0 ? (done/total)*100 : 0) + '%';
 }
@@ -3693,18 +3700,10 @@ var sigSefName       = '';
 var sigCanvases      = {};
 
 function initSignatures() {
-  var dbg    = document.getElementById('sig-debug');
   var canvas = document.getElementById('canvas-inspector');
 
-  if (!canvas) {
-    if (dbg) dbg.textContent = '❌ Canvas negăsit!';
-    return;
-  }
-
-  if (typeof SignaturePad === 'undefined') {
-    if (dbg) dbg.textContent = '❌ SignaturePad negăsit!';
-    return;
-  }
+  if (!canvas) return;
+  if (typeof SignaturePad === 'undefined') return;
 
   // ── Setăm dimensiunile interne ale canvas-ului să coincidă cu cele CSS ──
   function resizeCanvas() {
@@ -3735,7 +3734,6 @@ function initSignatures() {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    if (dbg) { dbg.textContent = '✅ Gata — semnați mai jos'; dbg.style.color = 'green'; }
   } catch(e) {
     if (dbg) dbg.textContent = '❌ Eroare: ' + e.message;
   }
