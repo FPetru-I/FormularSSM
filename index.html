@@ -128,7 +128,7 @@
 
 <header class="page-header">
   <div class="org">Organizație — Departament</div>
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v9</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v10</span></h1>
   <div class="subtitle">Completați toate câmpurile obligatorii. PDF-ul va fi generat automat după trimitere.</div>
 </header>
 
@@ -2503,7 +2503,7 @@ const SP_FOLDER  = "Rapoarte_SSM";  // folder în Documents unde se salvează PD
 // =====================================================
 // CONFIGURARE PROXY — tokenul GitHub e în GAS, nu aici
 // =====================================================
-const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbw7BSqS5m-VucVAZ5yYVRiOpeHUquD-HLzFx_IjgHt6Hj3nG9f93soRRpMIll6D_33Q0Q/exec';
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbzw_5D-cPSpeHu2hhYgzNhR0aFizjI2fjbt6Lq0Sk6WPupTMUkH6ve3omq1BG0W9IkNAg/exec';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
@@ -3043,95 +3043,8 @@ async function trimiteRaport() {
     overlayMsg.textContent = 'Se generează PDF-ul...';
     const pdfHtml   = buildPDFHtml(payload, imgData);
     const pdfBase64 = await (async function() {
-      // Parsăm HTML-ul PDF și extragem doar body-ul + CSS-ul
-      const parser  = new DOMParser();
-      const pdfDoc  = parser.parseFromString(pdfHtml, 'text/html');
-
-      // Extragem CSS din <style> tags
-      let cssText = '';
-      pdfDoc.querySelectorAll('style').forEach(function(s) { cssText += s.textContent; });
-
-      // Creăm un container cu stiluri inline
-      const container = document.createElement('div');
-      container.style.cssText = 'position:fixed;left:-9999px;top:0;width:860px;background:#fff;z-index:-1;font-family:Arial,sans-serif;font-size:12px;color:#1a1917;padding:20px;box-sizing:border-box;';
-
-      // Adăugăm un <style> tag direct în container
-      const styleEl = document.createElement('style');
-      styleEl.textContent = cssText;
-      container.appendChild(styleEl);
-
-      // Adăugăm conținutul body-ului
-      const bodyContent = document.createElement('div');
-      bodyContent.innerHTML = pdfDoc.body.innerHTML;
-      container.appendChild(bodyContent);
-
-      document.body.appendChild(container);
-      await new Promise(r => setTimeout(r, 1200));
-
-      const { jsPDF } = window.jspdf;
-      const pdf     = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-      const pageW   = pdf.internal.pageSize.getWidth();
-      const pageH   = pdf.internal.pageSize.getHeight();
-      const margin  = 10;
-      const usableW = pageW - margin * 2;
-      const usableH = pageH - margin * 2;
-
-      const canvas = await html2canvas(container, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        width: 860,
-        windowWidth: 860
-      });
-
-      const scale   = canvas.width / 860;
-      const pageHpx = Math.round(usableH * canvas.width / usableW);
-
-      const rows = Array.from(container.querySelectorAll('tr, .row'));
-      const safeBottoms = [];
-      rows.forEach(function(row) {
-        let top = 0, el = row;
-        while (el && el !== container) {
-          top += el.offsetTop || 0;
-          el   = el.offsetParent;
-        }
-        safeBottoms.push(Math.round((top + row.offsetHeight) * scale));
-      });
-      safeBottoms.sort(function(a,b){ return a-b; });
-
-      document.body.removeChild(container);
-
-      const breakPoints = [0];
-      let pageEnd = pageHpx;
-      while (pageEnd < canvas.height) {
-        let best = -1;
-        for (let k = 0; k < safeBottoms.length; k++) {
-          if (safeBottoms[k] <= pageEnd && safeBottoms[k] > breakPoints[breakPoints.length-1]) {
-            best = safeBottoms[k];
-          }
-        }
-        const cut = best > 0 ? best : pageEnd;
-        breakPoints.push(cut);
-        pageEnd = cut + pageHpx;
-      }
-      breakPoints.push(canvas.height);
-
-      for (let p = 0; p < breakPoints.length - 1; p++) {
-        if (p > 0) pdf.addPage();
-        const srcY   = breakPoints[p];
-        const srcH   = breakPoints[p+1] - srcY;
-        if (srcH <= 0) continue;
-        const sliceH = srcH * usableW / canvas.width;
-        const slice  = document.createElement('canvas');
-        slice.width  = canvas.width;
-        slice.height = srcH;
-        slice.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, srcH, 0, 0, canvas.width, srcH);
-        pdf.addImage(slice.toDataURL('image/jpeg', 0.92), 'JPEG', margin, margin, usableW, sliceH);
-      }
-
-      return pdf.output('datauristring').split(',')[1];
-    })();
+      return btoa(unescape(encodeURIComponent(pdfHtml)));
+    })();;
 ;
 
 
