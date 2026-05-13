@@ -128,7 +128,7 @@
 
 <header class="page-header">
   <div class="org">Organizație — Departament</div>
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v10</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v11</span></h1>
   <div class="subtitle">Completați toate câmpurile obligatorii. PDF-ul va fi generat automat după trimitere.</div>
 </header>
 
@@ -2261,28 +2261,6 @@
     </div>
   </div>
 
-  <!-- ===== SECȚIUNEA 17 — CONCLUZII FINALE ===== -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num" style="font-size:9px">17</div>
-      <div class="section-title">Concluzii finale</div>
-    </div>
-    <div class="questions-list">
-      <div style="padding:16px 20px;">
-        <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;">
-          <span class="q-index">17.1</span>
-          <span class="q-text" style="text-align:left">Note și concluzii generale în urma inspecției</span>
-        </div>
-        <textarea id="concluzii-text" rows="6"
-          placeholder="Introduceți notele și concluziile generale..."
-          style="width:100%;border:1px solid var(--border);border-radius:4px;padding:10px;font-family:inherit;font-size:14px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;transition:border-color 0.15s,box-shadow 0.15s;box-sizing:border-box;"
-          onfocus="this.style.borderColor='var(--accent)';this.style.boxShadow='0 0 0 3px rgba(26,77,143,0.1)'"
-          onblur="this.style.borderColor='var(--border)';this.style.boxShadow='none'"
-          oninput="concluziiText=this.value"></textarea>
-      </div>
-    </div>
-  </div>
-
   <!-- ===== SECȚIUNEA 18 — SEMNĂTURI ===== -->
   <div class="section">
     <div class="section-header">
@@ -2503,7 +2481,7 @@ const SP_FOLDER  = "Rapoarte_SSM";  // folder în Documents unde se salvează PD
 // =====================================================
 // CONFIGURARE PROXY — tokenul GitHub e în GAS, nu aici
 // =====================================================
-const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbzw_5D-cPSpeHu2hhYgzNhR0aFizjI2fjbt6Lq0Sk6WPupTMUkH6ve3omq1BG0W9IkNAg/exec';
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbyWMdoyIeFHRGvVbnRqqepW4mMYe_AjlIuVltbWG3tEGDm1hZODxrgZnJ2FoJwZrKG3Pw/exec';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
@@ -3049,6 +3027,30 @@ async function trimiteRaport() {
 
 
     
+    // ── 4.5. Construim rândul CSV ──
+    (function() {
+      var secs = payload.sections || {};
+      var row = [
+        payload.nrRaport || '', payload.name || '', payload.email || '',
+        payload.date || '', payload.location || '', payload.tipLucrare || ''
+      ];
+      for (var s = 1; s <= 13; s++) {
+        var items = secs[s] || secs[String(s)] || [];
+        items.forEach(function(item) {
+          row.push(item.answer || '');
+          row.push(item.comment || '');
+        });
+      }
+      for (var s2 = 14; s2 <= 15; s2++) {
+        var items2 = secs[s2] || secs[String(s2)] || [];
+        items2.forEach(function(item) { row.push(item.answer || ''); });
+      }
+      row.push(payload.observatii || '', payload.concluzii || '',
+               payload.sigInspectorName || '', payload.sigInspectorFunctie || '',
+               payload.sigInspectorFirma || '', payload.sigInspectorData || '');
+      payload.csvRow = row;
+    })();
+
     // ── 5. Trimitem PDF-ul la GAS cu numărul atribuit ──
     overlayMsg.textContent = 'Se încarcă în GitHub...';
     const res = await fetch(GAS_PROXY_URL, {
@@ -3452,9 +3454,9 @@ function buildPDFHtml(p, imgData) {
   rows.push(`<div class="row"><div class="col-q">16.2. Fișiere atașate</div><div class="col-r"></div><div class="col-c">${p.numFisiere || 0} fișiere</div></div>`);
   // Feedback form
   const starStr = fbRating > 0 ? '★'.repeat(fbRating) + '☆'.repeat(5-fbRating) : '—';
-  rows.push(`<div class="sec-header"><div class="col-q">Secțiunea 17: Feedback form (temporar)</div></div>`);
-  rows.push(`<div class="row"><div class="col-q">17.1. Evaluare formular</div><div class="col-r"></div><div class="col-c">${starStr} (${fbRating}/5)</div></div>`);
-  rows.push(`<div class="row"><div class="col-q">17.2. Sugestii pentru îmbunătățire</div><div class="col-r"></div><div class="col-c">${p.feedbackSugestii || '—'}</div></div>`);
+  
+  
+  
 
   // ── Secțiunea 18: Semnătură inspector ──
   rows.push(`<div class="sec-header"><div class="col-q">Secțiunea 18: Semnătura inspectorului</div></div>`);
