@@ -128,7 +128,7 @@
 
 <header class="page-header">
   <div class="org">Organizație — Departament</div>
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v22</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v23</span></h1>
   <div class="subtitle">Completați toate câmpurile obligatorii. PDF-ul va fi generat automat după trimitere.</div>
 </header>
 
@@ -3711,11 +3711,20 @@ function initSignatures() {
     var ratio = window.devicePixelRatio || 1;
     var w = canvas.offsetWidth;
     var h = canvas.offsetHeight;
+    // Salvăm datele semnăturii înainte de resize
+    var pad      = sigCanvases['inspector'];
+    var sigData  = (pad && !pad.isEmpty()) ? pad.toData() : null;
     canvas.width  = Math.round(w * ratio);
     canvas.height = Math.round(h * ratio);
     var ctx = canvas.getContext('2d');
     ctx.scale(ratio, ratio);
-    if (sigCanvases['inspector']) sigCanvases['inspector'].clear();
+    if (pad) {
+      pad.clear();
+      // Restaurăm semnătura după resize
+      if (sigData && sigData.length > 0) {
+        pad.fromData(sigData);
+      }
+    }
   }
 
   try {
