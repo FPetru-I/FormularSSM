@@ -128,7 +128,7 @@
 
 <header class="page-header">
   <div class="org">Organizație — Departament</div>
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v21</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v22</span></h1>
   <div class="subtitle">Completați toate câmpurile obligatorii. PDF-ul va fi generat automat după trimitere.</div>
 </header>
 
@@ -3163,9 +3163,10 @@ async function trimiteRaport() {
       return;
     }
 
-    // ── 6. Deschid PDF-ul local și prefetch numărul următor ──
-    cachedNrUsed   = true;
-    cachedNrRaport = null;
+    // ── 6. Păstrăm nrRaport confirmat de GAS pentru descărcarea locală ──
+    // cachedNrUsed rămâne false → downloadPDF va refolosi același număr
+    cachedNrRaport = nrRaport;
+    cachedNrUsed   = false;
 
     // Descarcă PDF local
     const winLocal = window.open('', '_blank');
