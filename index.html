@@ -128,7 +128,7 @@
 
 <header class="page-header">
   <div class="org">Organizație — Departament</div>
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v13</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v14</span></h1>
   <div class="subtitle">Completați toate câmpurile obligatorii. PDF-ul va fi generat automat după trimitere.</div>
 </header>
 
@@ -2481,12 +2481,21 @@ const SP_FOLDER  = "Rapoarte_SSM";  // folder în Documents unde se salvează PD
 // =====================================================
 // CONFIGURARE PROXY — tokenul GitHub e în GAS, nu aici
 // =====================================================
-const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbyUWKC07-DEnPvm_z-vJkQLUXNlyYr3ytbpyjxSUjoXTFJRSMXHqbgf4QUMsDd5CT6Btg/exec';
+const GAS_PROXY_URL = 'https://script.google.com/macros/u/2/s/AKfycbyUWKC07-DEnPvm_z-vJkQLUXNlyYr3ytbpyjxSUjoXTFJRSMXHqbgf4QUMsDd5CT6Btg/exec';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
 let images = [];     // Array of File objects
 let qImages = {};    // { "1-0": [ {dataUrl, name}, ... ] }
+
+function clearQImagesForKey(key) {
+  // Remove all images for this question key
+  if (qImages[key]) {
+    qImages[key] = [];
+  }
+  const thumbsDiv = document.getElementById('qthumbs-' + key);
+  if (thumbsDiv) thumbsDiv.innerHTML = '';
+}
 
 function handleQImg(key, files) {
   if (!qImages[key]) qImages[key] = [];
@@ -2635,7 +2644,11 @@ function selectAnswer(btn) {
 
   // Toggle: dacă e deja selectat, deselecteaza
   const alreadySelected = btn.classList.contains('selected-' + val.toLowerCase().replace('/',''));
-  
+
+  // Check if answer is changing (not just deselecting)
+  const prevVal = answers[key] ? answers[key].value : null;
+  const isChanging = prevVal && prevVal !== val;
+
   // Clear all buttons in this row
   const row = document.getElementById('row-' + key);
   row.querySelectorAll('.opt-btn').forEach(b => b.className = 'opt-btn');
@@ -2645,11 +2658,22 @@ function selectAnswer(btn) {
 
   if (alreadySelected) {
     answers[key].value = null;
+    // Clear note and images when deselecting
+    const ta = commentSection.querySelector('textarea');
+    if (ta) { ta.value = ''; setComment(key, ''); }
+    clearQImagesForKey(key);
     commentSection.classList.remove('open');
   } else {
     const cls = val === 'DA' ? 'selected-yes' : val === 'NU' ? 'selected-no' : 'selected-na';
     btn.classList.add(cls);
     answers[key].value = val;
+
+    // If answer changed, clear notes and images
+    if (isChanging) {
+      const ta = commentSection.querySelector('textarea');
+      if (ta) { ta.value = ''; setComment(key, ''); }
+      clearQImagesForKey(key);
+    }
 
     // Deschide comentariu pentru DA sau NU
     if (val === 'DA' || val === 'NU') {
