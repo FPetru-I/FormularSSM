@@ -127,7 +127,7 @@
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
 <header class="page-header">
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v25</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v26</span></h1>
 </header>
 
 <div class="container">
@@ -2467,17 +2467,21 @@ const QUESTIONS = {
   ],
 };
 
-// =====================================================
-// CONFIGURARE SHAREPOINT
-// =====================================================
-const SP_SITE    = "https://deidplr.sharepoint.com/teams/Fise_Santier";
-const SP_LIST    = "Raspunsuri_Formulare";
-const SP_FOLDER  = "Rapoarte_SSM";  // folder în Documents unde se salvează PDF-urile
-// =====================================================
+const TEXT_SECTIONS = {
+  14: [
+    'Cum au întâmpinat membrii echipei acțiunea de control? (ex.: Deschiși, au înțeles că este o oportunitate de îmbunătățire a modului de lucru etc.)',
+    'Care a fost reacția în fața neconformităților identificate și a propunerilor de remediere? (ex.: Cunoșteau normele și procedurile aduse în discuție legat de neconformitățile identificate; au acceptat propunerile etc.)',
+    'Cum apreciați în general calitatea interacțiunii cu șeful de lucrare și membrii echipei pe durata inspecției? (ex.: Au arătat interes; au evitat interacțiunea etc.)',
+  ],
+  15: [
+    'Cum apreciați în general calitatea interacțiunii cu inspectorul? (ex.: atitudine constructivă asupra procesului de inspecție; abordare profesionistă; neconformitățile menționate au fost evidențiate corect etc.)',
+  ],
+};
 
 // =====================================================
 // CONFIGURARE PROXY — tokenul GitHub e în GAS, nu aici
 // =====================================================
+  
 const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbyUWKC07-DEnPvm_z-vJkQLUXNlyYr3ytbpyjxSUjoXTFJRSMXHqbgf4QUMsDd5CT6Btg/exec';
 // =====================================================
 
@@ -2541,47 +2545,8 @@ let fbSugestii = '';
 let fbRating = 0;
 
 // Feedback sections 14 & 15 text questions
-const TEXT_SECTIONS = {
-  14: [
-    "Cum au întâmpinat membrii echipei acțiunea de control? (ex.: Deschiși, au înțeles că este o oportunitate de îmbunătățire a modului de lucru etc.)",
-    "Care a fost reacția în fața neconformităților identificate și a propunerilor de remediere? (ex.: Cunoșteau normele și procedurile aduse în discuție legat de neconformitățile identificate⁠; ⁠au acceptat propunerile etc.)",
-    "Cum apreciați în general calitatea interacțiunii cu șeful de lucrare și membrii echipei pe durata inspecției? (ex.: Au arătat interes⁠; ⁠au evitat interacțiunea etc.)",
-  ],
-  15: [
-    "Cum apreciați în general calitatea interacțiunii cu inspectorul? (ex.: atitudine constructivă asupra procesului de inspecție⁠; ⁠abordare profesionistă⁠; ⁠neconformitățile menționate au fost evidențiate corect etc.)",
-  ],
-};
 
-let textAnswers = {}; // { "14-0": "", "15-0": "" }
-
-function generateRef() {
-  const d = new Date();
-  const pad = n => String(n).padStart(2,'0');
-  return `RPT-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${Math.floor(Math.random()*9000+1000)}`;
-}
-
-document.getElementById('meta-date').value = new Date().toISOString().split('T')[0];
-
-function buildTextSections() {
-  for (const [sec, qs] of Object.entries(TEXT_SECTIONS)) {
-    const container = document.getElementById('section-' + sec + '-text');
-    if (!container) continue;
-    qs.forEach((q, idx) => {
-      const key = `${sec}-${idx}`;
-      textAnswers[key] = '';
-      const row = document.createElement('div');
-      row.className = 'text-question-row';
-      row.innerHTML = `
-        <div class="tq-label">
-          <span class="q-index">${sec}.${idx+1}</span>
-          <span class="q-text" style="text-align:left">${q}</span>
-        </div>
-        <textarea placeholder="Introduceți răspunsul..." rows="3"
-          oninput="textAnswers['${key}']=this.value"></textarea>`;
-      container.appendChild(row);
-    });
-  }
-}
+let textAnswers = {}; document.getElementById('meta-date').value = new Date().toISOString().split('T')[0];
 
 // Star rating
 function setRating(val) {
@@ -2591,48 +2556,6 @@ function setRating(val) {
     s.classList.toggle('active', i < val);
   });
   document.getElementById('ratingLabel').textContent = labels[val] || '';
-}
-
-function buildQuestions() {
-  let total = 0;
-  for (const [sec, qs] of Object.entries(QUESTIONS)) {
-    const container = document.getElementById('section-' + sec);
-    qs.forEach((q, idx) => {
-      total++;
-      const key = `${sec}-${idx}`;
-      answers[key] = { value: null, comment: '' };
-
-      const row = document.createElement('div');
-      row.className = 'question-row';
-      row.id = 'row-' + key;
-      row.innerHTML = `
-        <div class="q-top">
-          <span class="q-index">${sec}.${idx+1}</span>
-          <span class="q-text" style="text-align:left">${q}</span>
-          <div class="q-options">
-            <button class="opt-btn" data-key="${key}" data-val="DA" onclick="selectAnswer(this)">DA</button>
-            <button class="opt-btn" data-key="${key}" data-val="NU" onclick="selectAnswer(this)">NU</button>
-            <button class="opt-btn" data-key="${key}" data-val="N/A" onclick="selectAnswer(this)">N/A</button>
-          </div>
-        </div>
-        <div class="comment-section" id="comment-${key}">
-          <label>Note</label>
-          <textarea placeholder="Adaugă note..." rows="3"
-            oninput="updateComment('${key}', this.value)"></textarea>
-          <div class="q-img-upload">
-            <label class="q-img-label" for="qimg-${key}">📷 Adaugă imagine</label>
-            <input class="q-img-input" type="file" id="qimg-${key}" accept="image/*" multiple
-              onchange="handleQImg('${key}', this.files)"/>
-            <div class="q-thumbs" id="qthumbs-${key}"></div>
-          </div>
-        </div>`;
-      container.appendChild(row);
-    });
-  }
-  document.getElementById('totalQ').textContent = total;
-  updateProgress();
-  // Delay signatures init to ensure layout is complete
-  setTimeout(initSignatures, 300);
 }
 
 function selectAnswer(btn) {
@@ -2801,142 +2724,6 @@ function buildPayload() {
   };
 }
 
-// SUBMIT TO POWER AUTOMATE
-async function submitForm() {
-  if (!validate()) return;
-
-  const overlay    = document.getElementById('overlay');
-  const overlayMsg = document.querySelector('.overlay div:last-child');
-  overlay.classList.add('show');
-
-  try {
-    // ── 1. Citim imaginile suport ca base64 ──
-    overlayMsg.textContent = 'Se citesc imaginile...';
-    const activeImages = images.filter(Boolean);
-    const imgData = await Promise.all(activeImages.map(f => fileToBase64(f)));
-
-    // ── 2. Construim HTML-ul PDF ──
-    overlayMsg.textContent = 'Se generează PDF-ul...';
-    await new Promise(r => setTimeout(r, 80));
-    const payload  = buildPayload();
-    const pdfHtml  = buildPDFHtml(payload, imgData);
-    const pdfBytes = new TextEncoder().encode(pdfHtml);
-
-    // ── 3. Obținem token SharePoint (Request Digest) ──
-    overlayMsg.textContent = 'Se conectează la SharePoint...';
-    const digestRes = await fetch(SP_SITE + '/_api/contextinfo', {
-      method: 'POST',
-      headers: { 'Accept': 'application/json;odata=verbose' },
-      credentials: 'include'
-    });
-    if (!digestRes.ok) throw new Error('Nu s-a putut obține accesul la SharePoint. Asigurați-vă că sunteți autentificat.');
-    const digestJson = await digestRes.json();
-    const digest = digestJson.d.GetContextWebInformation.FormDigestValue;
-
-    // ── 4. Scriem elementul în lista SharePoint ──
-    overlayMsg.textContent = 'Se salvează în lista SharePoint...';
-    const listItem = {
-      __metadata:      { type: await getListItemType(digest) },
-      Title:           payload.nrRaport   || 'Fără număr',
-      Inspector:       payload.name       || '',
-      Email_Inspector: payload.email      || '',
-      Data_Inspectie:  payload.date       || '',
-      Localitate:      payload.location   || '',
-      Tip_Lucrare:     payload.tipLucrare || '',
-      Observatii:      payload.observatii || '',
-      Rating:          payload.feedbackRating || 0,
-      Sugestii:        payload.feedbackSugestii || '',
-      Fisier_PDF:      SP_SITE + '/Shared%20Documents/' + SP_FOLDER + '/' + encodeURIComponent(fileName),
-      Status:          'Trimis'
-    };
-
-    const listRes = await fetch(
-      SP_SITE + "/_api/web/lists/getbytitle('" + SP_LIST + "')/items",
-      {
-        method:      'POST',
-        credentials: 'include',
-        headers: {
-          'Accept':          'application/json;odata=verbose',
-          'Content-Type':    'application/json;odata=verbose',
-          'X-RequestDigest': digest
-        },
-        body: JSON.stringify(listItem)
-      }
-    );
-    if (!listRes.ok) {
-      const err = await listRes.text();
-      throw new Error('Eroare la scrierea în listă: ' + listRes.status + ' — ' + err.substring(0, 200));
-    }
-
-    // ── 5. Salvăm fișierul HTML/PDF în Documents ──
-    overlayMsg.textContent = 'Se salvează fișierul PDF...';
-
-    // Creăm folderul dacă nu există
-    await fetch(
-      SP_SITE + "/_api/web/folders",
-      {
-        method:      'POST',
-        credentials: 'include',
-        headers: {
-          'Accept':          'application/json;odata=verbose',
-          'Content-Type':    'application/json;odata=verbose',
-          'X-RequestDigest': digest
-        },
-        body: JSON.stringify({
-          __metadata: { type: 'SP.Folder' },
-          ServerRelativeUrl: '/teams/Fise_Santier/Shared Documents/' + SP_FOLDER
-        })
-      }
-    ).catch(() => {}); // ignorăm eroarea dacă folderul există deja
-
-    const uploadRes = await fetch(
-      SP_SITE + "/_api/web/GetFolderByServerRelativeUrl('/teams/Fise_Santier/Shared%20Documents/" + SP_FOLDER + "')" +
-      "/Files/add(url='" + encodeURIComponent(fileName) + "',overwrite=true)",
-      {
-        method:      'POST',
-        credentials: 'include',
-        headers: {
-          'Accept':          'application/json;odata=verbose',
-          'X-RequestDigest': digest,
-          'Content-Length':  pdfBytes.length
-        },
-        body: pdfBytes
-      }
-    );
-    if (!uploadRes.ok) {
-      const err = await uploadRes.text();
-      throw new Error('Eroare la salvarea fișierului: ' + uploadRes.status + ' — ' + err.substring(0, 200));
-    }
-
-    overlay.classList.remove('show');
-    showToast('✔ Raportul a fost salvat în SharePoint și înregistrat în listă!', 'success');
-
-  } catch(e) {
-    overlay.classList.remove('show');
-    console.error('Eroare submit:', e);
-    if (e.message.includes('autentificat') || e.message.includes('401') || e.message.includes('403')) {
-      showToast('Eroare autentificare — deschideți formularul din SharePoint, nu local.', 'error');
-    } else {
-      showToast('Eroare: ' + e.message, 'error');
-    }
-  }
-}
-
-async function getListItemType(digest) {
-  try {
-    const res = await fetch(
-      SP_SITE + "/_api/web/lists/getbytitle('" + SP_LIST + "')?$select=ListItemEntityTypeFullName",
-      {
-        credentials: 'include',
-        headers: { 'Accept': 'application/json;odata=verbose', 'X-RequestDigest': digest }
-      }
-    );
-    const json = await res.json();
-    return json.d.ListItemEntityTypeFullName;
-  } catch(e) {
-    return 'SP.Data.' + SP_LIST.replace(/\s/g,'_x0020_') + 'ListItem';
-  }
-}
 // Citește un File ca Base64 data URL
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
@@ -3197,257 +2984,6 @@ async function trimiteRaport() {
     console.error('Eroare completa:', err);
     showToast('Eroare: ' + (err.message || err.toString()).substring(0, 100), 'error');
   }
-}
-
-function buildJsPDF(p, imgData) {
-  const { jsPDF } = window.jspdf;
-  const pdf   = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  const pageW = 210;
-  const pageH = 297;
-  const mL    = 12;  // margin left
-  const mR    = 12;  // margin right
-  const mT    = 14;  // margin top
-  const mB    = 14;  // margin bottom
-  const usableW = pageW - mL - mR;
-  let y = mT;
-
-  // ── Helpers ──
-  function checkPage(needed) {
-    if (y + needed > pageH - mB) {
-      pdf.addPage();
-      y = mT;
-    }
-  }
-
-  function drawText(text, x, yPos, opts) {
-    pdf.setFont(opts.font || 'helvetica', opts.style || 'normal');
-    pdf.setFontSize(opts.size || 9);
-    pdf.setTextColor(opts.color || '#1a1917');
-    pdf.text(text, x, yPos, { maxWidth: opts.maxWidth || usableW, align: 'left' });
-  }
-
-  function textHeight(text, fontSize, maxW) {
-    pdf.setFontSize(fontSize);
-    const lines = pdf.splitTextToSize(text, maxW);
-    return lines.length * (fontSize * 0.3528 * 1.4);
-  }
-
-  // ── META header ──
-  pdf.setFillColor('#f0efec');
-  pdf.rect(mL, y, usableW, 22, 'F');
-  pdf.setDrawColor('#dddddd');
-  pdf.rect(mL, y, usableW, 22, 'S');
-
-  const metaFields = [
-    ['NR. RAPORT', p.nrRaport || '—'],
-    ['NUME', p.name || '—'],
-    ['EMAIL', p.email || '—'],
-    ['DATA', p.date || '—'],
-    ['LOCALITATE', p.location || '—'],
-    ['TIP LUCRARE', p.tipLucrare || '—'],
-  ];
-  const colW = usableW / 3;
-  metaFields.forEach(function([lbl, val], idx) {
-    const col = idx % 3;
-    const row = Math.floor(idx / 3);
-    const mx = mL + col * colW + 3;
-    const my = y + row * 11 + 4;
-    drawText(lbl, mx, my, { size: 7, color: '#888888', style: 'bold' });
-    drawText(val, mx, my + 5, { size: 10, color: '#1a1917', style: 'normal', maxWidth: colW - 4 });
-  });
-  y += 28;
-
-  // ── Table header ──
-  const colQ = usableW * 0.55;
-  const colR = usableW * 0.12;
-  const colC = usableW * 0.33;
-  const rowH = 6;
-
-  function drawHeader() {
-    pdf.setFillColor('#f0efec');
-    pdf.rect(mL, y, usableW, rowH, 'F');
-    pdf.setDrawColor('#cccccc');
-    pdf.rect(mL, y, usableW, rowH, 'S');
-    drawText('ÎNTREBARE', mL + 2, y + 4, { size: 7, color: '#555', style: 'bold' });
-    drawText('RĂSPUNS', mL + colQ + 2, y + 4, { size: 7, color: '#555', style: 'bold' });
-    drawText('COMENTARIU', mL + colQ + colR + 2, y + 4, { size: 7, color: '#555', style: 'bold' });
-    y += rowH;
-  }
-  drawHeader();
-
-  // ── Section names ──
-  const SECTION_NAMES = ['','Verificare generală șantier','Lucrări electrice','Lucru la înălțime',
-    'Risc de cădere a obiectelor și manipularea încărcăturilor','Utilaje și echipamente cu piese în mișcare',
-    'Excavații și lucrări în sol','Manipularea și depozitarea materialelor','Substanțe chimice și periculoase',
-    'Lucru izolat','Risc de incendiu','Spații închise','Operațiuni de tăiere',
-    'Lucrări de betonare și turnare','Feedback inspector asupra lucrării',
-    'Feedback șef de echipă asupra lucrării','Observații','Concluzii finale','Semnătura inspectorului'];
-
-  // ── Draw rows ──
-  function drawSectionHeader(text) {
-    const h = 7;
-    checkPage(h + 2);
-    pdf.setFillColor('#e8eef7');
-    pdf.rect(mL, y, usableW, h, 'F');
-    pdf.setDrawColor('#b8c8e8');
-    pdf.rect(mL, y, usableW, h, 'S');
-    drawText(text, mL + 3, y + 5, { size: 9, color: '#1a4d8f', style: 'bold' });
-    y += h;
-  }
-
-  function drawRow(qText, ans, comment, bgColor) {
-    pdf.setFontSize(8);
-    const qLines   = pdf.splitTextToSize(qText, colQ - 4);
-    const cLines   = pdf.splitTextToSize(comment || '—', colC - 4);
-    const lineH    = 3.8;
-    const maxLines = Math.max(qLines.length, cLines.length, 1);
-    const h        = Math.max(maxLines * lineH + 4, 8);
-
-    checkPage(h);
-
-    // Background
-    pdf.setFillColor(bgColor || '#fafaf8');
-    pdf.rect(mL, y, usableW, h, 'F');
-    pdf.setDrawColor('#e0deda');
-    pdf.rect(mL, y, usableW, h, 'S');
-    // Column dividers
-    pdf.line(mL + colQ, y, mL + colQ, y + h);
-    pdf.line(mL + colQ + colR, y, mL + colQ + colR, y + h);
-
-    // Question text
-    pdf.setFont('helvetica', 'normal');
-    pdf.setFontSize(8);
-    pdf.setTextColor('#1a1917');
-    pdf.text(qLines, mL + 2, y + 3.5, { lineHeightFactor: 1.4, align: 'left' });
-
-    // Answer badge
-    if (ans && ans !== '—') {
-      const badgeColor = ans === 'DA' ? '#1a6b3c' : ans === 'NU' ? '#8f1a1a' : '#5a5752';
-      const bw = 10; const bh = 5;
-      const bx = mL + colQ + (colR - bw) / 2;
-      const by = y + (h - bh) / 2;
-      pdf.setFillColor(badgeColor);
-      pdf.roundedRect(bx, by, bw, bh, 1, 1, 'F');
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(6.5);
-      pdf.setTextColor('#ffffff');
-      pdf.text(ans, bx + bw/2, by + 3.5, { align: 'center' });
-    }
-
-    // Comment text
-    pdf.setFont('helvetica', 'normal');
-    pdf.setFontSize(8);
-    pdf.setTextColor('#1a1917');
-    pdf.text(cLines, mL + colQ + colR + 2, y + 3.5, { lineHeightFactor: 1.4, align: 'left' });
-
-    y += h;
-  }
-
-  // ── Render sections 1-13 ──
-  const sections = p.sections || {};
-  for (var sec = 1; sec <= 13; sec++) {
-    var items = sections[sec] || sections[String(sec)] || [];
-    if (!items.length) continue;
-
-    drawSectionHeader('Secțiunea ' + sec + ': ' + (SECTION_NAMES[sec] || ''));
-
-    // Compact DA/NA
-    var compactDA = [], compactNA = [], detailed = [];
-    items.forEach(function(item, idx2) {
-      var qkey = sec + '-' + idx2;
-      var hasNote = item.comment && item.comment.trim() !== '';
-      var hasImg  = (qImages[qkey]||[]).filter(Boolean).length > 0;
-      if ((item.answer === 'DA' || item.answer === 'N/A') && !hasNote && !hasImg) {
-        if (item.answer === 'DA') compactDA.push(sec + '.' + (idx2+1));
-        else compactNA.push(sec + '.' + (idx2+1));
-      } else {
-        detailed.push({ item: item, idx: idx2, qkey: qkey });
-      }
-    });
-
-    if (compactDA.length) drawRow('DA — întrebările: ' + compactDA.join(', '), 'DA', '—', '#f0f7f0');
-    if (compactNA.length) drawRow('N/A — întrebările: ' + compactNA.join(', '), 'N/A', '—', '#f5f5f5');
-    detailed.forEach(function(d) {
-      drawRow(sec + '.' + (d.idx+1) + '. ' + d.item.question, d.item.answer || '—', d.item.comment || '');
-    });
-  }
-
-  // ── Sections 14-15 (text) ──
-  [14, 15].forEach(function(sec) {
-    var items = sections[sec] || sections[String(sec)] || [];
-    if (!items.length) return;
-    drawSectionHeader('Secțiunea ' + sec + ': ' + (SECTION_NAMES[sec] || ''));
-    items.forEach(function(item, idx2) {
-      drawRow(sec + '.' + (idx2+1) + '. ' + item.question, '', item.answer || '—');
-    });
-  });
-
-  // ── Section 16: Observații ──
-  drawSectionHeader('Secțiunea 16: Observații');
-  drawRow('16.1. Încălcări ale regulilor de siguranță identificate', '', p.observatii || '—');
-  drawRow('16.2. Fișiere atașate', '', (p.numFisiere || 0) + ' fișiere');
-
-  // ── Section 17: Concluzii ──
-  drawSectionHeader('Secțiunea 17: Concluzii finale');
-  drawRow('17.1. Note și concluzii generale', '', p.concluzii || '—');
-
-  // ── Section 18: Semnătură ──
-  drawSectionHeader('Secțiunea 18: Semnătura inspectorului');
-  var sigH = 50;
-  checkPage(sigH);
-  pdf.setFillColor('#fafaf8');
-  pdf.rect(mL, y, usableW, sigH, 'F');
-  pdf.setDrawColor('#e0deda');
-  pdf.rect(mL, y, usableW, sigH, 'S');
-  pdf.line(mL + usableW/2, y, mL + usableW/2, y + sigH);
-
-  // Left: fields
-  var fields = [
-    ['Nume și prenume', p.sigInspectorName || ''],
-    ['Funcție', p.sigInspectorFunctie || ''],
-    ['Firma', p.sigInspectorFirma || ''],
-    ['Data', p.sigInspectorData || ''],
-  ];
-  var fy = y + 4;
-  fields.forEach(function(f) {
-    drawText(f[0], mL + 2, fy, { size: 7, color: '#888', style: 'bold' });
-    drawText(f[1] || '', mL + 2, fy + 4, { size: 9, color: '#1a1917' });
-    pdf.setDrawColor('#cccccc');
-    pdf.line(mL + 2, fy + 6, mL + usableW/2 - 2, fy + 6);
-    fy += 12;
-  });
-
-  // Right: signature image
-  drawText('Semnătură', mL + usableW/2 + 2, y + 5, { size: 7, color: '#888', style: 'bold' });
-  if (p.sigInspector) {
-    try {
-      pdf.addImage(p.sigInspector, 'PNG', mL + usableW/2 + 2, y + 8, usableW/2 - 4, 38);
-    } catch(e) {}
-  } else {
-    pdf.setDrawColor('#999999');
-    pdf.line(mL + usableW/2 + 2, y + sigH - 4, mL + usableW - 2, y + sigH - 4);
-  }
-  y += sigH + 4;
-
-  // ── Images ──
-  if (imgData && imgData.length > 0) {
-    pdf.addPage();
-    y = mT;
-    drawText('Imagini atașate (' + imgData.length + ')', mL, y, { size: 12, style: 'bold' });
-    y += 8;
-    imgData.forEach(function(img) {
-      try {
-        var imgW = usableW / 2 - 4;
-        var imgH = 60;
-        checkPage(imgH + 10);
-        pdf.addImage(img.dataUrl, 'JPEG', mL, y, imgW, imgH);
-        drawText(img.name || '', mL, y + imgH + 4, { size: 8, color: '#555' });
-        y += imgH + 12;
-      } catch(e) {}
-    });
-  }
-
-  return pdf;
 }
 
 function buildPDFHtml(p, imgData) {
