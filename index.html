@@ -138,7 +138,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
 <header class="page-header">
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v28</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v29</span></h1>
 </header>
 
 <div class="container">
@@ -2692,7 +2692,7 @@ function validate() {
   const name = document.getElementById('meta-name').value.trim();
   const email = document.getElementById('meta-email').value.trim();
   if (email && !email.toLowerCase().endsWith('@ppcgroup.com')) {
-    showToast('Adresa de email trebuie să fie de forma @ppcgroup.com', 'error');
+    showToast('Adresă de email invalidă.', 'error');
     document.getElementById('meta-email').focus();
     return false;
   }
