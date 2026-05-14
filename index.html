@@ -121,13 +121,24 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/signature_pad@5.1.3/dist/signature_pad.umd.min.js"></script>
+<script>
+if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+  document.addEventListener('DOMContentLoaded', function() {
+    var w = document.getElementById('firefox-warning');
+    if (w) w.style.display = 'block';
+  });
+}
+</script>
 </head>
 <body>
 
+<div id="firefox-warning" style="display:none;background:#fff3cd;border-bottom:2px solid #f0a500;padding:10px 20px;font-size:13px;color:#7a5800;text-align:center;">
+  ⚠️ Folosești <strong>Firefox</strong> — formatarea PDF-ului poate fi afectată. Recomandăm <strong>Chrome</strong> sau <strong>Safari</strong> pentru rezultate optime.
+</div>
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
 <header class="page-header">
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v27</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v28</span></h1>
 </header>
 
 <div class="container">
@@ -141,7 +152,7 @@
     </div>
     <div class="field-group">
       <label>Email <span class="req">*</span></label>
-      <input type="email" id="meta-email" placeholder="email@companie.ro" required/>
+      <input type="email" id="meta-email" placeholder="email@companie.com" required/>
     </div>
     <div class="field-group">
       <label>Data inspecției <span class="req">*</span></label>
@@ -2467,6 +2478,11 @@ const QUESTIONS = {
   ],
 };
 
+
+
+// =====================================================
+// CONFIGURARE PROXY — tokenul GitHub e în GAS, nu aici
+// =====================================================
 const TEXT_SECTIONS = {
   14: [
     'Cum au întâmpinat membrii echipei acțiunea de control? (ex.: Deschiși, au înțeles că este o oportunitate de îmbunătățire a modului de lucru etc.)',
@@ -2477,11 +2493,7 @@ const TEXT_SECTIONS = {
     'Cum apreciați în general calitatea interacțiunii cu inspectorul? (ex.: atitudine constructivă asupra procesului de inspecție; abordare profesionistă; neconformitățile menționate au fost evidențiate corect etc.)',
   ],
 };
-  
-// =====================================================
-// CONFIGURARE PROXY — tokenul GitHub e în GAS, nu aici
-// =====================================================
-  
+
 const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbyUWKC07-DEnPvm_z-vJkQLUXNlyYr3ytbpyjxSUjoXTFJRSMXHqbgf4QUMsDd5CT6Btg/exec';
 // =====================================================
 
@@ -2679,6 +2691,11 @@ function validate() {
   // Validăm doar câmpurile obligatorii de identificare
   const name = document.getElementById('meta-name').value.trim();
   const email = document.getElementById('meta-email').value.trim();
+  if (email && !email.toLowerCase().endsWith('@ppcgroup.com')) {
+    showToast('Adresa de email trebuie să fie de forma @ppcgroup.com', 'error');
+    document.getElementById('meta-email').focus();
+    return false;
+  }
   if (!name) { document.getElementById('meta-name').focus(); showToast('Câmpul Nume complet este obligatoriu.', 'error'); return false; }
   if (!email || !email.includes('@')) { document.getElementById('meta-email').focus(); showToast('Email invalid.', 'error'); return false; }
   // Întrebările fără răspuns sunt permise — se salvează ca „—"
