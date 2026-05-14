@@ -122,32 +122,23 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/signature_pad@5.1.3/dist/signature_pad.umd.min.js"></script>
 <script>
-(function() {
-  // Blink: are window.chrome SAU CSS.supports('-webkit-appearance','none') DAR nu e Safari
-  var ua = navigator.userAgent.toLowerCase();
-  var isSafari  = ua.indexOf('safari') > -1 && ua.indexOf('chrome') === -1;
-  var isChrome  = !!window.chrome;
-  var isWebkit  = CSS.supports('-webkit-appearance', 'none');
-  var isBlink   = (isChrome || (isWebkit && !isSafari));
-
-  if (!isBlink) {
-    document.addEventListener('DOMContentLoaded', function() {
-      var w = document.getElementById('firefox-warning');
-      if (w) w.style.display = 'block';
-    });
-  }
-})();
+if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+  document.addEventListener('DOMContentLoaded', function() {
+    var w = document.getElementById('firefox-warning');
+    if (w) w.style.display = 'block';
+  });
+}
 </script>
 </head>
 <body>
 
 <div id="firefox-warning" style="display:none;background:#fff3cd;border-bottom:2px solid #f0a500;padding:10px 20px;font-size:13px;color:#7a5800;text-align:center;">
-  ⚠️ Browserul tău poate afecta formatarea PDF-ului. Recomandăm <strong>Chrome</strong>, <strong>Edge</strong>, <strong>Opera</strong> sau <strong>Safari</strong> pentru rezultate optime.
+  ⚠️ Firefox poate afecta formatarea documentului la tipărire. Pentru rezultate optime folosiți un browser bazat pe Chromium: <strong>Chrome</strong>, <strong>Edge</strong>, <strong>Opera</strong> sau <strong>Brave</strong>.
 </div>
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
 <header class="page-header">
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v30</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v31</span></h1>
 </header>
 
 <div class="container">
