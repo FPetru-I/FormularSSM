@@ -2337,6 +2337,33 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
     </div>
   </div>
 
+  <!-- ===== SECȚIUNEA 19 - Feedback ===== -->
+
+<div class="section">
+    <div class="section-header">
+        <div class="section-num">17</div>
+        <div class="section-title">Feedback utilizator</div>
+    </div>
+
+    <div class="questions-list" id="section-17-text">
+
+        <div class="text-question-row">
+            <div class="tq-label">
+                <span class="q-index">17.1</span>
+                <span class="q-text" style="text-align:left">
+                    Te rugăm să ne spui dacă ai întâmpinat dificultăți în completarea formularului sau dacă ai sugestii pentru îmbunătățirea experienței.
+                </span>
+            </div>
+
+            <textarea placeholder="Feedback" rows="3"
+                oninput="textAnswers['17-0']=this.value"
+                onkeyup="updateProgress()"></textarea>
+        </div>
+
+    </div>
+</div>
+
+  
 
   <!-- ACTIONS -->
   <div class="actions-bar">
@@ -2512,6 +2539,9 @@ const TEXT_SECTIONS = {
   ],
   15: [
     'Cum apreciați în general calitatea interacțiunii cu inspectorul? (ex.: atitudine constructivă asupra procesului de inspecție; abordare profesionistă; neconformitățile menționate au fost evidențiate corect etc.)',
+  ],
+  17: [
+    'Te rugăm să ne spui dacă ai întâmpinat dificultăți în completarea formularului sau dacă ai sugestii pentru îmbunătățirea experienței.',
   ],
 };
 
