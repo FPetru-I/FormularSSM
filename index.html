@@ -2290,30 +2290,37 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
     </div>
   </div>
 
- <!-- ===== SECȚIUNEA 17 - Feedback ===== -->
-
+<!-- ===== SECȚIUNEA 17 ===== -->
 <div class="section">
-    <div class="section-header">
-        <div class="section-num">17</div>
-        <div class="section-title">Feedback utilizator</div>
-    </div>
+  <div class="section-header">
+    <div class="section-num" style="font-size:9px">17</div>
+    <div class="section-title">Feedback utilizator</div>
+  </div>
 
-    <div class="questions-list" id="section-17-text">
+  <div class="questions-list">
 
-        <div class="text-question-row">
-            <div class="tq-label">
-                <span class="q-index">17.1</span>
-                <span class="q-text" style="text-align:left">
-                    Te rugăm să ne spui dacă ai întâmpinat dificultăți în completarea formularului sau dacă ai sugestii pentru îmbunătățirea experienței.
-                </span>
-            </div>
-
-            <textarea placeholder="Feedback" rows="3"
-                oninput="textAnswers['17-0']=this.value"
-                onkeyup="updateProgress()"></textarea>
+    <!-- 17.1 Text -->
+    <div class="question-row">
+      <div class="q-top" style="flex-direction:column;gap:8px;align-items:flex-start;">
+        <div style="display:flex;gap:12px;align-items:center;">
+          <span class="q-index">17.1</span>
+          <span class="q-text" style="text-align:left">
+            Ai întâmpinat dificultăți în completarea formularului? Ai sugestii pentru îmbunătățire?
+          </span>
         </div>
 
+        <textarea id="feedback-text" rows="4"
+          placeholder="Scrie aici feedback-ul tău..."
+          style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;
+                 font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);
+                 resize:vertical;outline:none;transition:border-color 0.15s,box-shadow 0.15s;"
+          onfocus="this.style.borderColor='var(--accent)';this.style.boxShadow='0 0 0 3px rgba(26,77,143,0.1)'"
+          onblur="this.style.borderColor='';this.style.boxShadow=''"
+          oninput="feedbackText=this.value"></textarea>
+      </div>
     </div>
+
+  </div>
 </div>
 
 
