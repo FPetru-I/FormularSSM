@@ -149,7 +149,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
 <header class="page-header">
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v38</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v39</span></h1>
 </header>
 
 <div class="container">
@@ -2880,7 +2880,8 @@ function buildPayload() {
   for (const [sec, qs] of Object.entries(QUESTIONS)) {
     sections[sec] = qs.map((q, idx) => {
       const key = `${sec}-${idx}`;
-      return { question: q, answer: answers[key].value, comment: answers[key].comment };
+      const a = answers[key] || { value: null, comment: '' };
+      return { question: q, answer: a.value, comment: a.comment };
     });
   }
   // Text sections 14 & 15
