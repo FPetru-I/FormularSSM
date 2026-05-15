@@ -149,7 +149,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
 <header class="page-header">
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v39</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v41</span></h1>
 </header>
 
 <div class="container">
@@ -2892,17 +2892,24 @@ function buildPayload() {
     });
   }
   return {
-    nrRaport: document.getElementById('meta-raport').value,
-    nrRaport: document.getElementById('meta-raport').value,
-    date: document.getElementById('meta-date').value,
-    name: document.getElementById('meta-name').value,
-    email: document.getElementById('meta-email').value,
+    nrRaport: '',
+    date:     document.getElementById('meta-date').value,
+    name:     document.getElementById('meta-name').value,
+    email:    document.getElementById('meta-email').value,
     location: document.getElementById('meta-location').value,
     tipLucrare: document.getElementById('meta-tiplucrare').value,
-    observatii: obsText,
-    numFisiere: images.filter(Boolean).length,
-    feedbackRating: fbRating,
+    observatii:  obsText,
+    concluzii:   document.getElementById('concluzii-text') ? document.getElementById('concluzii-text').value : '',
+    numFisiere:  images.filter(Boolean).length,
+    feedbackRating:   fbRating,
     feedbackSugestii: fbSugestii,
+    sigInspectorName:    sigInspectorName,
+    sigInspectorFunctie: sigInspectorFunctie,
+    sigInspectorFirma:   sigInspectorFirma,
+    sigInspectorData:    sigInspectorData,
+    sigSefName:  sigSefName,
+    sigInspector: getSigDataUrl('inspector'),
+    sigSef:       getSigDataUrl('sef'),
     sections
   };
 }
@@ -3232,7 +3239,7 @@ async function trimiteRaport() {
       method:   'POST',
       redirect: 'follow',
       headers:  { 'Content-Type': 'text/plain' },
-      body:     JSON.stringify({ pdfHtmlBase64: pdfBase64, nrRaport: document.getElementById('meta-raport').value || '', localitate: document.getElementById('meta-location').value || '', data: document.getElementById('meta-date').value || '' })
+      body:     JSON.stringify({ pdfHtmlBase64: pdfBase64, nrRaport: nrRaport || '', localitate: document.getElementById('meta-location').value || '', data: document.getElementById('meta-date').value || '' })
     });
 
     const text = await res.text();
