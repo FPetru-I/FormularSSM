@@ -129,16 +129,27 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
   });
 }
 </script>
+<script>
+if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+  document.addEventListener('DOMContentLoaded', function() {
+    var w = document.getElementById('firefox-warning');
+    if (w) w.style.display = 'block';
+  });
+}
+</script>
 </head>
 <body>
 
 <div id="firefox-warning" style="display:none;background:#fff3cd;border-bottom:2px solid #f0a500;padding:10px 20px;font-size:13px;color:#7a5800;text-align:center;">
   ⚠️ Firefox poate afecta formatarea documentului la tipărire. Pentru rezultate optime folosiți un browser bazat pe Chromium: <strong>Chrome</strong>, <strong>Edge</strong>, <strong>Opera</strong> sau <strong>Brave</strong>.
 </div>
+<div id="firefox-warning" style="display:none;background:#fff3cd;border-bottom:2px solid #f0a500;padding:10px 20px;font-size:13px;color:#7a5800;text-align:center;">
+  ⚠️ Firefox poate afecta formatarea documentului la tipărire. Pentru rezultate optime folosiți un browser bazat pe Chromium: <strong>Chrome</strong>, <strong>Edge</strong>, <strong>Opera</strong> sau <strong>Brave</strong>.
+</div>
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
 <header class="page-header">
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v32</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v36</span></h1>
 </header>
 
 <div class="container">
@@ -424,7 +435,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-1-12">
         <div class="q-top">
           <span class="q-index">1.13</span>
-          <span class="q-text" style="text-align:left">Numerele de telefon pentru semnalarea situațiilor de urgență sunt indicate și disponibile în mod clar în zonele de lucru și pe centralele telefonice/interfoane. De asemenea, sunt ușor de utilizat și funcționale?</span>
+          <span class="q-text" style="text-align:left">Numerele de telefon pentru semnalarea situațiilor de urgență sunt indicate și disponibile în mod clar în zonele de lucru și pe centralele telefonice/interfoane. De asemenea, acestea sunt ușor de accesat?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="1-12" data-val="DA">DA</button>
             <button class="opt-btn" data-key="1-12" data-val="NU">NU</button>
@@ -793,28 +804,28 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       </div>
       <div class="question-row" id="row-2-4">
         <div class="q-top">
-<span class="q-index">2.5</span>
-<span class="q-text" style="text-align:left">Dispozitivele de echipotențialitate⁠/⁠continuitate necesare au fost aplicate corect?</span>
-<div class="q-options">
-<button class="opt-btn" data-key="2-4" data-val="DA">DA</button>
-<button class="opt-btn" data-key="2-4" data-val="NU">NU</button>
-<button class="opt-btn" data-key="2-4" data-val="N/A">N/A</button>
-</div>
-</div>
-<div class="comment-section" id="comment-2-4">
-<label>Note</label>
-<textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-4"></textarea>
-<div class="q-img-upload">
-<label class="q-img-label" for="qimg-2-4">📷 Adaugă imagine</label>
-<input class="q-img-input" type="file" id="qimg-2-4" accept="image/*" multiple onchange="handleQImg('2-4', this.files)"/>
-<div class="q-thumbs" id="qthumbs-2-4"></div>
-</div>
-</div>
-</div>
+          <span class="q-index">2.5</span>
+          <span class="q-text" style="text-align:left">Dispozitivele de echipotențialitate⁠/⁠continuitate necesare au fost aplicate corect?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="2-4" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="2-4" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="2-4" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-2-4">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-4"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-2-4">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-2-4" accept="image/*" multiple onchange="handleQImg('2-4', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-2-4"></div>
+          </div>
+        </div>
+      </div>
       <div class="question-row" id="row-2-5">
         <div class="q-top">
           <span class="q-index">2.6</span>
-          <span class="q-text" style="text-align:left">Dispozitivele de echipotențialitate⁠/⁠continuitate, disponibile, în uz sau pentru a fi utilizate, sunt adecvate (cu marcaje conforme cu standardul, complete, intacte, etc. - se trece în "Note", ce dispozitive)?</span>
+          <span class="q-text" style="text-align:left">S-au luat măsuri pentru prevenirea atingerii involuntare a părților aflate sub tensiune (distanțe, bariere, teci) și zona de lucru este sigură?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="2-5" data-val="DA">DA</button>
             <button class="opt-btn" data-key="2-5" data-val="NU">NU</button>
@@ -823,7 +834,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
         </div>
         <div class="comment-section" id="comment-2-5">
           <label>Note</label>
-          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-4"></textarea>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-5"></textarea>
           <div class="q-img-upload">
             <label class="q-img-label" for="qimg-2-5">📷 Adaugă imagine</label>
             <input class="q-img-input" type="file" id="qimg-2-5" accept="image/*" multiple onchange="handleQImg('2-5', this.files)"/>
@@ -834,7 +845,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-2-6">
         <div class="q-top">
           <span class="q-index">2.7</span>
-          <span class="q-text" style="text-align:left">S-au luat măsuri pentru prevenirea atingerii involuntare a părților aflate sub tensiune (distanțe, bariere, teci) și zona de lucru este sigură?</span>
+          <span class="q-text" style="text-align:left">Standardele, procedurile operaționale și instrucțiunile SSM sunt respectate pentru activitățile electrice desfășurate?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="2-6" data-val="DA">DA</button>
             <button class="opt-btn" data-key="2-6" data-val="NU">NU</button>
@@ -843,7 +854,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
         </div>
         <div class="comment-section" id="comment-2-6">
           <label>Note</label>
-          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-5"></textarea>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-6"></textarea>
           <div class="q-img-upload">
             <label class="q-img-label" for="qimg-2-6">📷 Adaugă imagine</label>
             <input class="q-img-input" type="file" id="qimg-2-6" accept="image/*" multiple onchange="handleQImg('2-6', this.files)"/>
@@ -854,7 +865,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-2-7">
         <div class="q-top">
           <span class="q-index">2.8</span>
-          <span class="q-text" style="text-align:left">Standardele, procedurile operaționale și instrucțiunile SSM sunt respectate pentru activitățile electrice desfășurate?</span>
+          <span class="q-text" style="text-align:left">EIP pentru protecția împotriva riscului electric este utilizat corect (se indică EIP în cauză la "Note": mănuși dielectrice din clasa corespunzătoare, cască cu vizieră⁠/⁠scut de protecție, îmbrăcăminte de protecție, etc.)?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="2-7" data-val="DA">DA</button>
             <button class="opt-btn" data-key="2-7" data-val="NU">NU</button>
@@ -863,7 +874,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
         </div>
         <div class="comment-section" id="comment-2-7">
           <label>Note</label>
-          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-6"></textarea>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-7"></textarea>
           <div class="q-img-upload">
             <label class="q-img-label" for="qimg-2-7">📷 Adaugă imagine</label>
             <input class="q-img-input" type="file" id="qimg-2-7" accept="image/*" multiple onchange="handleQImg('2-7', this.files)"/>
@@ -874,7 +885,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-2-8">
         <div class="q-top">
           <span class="q-index">2.9</span>
-          <span class="q-text" style="text-align:left">EIP pentru protecția împotriva riscului electric este utilizat corect (se indică EIP în cauză la "Note": mănuși dielectrice din clasa corespunzătoare, cască cu vizieră⁠/⁠scut de protecție, îmbrăcăminte de protecție, etc.)?</span>
+          <span class="q-text" style="text-align:left">EIP-ul pentru protecția împotriva riscului electric este disponibil la fața locului, este eficient și adecvat (complet, intact, marcat⁠/⁠certificat în conformitate cu standardele de referință etc. - notă: scrieți în "Note", ce dispozitive)?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="2-8" data-val="DA">DA</button>
             <button class="opt-btn" data-key="2-8" data-val="NU">NU</button>
@@ -883,7 +894,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
         </div>
         <div class="comment-section" id="comment-2-8">
           <label>Note</label>
-          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-7"></textarea>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-8"></textarea>
           <div class="q-img-upload">
             <label class="q-img-label" for="qimg-2-8">📷 Adaugă imagine</label>
             <input class="q-img-input" type="file" id="qimg-2-8" accept="image/*" multiple onchange="handleQImg('2-8', this.files)"/>
@@ -894,7 +905,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-2-9">
         <div class="q-top">
           <span class="q-index">2.10</span>
-          <span class="q-text" style="text-align:left">EIP-ul pentru protecția împotriva riscului electric este disponibil la fața locului, este eficient și adecvat (complet, intact, marcat/certificat în conformitate cu standardele de referință etc.)(notă: scrieți în "Note", ce dispozitive)?</span>
+          <span class="q-text" style="text-align:left">Dispozitivele de echipotențialitate⁠/⁠continuitate, disponibile, în uz sau pentru a fi utilizate, sunt adecvate (cu marcaje conforme cu standardul, complete, intacte, etc. - se trece în "Note", ce dispozitive)?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="2-9" data-val="DA">DA</button>
             <button class="opt-btn" data-key="2-9" data-val="NU">NU</button>
@@ -903,7 +914,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
         </div>
         <div class="comment-section" id="comment-2-9">
           <label>Note</label>
-          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-8"></textarea>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-9"></textarea>
           <div class="q-img-upload">
             <label class="q-img-label" for="qimg-2-9">📷 Adaugă imagine</label>
             <input class="q-img-input" type="file" id="qimg-2-9" accept="image/*" multiple onchange="handleQImg('2-9', this.files)"/>
@@ -914,7 +925,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-2-10">
         <div class="q-top">
           <span class="q-index">2.11</span>
-          <span class="q-text" style="text-align:left">Instrumentele⁠/⁠echipamentele izolate disponibile la fața locului, utilizate sau urmand a fi utilizate, sunt în stare bună (adecvate pentru utilizare, complete și intacte - se trece în "Note" care)?</span>
+          <span class="q-text" style="text-align:left">Instrumentele/echipamentele izolate, disponibile la fața locului, utilizate sau urmând a fi utilizate, sunt în stare bună (adecvate pentru utilizare, complete și intacte)?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="2-10" data-val="DA">DA</button>
             <button class="opt-btn" data-key="2-10" data-val="NU">NU</button>
@@ -923,7 +934,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
         </div>
         <div class="comment-section" id="comment-2-10">
           <label>Note</label>
-          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-9"></textarea>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-10"></textarea>
           <div class="q-img-upload">
             <label class="q-img-label" for="qimg-2-10">📷 Adaugă imagine</label>
             <input class="q-img-input" type="file" id="qimg-2-10" accept="image/*" multiple onchange="handleQImg('2-10', this.files)"/>
@@ -943,7 +954,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
         </div>
         <div class="comment-section" id="comment-2-11">
           <label>Note</label>
-          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-10"></textarea>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-11"></textarea>
           <div class="q-img-upload">
             <label class="q-img-label" for="qimg-2-11">📷 Adaugă imagine</label>
             <input class="q-img-input" type="file" id="qimg-2-11" accept="image/*" multiple onchange="handleQImg('2-11', this.files)"/>
@@ -954,7 +965,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-2-12">
         <div class="q-top">
           <span class="q-index">2.13</span>
-          <span class="q-text" style="text-align:left">Dispozitivele de legare la pământ și în scurtcircuit utilizate sau care urmeaza a fi utilizate sunt adecvate. (cu marcaje conforme cu standardul, complete, intacte etc. - se trece în "Note")?</span>
+          <span class="q-text" style="text-align:left">Dispozitivele de legare la pământ și în scurtcircuit, utilizate sau care urmează a fi utilizate, sunt adecvate (cu marcaje conforme cu standardul, complete, intacte etc.)?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="2-12" data-val="DA">DA</button>
             <button class="opt-btn" data-key="2-12" data-val="NU">NU</button>
@@ -963,7 +974,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
         </div>
         <div class="comment-section" id="comment-2-12">
           <label>Note</label>
-          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-11"></textarea>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-12"></textarea>
           <div class="q-img-upload">
             <label class="q-img-label" for="qimg-2-12">📷 Adaugă imagine</label>
             <input class="q-img-input" type="file" id="qimg-2-12" accept="image/*" multiple onchange="handleQImg('2-12', this.files)"/>
@@ -983,7 +994,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
         </div>
         <div class="comment-section" id="comment-2-13">
           <label>Note</label>
-          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-12"></textarea>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-13"></textarea>
           <div class="q-img-upload">
             <label class="q-img-label" for="qimg-2-13">📷 Adaugă imagine</label>
             <input class="q-img-input" type="file" id="qimg-2-13" accept="image/*" multiple onchange="handleQImg('2-13', this.files)"/>
@@ -1003,7 +1014,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
         </div>
         <div class="comment-section" id="comment-2-14">
           <label>Note</label>
-          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-13"></textarea>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-14"></textarea>
           <div class="q-img-upload">
             <label class="q-img-label" for="qimg-2-14">📷 Adaugă imagine</label>
             <input class="q-img-input" type="file" id="qimg-2-14" accept="image/*" multiple onchange="handleQImg('2-14', this.files)"/>
@@ -1011,8 +1022,9 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
           </div>
         </div>
       </div>
-    </div>
+        </div>
   </div>
+
 
   <!-- ===== SECȚIUNEA 3 ===== -->
   <div class="section">
@@ -1024,7 +1036,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-3-0">
         <div class="q-top">
           <span class="q-index">3.1</span>
-          <span class="q-text" style="text-align:left">Echipamentul individual și colectiv de protecție pentru lucrul la înălțime este purtat și utilizat corect?</span>
+          <span class="q-text">Echipamentul individual și colectiv de protecție pentru lucrul la înălțime este purtat și utilizat corect?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="3-0" data-val="DA">DA</button>
             <button class="opt-btn" data-key="3-0" data-val="NU">NU</button>
@@ -1044,7 +1056,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-3-1">
         <div class="q-top">
           <span class="q-index">3.2</span>
-          <span class="q-text" style="text-align:left">EIP-urile pentru lucru la înălțime sunt disponibile la fața locului, eficiente și adecvate (complete, intacte, marcate/certificate în conformitate cu standardele de referință etc.)?</span>
+          <span class="q-text">EIP-urile pentru lucru la înălțime sunt disponibile la fața locului, eficiente și adecvate (complete, intacte, marcate/certificate în conformitate cu standardele de referință etc.)?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="3-1" data-val="DA">DA</button>
             <button class="opt-btn" data-key="3-1" data-val="NU">NU</button>
@@ -1064,7 +1076,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-3-2">
         <div class="q-top">
           <span class="q-index">3.3</span>
-          <span class="q-text" style="text-align:left">Toate protecțiile împotriva căderii de la înălțime sunt eficiente și utilizate corect (complete, intacte, marcate/certificate în conformitate cu standardele de referință etc.)?</span>
+          <span class="q-text">Toate protecțiile împotriva căderii de la înălțime sunt eficiente și utilizate corect (complete, intacte, marcate/certificate în conformitate cu standardele de referință etc.)?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="3-2" data-val="DA">DA</button>
             <button class="opt-btn" data-key="3-2" data-val="NU">NU</button>
@@ -1084,7 +1096,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-3-3">
         <div class="q-top">
           <span class="q-index">3.4</span>
-          <span class="q-text" style="text-align:left">Echipamentul de acces la înălțime (scări, carabine, schele) este disponibil și potrivit pentru lucrare (complet, intact, marcat, certificat)?</span>
+          <span class="q-text">Echipamentul de acces la înălțime (scări, carabine, schele) este disponibil și potrivit pentru lucrare (complet, intact, marcat, certificat)?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="3-3" data-val="DA">DA</button>
             <button class="opt-btn" data-key="3-3" data-val="NU">NU</button>
@@ -1104,7 +1116,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-3-4">
         <div class="q-top">
           <span class="q-index">3.5</span>
-          <span class="q-text" style="text-align:left">Echipamentul de acces la înălțime (scări, carabine, schele) este instalat și utilizat corect?</span>
+          <span class="q-text">Echipamentul de acces la înălțime (scări, carabine, schele) este instalat și utilizat corect?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="3-4" data-val="DA">DA</button>
             <button class="opt-btn" data-key="3-4" data-val="NU">NU</button>
@@ -1124,7 +1136,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-3-5">
         <div class="q-top">
           <span class="q-index">3.6</span>
-          <span class="q-text" style="text-align:left">Schela este construită corect (examinare vizuală, planeitate, verticalitate), și este semnalizată și utilizată corespunzător?</span>
+          <span class="q-text">Schela este construită corect (examinare vizuală, planeitate, verticalitate), și este semnalizată și utilizată corespunzător?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="3-5" data-val="DA">DA</button>
             <button class="opt-btn" data-key="3-5" data-val="NU">NU</button>
@@ -1144,7 +1156,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-3-6">
         <div class="q-top">
           <span class="q-index">3.7</span>
-          <span class="q-text" style="text-align:left">Schelele sunt asamblate, demontate sau mutate de personal instruit și calificat?</span>
+          <span class="q-text">Schelele sunt asamblate, demontate sau mutate de personal instruit și calificat?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="3-6" data-val="DA">DA</button>
             <button class="opt-btn" data-key="3-6" data-val="NU">NU</button>
@@ -1164,7 +1176,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-3-7">
         <div class="q-top">
           <span class="q-index">3.8</span>
-          <span class="q-text" style="text-align:left">Scările sunt poziționate și fixate corect pe suprafețe stabile (atât verticale, cât și orizontale) și utilizate corect, în conformitate cu activitățile planificate?</span>
+          <span class="q-text">Scările sunt poziționate și fixate corect pe suprafețe stabile (atât verticale, cât și orizontale) și utilizate corect, în conformitate cu activitățile planificate?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="3-7" data-val="DA">DA</button>
             <button class="opt-btn" data-key="3-7" data-val="NU">NU</button>
@@ -1184,7 +1196,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-3-8">
         <div class="q-top">
           <span class="q-index">3.9</span>
-          <span class="q-text" style="text-align:left">Zona de lucru, dacă prezintă goluri tehnologice și nu numai, este semnalizată corespunzător pentru prevenirea căderii de la înălțime?</span>
+          <span class="q-text">Zona de lucru, dacă prezintă goluri tehnologice și nu numai, este semnalizată corespunzător pentru prevenirea căderii de la înălțime?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="3-8" data-val="DA">DA</button>
             <button class="opt-btn" data-key="3-8" data-val="NU">NU</button>
@@ -1204,7 +1216,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-3-9">
         <div class="q-top">
           <span class="q-index">3.10</span>
-          <span class="q-text" style="text-align:left">Există sisteme de comunicație între personalul care lucrează la înălțime și cel de la sol (sisteme de emisie-recepție, telefoane mobile etc.)?</span>
+          <span class="q-text">Există sisteme de comunicație între personalul care lucrează la înălțime și cel de la sol (sisteme de emisie-recepție, telefoane mobile etc.)?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="3-9" data-val="DA">DA</button>
             <button class="opt-btn" data-key="3-9" data-val="NU">NU</button>
@@ -1234,7 +1246,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-4-0">
         <div class="q-top">
           <span class="q-index">4.1</span>
-          <span class="q-text" style="text-align:left">Echipamentele/materialele utilizate pentru activitățile la înălțime sunt asigurate împotriva căderii (de exemplu, prin utilizarea centurilor de lucru adecvate, funiilor etc.)?</span>
+          <span class="q-text">Echipamentele/materialele utilizate pentru activitățile la înălțime sunt asigurate împotriva căderii (de exemplu, prin utilizarea centurilor de lucru adecvate, funiilor etc.)?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="4-0" data-val="DA">DA</button>
             <button class="opt-btn" data-key="4-0" data-val="NU">NU</button>
@@ -1254,7 +1266,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-4-1">
         <div class="q-top">
           <span class="q-index">4.2</span>
-          <span class="q-text" style="text-align:left">S-a efectuat delimitarea zonei cu risc de cădere a obiectelor și se garantează respectarea interdicției de a trece persoanele sub încărcătura suspendată?</span>
+          <span class="q-text">S-a efectuat delimitarea zonei cu risc de cădere a obiectelor și se garantează respectarea interdicției de a trece persoanele sub încărcătura suspendată?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="4-1" data-val="DA">DA</button>
             <button class="opt-btn" data-key="4-1" data-val="NU">NU</button>
@@ -1274,7 +1286,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-4-2">
         <div class="q-top">
           <span class="q-index">4.3</span>
-          <span class="q-text" style="text-align:left">Sarcinile suspendate sunt controlate cu frânghii de ghidare, fixate în mod adecvat, iar echipamentul folosit este corespunzător?</span>
+          <span class="q-text">Sarcinile suspendate sunt controlate cu frânghii de ghidare, fixate în mod adecvat, iar echipamentul folosit este corespunzător?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="4-2" data-val="DA">DA</button>
             <button class="opt-btn" data-key="4-2" data-val="NU">NU</button>
@@ -1294,7 +1306,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-4-3">
         <div class="q-top">
           <span class="q-index">4.4</span>
-          <span class="q-text" style="text-align:left">Nu sunt depozitate unelte sau echipamente în apropierea marginilor, pe balustrade sau pe suprafețe înalte. Materialele rezultate sunt în ordine și îndepărtate în mod regulat.</span>
+          <span class="q-text">Nu sunt depozitate unelte sau echipamente în apropierea marginilor, pe balustrade sau pe suprafețe înalte. Materialele rezultate sunt în ordine și îndepărtate în mod regulat.</span>
           <div class="q-options">
             <button class="opt-btn" data-key="4-3" data-val="DA">DA</button>
             <button class="opt-btn" data-key="4-3" data-val="NU">NU</button>
@@ -1314,7 +1326,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-4-4">
         <div class="q-top">
           <span class="q-index">4.5</span>
-          <span class="q-text" style="text-align:left">În timpul manipulării încărcăturilor, există cel puțin un coordonator responsabil cu ghidarea manevrelor, iar procedurile adoptate garantează siguranța operațiunilor.</span>
+          <span class="q-text">În timpul manipulării încărcăturilor, există cel puțin un coordonator responsabil cu ghidarea manevrelor, iar procedurile adoptate garantează siguranța operațiunilor.</span>
           <div class="q-options">
             <button class="opt-btn" data-key="4-4" data-val="DA">DA</button>
             <button class="opt-btn" data-key="4-4" data-val="NU">NU</button>
@@ -1334,7 +1346,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-4-5">
         <div class="q-top">
           <span class="q-index">4.6</span>
-          <span class="q-text" style="text-align:left">Sculele care urmează a fi ridicate sunt depozitate în mod corespunzător, în echipamente omologate și verificate? Nu se depășește sarcina maximă de ridicare indicată?</span>
+          <span class="q-text">Sculele care urmează a fi ridicate sunt depozitate în mod corespunzător, în echipamente omologate și verificate? Nu se depășește sarcina maximă de ridicare indicată?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="4-5" data-val="DA">DA</button>
             <button class="opt-btn" data-key="4-5" data-val="NU">NU</button>
@@ -1354,7 +1366,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-4-6">
         <div class="q-top">
           <span class="q-index">4.7</span>
-          <span class="q-text" style="text-align:left">Echipamentele de ridicat (cârligul macaralei, lanțuri de prindere, sufe de ridicat etc.) sunt verificate și au elementele de identificare vizibile?</span>
+          <span class="q-text">Echipamentele de ridicat (cârligul macaralei, lanțuri de prindere, sufe de ridicat etc.) sunt verificate și au elementele de identificare vizibile?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="4-6" data-val="DA">DA</button>
             <button class="opt-btn" data-key="4-6" data-val="NU">NU</button>
@@ -1384,7 +1396,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-5-0">
         <div class="q-top">
           <span class="q-index">5.1</span>
-          <span class="q-text" style="text-align:left">Utilajele și dispozitivele utilizate pentru executarea activității sunt echipate cu protecții adecvate și cu sisteme de oprire de urgență, accesibile în timpul activităților?</span>
+          <span class="q-text">Utilajele și dispozitivele utilizate pentru executarea activității sunt echipate cu protecții adecvate și cu sisteme de oprire de urgență, accesibile în timpul activităților?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="5-0" data-val="DA">DA</button>
             <button class="opt-btn" data-key="5-0" data-val="NU">NU</button>
@@ -1404,7 +1416,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-5-1">
         <div class="q-top">
           <span class="q-index">5.2</span>
-          <span class="q-text" style="text-align:left">Toate comenzile dispozitivelor sunt etichetate în mod clar cu funcția lor?</span>
+          <span class="q-text">Toate comenzile dispozitivelor sunt etichetate în mod clar cu funcția lor?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="5-1" data-val="DA">DA</button>
             <button class="opt-btn" data-key="5-1" data-val="NU">NU</button>
@@ -1424,7 +1436,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-5-2">
         <div class="q-top">
           <span class="q-index">5.3</span>
-          <span class="q-text" style="text-align:left">Muncitorii din apropierea utilajelor cu piese în mișcare urmează instrucțiunile și poartă îmbrăcăminte și accesorii adecvate (evitând colierele, brățările, inelele, îmbrăcămintea largă etc.)?</span>
+          <span class="q-text">Muncitorii din apropierea utilajelor cu piese în mișcare urmează instrucțiunile și poartă îmbrăcăminte și accesorii adecvate (evitând colierele, brățările, inelele, îmbrăcămintea largă etc.)?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="5-2" data-val="DA">DA</button>
             <button class="opt-btn" data-key="5-2" data-val="NU">NU</button>
@@ -1454,7 +1466,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-6-0">
         <div class="q-top">
           <span class="q-index">6.1</span>
-          <span class="q-text" style="text-align:left">Activitățile sunt efectuate corect pentru a evita riscul de prăbușire a structurilor/terenurilor (de exemplu, depozitarea pământului în funcție de adâncime etc.)?</span>
+          <span class="q-text">Activitățile sunt efectuate corect pentru a evita riscul de prăbușire a structurilor/terenurilor (de exemplu, depozitarea pământului în funcție de adâncime etc.)?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="6-0" data-val="DA">DA</button>
             <button class="opt-btn" data-key="6-0" data-val="NU">NU</button>
@@ -1474,7 +1486,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-6-1">
         <div class="q-top">
           <span class="q-index">6.2</span>
-          <span class="q-text" style="text-align:left">Zonele excavate sunt semnalizate pentru a preveni căderea în șanț?</span>
+          <span class="q-text">Zonele excavate sunt semnalizate pentru a preveni căderea în șanț?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="6-1" data-val="DA">DA</button>
             <button class="opt-btn" data-key="6-1" data-val="NU">NU</button>
@@ -1494,7 +1506,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-6-2">
         <div class="q-top">
           <span class="q-index">6.3</span>
-          <span class="q-text" style="text-align:left">În zonele excavate există limitare de viteză de circulație?</span>
+          <span class="q-text">În zonele excavate există limitare de viteză de circulație?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="6-2" data-val="DA">DA</button>
             <button class="opt-btn" data-key="6-2" data-val="NU">NU</button>
@@ -1524,7 +1536,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-7-0">
         <div class="q-top">
           <span class="q-index">7.1</span>
-          <span class="q-text" style="text-align:left">Manipularea încărcăturilor este conformă cu planul de ridicare, evaluarea adecvării terenului, greutatea materialelor, integritatea frânghiilor/dispozitivelor de ridicare?</span>
+          <span class="q-text">Manipularea încărcăturilor este conformă cu planul de ridicare, evaluarea adecvării terenului, greutatea materialelor, integritatea frânghiilor/dispozitivelor de ridicare?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="7-0" data-val="DA">DA</button>
             <button class="opt-btn" data-key="7-0" data-val="NU">NU</button>
@@ -1544,7 +1556,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-7-1">
         <div class="q-top">
           <span class="q-index">7.2</span>
-          <span class="q-text" style="text-align:left">Cărucioarele manuale sau motorizate sunt potrivite pentru sarcina ce trebuie transportată; acestea sunt echipate cu sisteme pentru blocarea sarcinii?</span>
+          <span class="q-text">Cărucioarele manuale sau motorizate sunt potrivite pentru sarcina ce trebuie transportată; acestea sunt echipate cu sisteme pentru blocarea sarcinii?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="7-1" data-val="DA">DA</button>
             <button class="opt-btn" data-key="7-1" data-val="NU">NU</button>
@@ -1564,7 +1576,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-7-2">
         <div class="q-top">
           <span class="q-index">7.3</span>
-          <span class="q-text" style="text-align:left">Rafturile, spațiile de depozitare, dulapurile etc. sunt ușor accesibile, au indicată capacitatea maximă și prezintă încărcături corect stivuite și/sau fixate pentru a împiedica alunecarea sau căderea?</span>
+          <span class="q-text">Rafturile, spațiile de depozitare, dulapurile etc. sunt ușor accesibile, au indicată capacitatea maximă și prezintă încărcături corect stivuite și/sau fixate pentru a împiedica alunecarea sau căderea?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="7-2" data-val="DA">DA</button>
             <button class="opt-btn" data-key="7-2" data-val="NU">NU</button>
@@ -1594,7 +1606,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-8-0">
         <div class="q-top">
           <span class="q-index">8.1</span>
-          <span class="q-text" style="text-align:left">Fișele de securitate pentru substanțele chimice sunt actualizate, prezente la locul de muncă și puse la dispoziția lucrătorilor?</span>
+          <span class="q-text">Fișele de securitate pentru substanțele chimice sunt actualizate, prezente la locul de muncă și puse la dispoziția lucrătorilor?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="8-0" data-val="DA">DA</button>
             <button class="opt-btn" data-key="8-0" data-val="NU">NU</button>
@@ -1614,7 +1626,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-8-1">
         <div class="q-top">
           <span class="q-index">8.2</span>
-          <span class="q-text" style="text-align:left">Manipularea, depozitarea și utilizarea substanțelor se efectuează în conformitate cu prevederile fișelor de securitate și ale documentului de evaluare a riscurilor?</span>
+          <span class="q-text">Manipularea, depozitarea și utilizarea substanțelor se efectuează în conformitate cu prevederile fișelor de securitate și ale documentului de evaluare a riscurilor?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="8-1" data-val="DA">DA</button>
             <button class="opt-btn" data-key="8-1" data-val="NU">NU</button>
@@ -1634,7 +1646,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-8-2">
         <div class="q-top">
           <span class="q-index">8.3</span>
-          <span class="q-text" style="text-align:left">Materialele și substanțele chimice combustibile sunt depozitate în zone separate, departe de sursele de aprindere, iar rezervoarele sunt fixate pentru a preveni răsturnarea și deteriorarea?</span>
+          <span class="q-text">Materialele și substanțele chimice combustibile sunt depozitate în zone separate, departe de sursele de aprindere, iar rezervoarele sunt fixate pentru a preveni răsturnarea și deteriorarea?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="8-2" data-val="DA">DA</button>
             <button class="opt-btn" data-key="8-2" data-val="NU">NU</button>
@@ -1654,7 +1666,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-8-3">
         <div class="q-top">
           <span class="q-index">8.4</span>
-          <span class="q-text" style="text-align:left">Dacă există un risc de concentrații chimice periculoase în timpul lucrului, concentrația este monitorizată (dacă este necesar, chiar și continuu) cu sisteme de detectare (explozimetru/detector de gaze)?</span>
+          <span class="q-text">Dacă există un risc de concentrații chimice periculoase în timpul lucrului, concentrația este monitorizată (dacă este necesar, chiar și continuu) cu sisteme de detectare (explozimetru/detector de gaze)?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="8-3" data-val="DA">DA</button>
             <button class="opt-btn" data-key="8-3" data-val="NU">NU</button>
@@ -1674,7 +1686,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-8-4">
         <div class="q-top">
           <span class="q-index">8.5</span>
-          <span class="q-text" style="text-align:left">Recipientele folosite pentru depozitarea produselor chimice (solvenți, soluții de curățat, substanțe petroliere) sunt omologate și etichetate corespunzător?</span>
+          <span class="q-text">Recipientele folosite pentru depozitarea produselor chimice (solvenți, soluții de curățat, substanțe petroliere) sunt omologate și etichetate corespunzător?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="8-4" data-val="DA">DA</button>
             <button class="opt-btn" data-key="8-4" data-val="NU">NU</button>
@@ -1704,7 +1716,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-9-0">
         <div class="q-top">
           <span class="q-index">9.1</span>
-          <span class="q-text" style="text-align:left">Dacă lucrătorul desfășoară o activitate izolată de ceilalți lucrători, acesta are un mijloc de comunicare care permite angajatului să solicite ajutor în caz de urgență și a fost instruit pentru folosirea acestuia?</span>
+          <span class="q-text">Dacă lucrătorul desfășoară o activitate izolată de ceilalți lucrători, acesta are un mijloc de comunicare care permite angajatului să solicite ajutor în caz de urgență și a fost instruit pentru folosirea acestuia?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="9-0" data-val="DA">DA</button>
             <button class="opt-btn" data-key="9-0" data-val="NU">NU</button>
@@ -1724,7 +1736,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-9-1">
         <div class="q-top">
           <span class="q-index">9.2</span>
-          <span class="q-text" style="text-align:left">Există o procedură scrisă în care sunt specificate măsurile care trebuie luate pentru astfel de situații, o evaluare a riscurilor, timpii de intervenție etc.?</span>
+          <span class="q-text">Există o procedură scrisă în care sunt specificate măsurile care trebuie luate pentru astfel de situații, o evaluare a riscurilor, timpii de intervenție etc.?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="9-1" data-val="DA">DA</button>
             <button class="opt-btn" data-key="9-1" data-val="NU">NU</button>
@@ -1754,7 +1766,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-10-0">
         <div class="q-top">
           <span class="q-index">10.1</span>
-          <span class="q-text" style="text-align:left">În cazul activităților care pot provoca incendii (de exemplu, sudare, tăiere, utilizarea polizorului), permisul de lucru cu foc este disponibil și se respectă?</span>
+          <span class="q-text">În cazul activităților care pot provoca incendii (de exemplu, sudare, tăiere, utilizarea polizorului), permisul de lucru cu foc este disponibil și se respectă?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="10-0" data-val="DA">DA</button>
             <button class="opt-btn" data-key="10-0" data-val="NU">NU</button>
@@ -1774,7 +1786,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-10-1">
         <div class="q-top">
           <span class="q-index">10.2</span>
-          <span class="q-text" style="text-align:left">Există suficiente stingătoare în momentul în care se lucrează cu foc deschis?</span>
+          <span class="q-text">Există suficiente stingătoare în momentul în care se lucrează cu foc deschis?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="10-1" data-val="DA">DA</button>
             <button class="opt-btn" data-key="10-1" data-val="NU">NU</button>
@@ -1794,7 +1806,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-10-2">
         <div class="q-top">
           <span class="q-index">10.3</span>
-          <span class="q-text" style="text-align:left">Zona este liberă de toate materialele combustibile?</span>
+          <span class="q-text">Zona este liberă de toate materialele combustibile?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="10-2" data-val="DA">DA</button>
             <button class="opt-btn" data-key="10-2" data-val="NU">NU</button>
@@ -1814,7 +1826,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-10-3">
         <div class="q-top">
           <span class="q-index">10.4</span>
-          <span class="q-text" style="text-align:left">Prelate/perdele ignifuge sunt utilizate în timpul activităților de sudare?</span>
+          <span class="q-text">Prelate/perdele ignifuge sunt utilizate în timpul activităților de sudare?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="10-3" data-val="DA">DA</button>
             <button class="opt-btn" data-key="10-3" data-val="NU">NU</button>
@@ -1834,7 +1846,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-10-4">
         <div class="q-top">
           <span class="q-index">10.5</span>
-          <span class="q-text" style="text-align:left">Se cunoaște protocolul de comunicare în situații de urgență (accident cu victimă, incendiu etc.)?</span>
+          <span class="q-text">Se cunoaște protocolul de comunicare în situații de urgență (accident cu victimă, incendiu etc.)?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="10-4" data-val="DA">DA</button>
             <button class="opt-btn" data-key="10-4" data-val="NU">NU</button>
@@ -1854,7 +1866,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-10-5">
         <div class="q-top">
           <span class="q-index">10.6</span>
-          <span class="q-text" style="text-align:left">Există întocmit un Plan de Urgență specific?</span>
+          <span class="q-text">Există întocmit un Plan de Urgență specific?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="10-5" data-val="DA">DA</button>
             <button class="opt-btn" data-key="10-5" data-val="NU">NU</button>
@@ -1874,7 +1886,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-10-6">
         <div class="q-top">
           <span class="q-index">10.7</span>
-          <span class="q-text" style="text-align:left">Există un loc special amenajat și semnalizat pentru fumat?</span>
+          <span class="q-text">Există un loc special amenajat și semnalizat pentru fumat?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="10-6" data-val="DA">DA</button>
             <button class="opt-btn" data-key="10-6" data-val="NU">NU</button>
@@ -1904,7 +1916,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-11-0">
         <div class="q-top">
           <span class="q-index">11.1</span>
-          <span class="q-text" style="text-align:left">Sistemul de comunicare între lucrători, sistemul de iluminat și monitorizarea atmosferei sunt implementate și efectuate în conformitate cu Planul de lucru și de urgență?</span>
+          <span class="q-text">Sistemul de comunicare între lucrători, sistemul de iluminat și monitorizarea atmosferei sunt implementate și efectuate în conformitate cu Planul de lucru și de urgență?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="11-0" data-val="DA">DA</button>
             <button class="opt-btn" data-key="11-0" data-val="NU">NU</button>
@@ -1924,7 +1936,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-11-1">
         <div class="q-top">
           <span class="q-index">11.2</span>
-          <span class="q-text" style="text-align:left">Echipamentele de prim ajutor și recuperare pentru o persoană vătămată sunt prezente, potrivite și eficiente. Aparatele de respirat sunt disponibile, în bune condiții și respectă standardele/reglementările aplicabile?</span>
+          <span class="q-text">Echipamentele de prim ajutor și recuperare pentru o persoană vătămată sunt prezente, potrivite și eficiente. Aparatele de respirat sunt disponibile, în bune condiții și respectă standardele/reglementările aplicabile?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="11-1" data-val="DA">DA</button>
             <button class="opt-btn" data-key="11-1" data-val="NU">NU</button>
@@ -1944,7 +1956,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-11-2">
         <div class="q-top">
           <span class="q-index">11.3</span>
-          <span class="q-text" style="text-align:left">Planurile de lucru și de evacuare au fost postate la intrarea în spațiul închis?</span>
+          <span class="q-text">Planurile de lucru și de evacuare au fost postate la intrarea în spațiul închis?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="11-2" data-val="DA">DA</button>
             <button class="opt-btn" data-key="11-2" data-val="NU">NU</button>
@@ -1964,7 +1976,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-11-3">
         <div class="q-top">
           <span class="q-index">11.4</span>
-          <span class="q-text" style="text-align:left">În mediile cu risc de contaminare de la una sau mai multe substanțe sunt disponibile detectoare de gaz?</span>
+          <span class="q-text">În mediile cu risc de contaminare de la una sau mai multe substanțe sunt disponibile detectoare de gaz?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="11-3" data-val="DA">DA</button>
             <button class="opt-btn" data-key="11-3" data-val="NU">NU</button>
@@ -1984,7 +1996,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-11-4">
         <div class="q-top">
           <span class="q-index">11.5</span>
-          <span class="q-text" style="text-align:left">Este întocmit un permis de lucru pentru spații închise? Se cunoaște și se respectă întocmai?</span>
+          <span class="q-text">Este întocmit un permis de lucru pentru spații închise? Se cunoaște și se respectă întocmai?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="11-4" data-val="DA">DA</button>
             <button class="opt-btn" data-key="11-4" data-val="NU">NU</button>
@@ -2014,7 +2026,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-12-0">
         <div class="q-top">
           <span class="q-index">12.1</span>
-          <span class="q-text" style="text-align:left">Lucrătorii expuși la pericolele create prin operațiuni de tăiere sunt protejați cu echipament individual de protecție? Ce anume?</span>
+          <span class="q-text">Lucrătorii expuși la pericolele create prin operațiuni de tăiere sunt protejați cu echipament individual de protecție? Ce anume?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="12-0" data-val="DA">DA</button>
             <button class="opt-btn" data-key="12-0" data-val="NU">NU</button>
@@ -2034,7 +2046,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-12-1">
         <div class="q-top">
           <span class="q-index">12.2</span>
-          <span class="q-text" style="text-align:left">Echipamentele folosite pentru tăiere (flex, circular, pendular etc.) sunt omologate, au marcajul CE, au protecții, astfel încât să nu pună în pericol securitatea și sănătatea lucrătorilor?</span>
+          <span class="q-text">Echipamentele folosite pentru tăiere (flex, circular, pendular etc.) sunt omologate, au marcajul CE, au protecții, astfel încât să nu pună în pericol securitatea și sănătatea lucrătorilor?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="12-1" data-val="DA">DA</button>
             <button class="opt-btn" data-key="12-1" data-val="NU">NU</button>
@@ -2054,7 +2066,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-12-2">
         <div class="q-top">
           <span class="q-index">12.3</span>
-          <span class="q-text" style="text-align:left">Lucrătorii folosesc EIP corespunzător (mănuși de protecție, ochelari de protecție etc.)?</span>
+          <span class="q-text">Lucrătorii folosesc EIP corespunzător (mănuși de protecție, ochelari de protecție etc.)?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="12-2" data-val="DA">DA</button>
             <button class="opt-btn" data-key="12-2" data-val="NU">NU</button>
@@ -2074,7 +2086,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-12-3">
         <div class="q-top">
           <span class="q-index">12.4</span>
-          <span class="q-text" style="text-align:left">În momentul când se lucrează cu echipamente de tăiat care fac flamă/scântei, au fost îndepărtate posibilele surse de provocare a incendiului?</span>
+          <span class="q-text">În momentul când se lucrează cu echipamente de tăiat care fac flamă/scântei, au fost îndepărtate posibilele surse de provocare a incendiului?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="12-3" data-val="DA">DA</button>
             <button class="opt-btn" data-key="12-3" data-val="NU">NU</button>
@@ -2104,7 +2116,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-13-0">
         <div class="q-top">
           <span class="q-index">13.1</span>
-          <span class="q-text" style="text-align:left">Lucrătorii folosesc EIP-ul corespunzător pentru lucrările desfășurate (cască cu prindere sub bărbie, bocanci/cizme de protecție, ochelari, centură de siguranță cu cârlige de prindere, scări etc.)?</span>
+          <span class="q-text">Lucrătorii folosesc EIP-ul corespunzător pentru lucrările desfășurate (cască cu prindere sub bărbie, bocanci/cizme de protecție, ochelari, centură de siguranță cu cârlige de prindere, scări etc.)?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="13-0" data-val="DA">DA</button>
             <button class="opt-btn" data-key="13-0" data-val="NU">NU</button>
@@ -2124,7 +2136,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-13-1">
         <div class="q-top">
           <span class="q-index">13.2</span>
-          <span class="q-text" style="text-align:left">Există disponibilă o procedură de lucru și o evaluare a riscurilor pentru aceste activități? Este îndeplinită procedura?</span>
+          <span class="q-text">Există disponibilă o procedură de lucru și o evaluare a riscurilor pentru aceste activități? Este îndeplinită procedura?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="13-1" data-val="DA">DA</button>
             <button class="opt-btn" data-key="13-1" data-val="NU">NU</button>
@@ -2144,7 +2156,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-13-2">
         <div class="q-top">
           <span class="q-index">13.3</span>
-          <span class="q-text" style="text-align:left">Există o zonă amenajată și semnalizată corespunzător pentru spălarea betonierelor după turnare?</span>
+          <span class="q-text">Există o zonă amenajată și semnalizată corespunzător pentru spălarea betonierelor după turnare?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="13-2" data-val="DA">DA</button>
             <button class="opt-btn" data-key="13-2" data-val="NU">NU</button>
@@ -2164,7 +2176,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-13-3">
         <div class="q-top">
           <span class="q-index">13.4</span>
-          <span class="q-text" style="text-align:left">Sunt respectate cerințele legale pentru lucrul la temperaturi ridicate și scăzute, conform prevederilor legale?</span>
+          <span class="q-text">Sunt respectate cerințele legale pentru lucrul la temperaturi ridicate și scăzute, conform prevederilor legale?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="13-3" data-val="DA">DA</button>
             <button class="opt-btn" data-key="13-3" data-val="NU">NU</button>
@@ -2184,7 +2196,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" id="row-13-4">
         <div class="q-top">
           <span class="q-index">13.5</span>
-          <span class="q-text" style="text-align:left">După terminarea lucrărilor, zona de lucru este ecologizată, sunt colectate și îndepărtate deșeurile rezultate (resturi de fier, sârme, lemne, plastic, beton etc.)?</span>
+          <span class="q-text">După terminarea lucrărilor, zona de lucru este ecologizată, sunt colectate și îndepărtate deșeurile rezultate (resturi de fier, sârme, lemne, plastic, beton etc.)?</span>
           <div class="q-options">
             <button class="opt-btn" data-key="13-4" data-val="DA">DA</button>
             <button class="opt-btn" data-key="13-4" data-val="NU">NU</button>
@@ -2214,23 +2226,23 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="text-question-row">
         <div class="tq-label">
           <span class="q-index">14.1</span>
-          <span class="q-text" style="text-align:left">Cum au întâmpinat membrii echipei acțiunea de control? (ex.: Deschiși, au înțeles că este o oportunitate de îmbunătățire a modului de lucru etc.)</span>
+          <span class="q-text">Cum au întâmpinat membrii echipei acțiunea de control? (ex.: Deschiși, au înțeles că este o oportunitate de îmbunătățire a modului de lucru etc.)</span>
         </div>
-        <textarea placeholder="Introduceți răspunsul..." rows="3" oninput="textAnswers['14-0']=this.value" onkeyup="updateProgress()"></textarea>
+        <textarea placeholder="Introduceți răspunsul..." rows="3" oninput="textAnswers['14-0']=this.value"></textarea>
       </div>
       <div class="text-question-row">
         <div class="tq-label">
           <span class="q-index">14.2</span>
-          <span class="q-text" style="text-align:left">Care a fost reacția în fața neconformităților identificate și a propunerilor de remediere? (ex.: Cunoșteau normele și procedurile aduse în discuție legat de neconformitățile identificate; au acceptat propunerile etc.)</span>
+          <span class="q-text">Care a fost reacția în fața neconformităților identificate și a propunerilor de remediere? (ex.: Cunoșteau normele și procedurile aduse în discuție legat de neconformitățile identificate; au acceptat propunerile etc.)</span>
         </div>
-        <textarea placeholder="Introduceți răspunsul..." rows="3" oninput="textAnswers['14-1']=this.value" onkeyup="updateProgress()"></textarea>
+        <textarea placeholder="Introduceți răspunsul..." rows="3" oninput="textAnswers['14-1']=this.value"></textarea>
       </div>
       <div class="text-question-row">
         <div class="tq-label">
           <span class="q-index">14.3</span>
-          <span class="q-text" style="text-align:left">Cum apreciați în general calitatea interacțiunii cu șeful de lucrare și membrii echipei pe durata inspecției? (ex.: Au arătat interes; au evitat interacțiunea etc.)</span>
+          <span class="q-text">Cum apreciați în general calitatea interacțiunii cu șeful de lucrare și membrii echipei pe durata inspecției? (ex.: Au arătat interes; au evitat interacțiunea etc.)</span>
         </div>
-        <textarea placeholder="Introduceți răspunsul..." rows="3" oninput="textAnswers['14-2']=this.value" onkeyup="updateProgress()"></textarea>
+        <textarea placeholder="Introduceți răspunsul..." rows="3" oninput="textAnswers['14-2']=this.value"></textarea>
       </div>
     </div>
   </div>
@@ -2245,9 +2257,9 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="text-question-row">
         <div class="tq-label">
           <span class="q-index">15.1</span>
-          <span class="q-text" style="text-align:left">Cum apreciați în general calitatea interacțiunii cu inspectorul? (ex.: atitudine constructivă asupra procesului de inspecție; abordare profesionistă; neconformitățile menționate au fost evidențiate corect etc.)</span>
+          <span class="q-text">Cum apreciați în general calitatea interacțiunii cu inspectorul? (ex.: atitudine constructivă asupra procesului de inspecție; abordare profesionistă; neconformitățile menționate au fost evidențiate corect etc.)</span>
         </div>
-        <textarea placeholder="Introduceți răspunsul..." rows="3" oninput="textAnswers['15-0']=this.value" onkeyup="updateProgress()"></textarea>
+        <textarea placeholder="Introduceți răspunsul..." rows="3" oninput="textAnswers['15-0']=this.value"></textarea>
       </div>
     </div>
   </div>
@@ -2264,7 +2276,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
         <div class="q-top" style="flex-direction:column;gap:8px;align-items:flex-start;">
           <div style="display:flex;gap:12px;align-items:center;">
             <span class="q-index">16.1</span>
-            <span class="q-text" style="text-align:left">În urma inspecției au fost identificate următoarele încălcări ale regulilor de siguranță</span>
+            <span class="q-text">În urma inspecției au fost identificate următoarele încălcări ale regulilor de siguranță</span>
           </div>
           <textarea id="obs-text" rows="4" placeholder="Descrieți neconformitățile identificate..."
             style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;transition:border-color 0.15s,box-shadow 0.15s;"
@@ -2277,7 +2289,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <div class="question-row" style="border-bottom:none;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
           <span class="q-index">16.2</span>
-          <span class="q-text" style="text-align:left">Fișiere pentru suport (imagini, video etc.)</span>
+          <span class="q-text">Fișiere pentru suport (imagini, video etc.)</span>
         </div>
         <div class="drop-zone" id="dropZone">
           <input type="file" id="fileInput" multiple accept="image/*,video/*,.pdf"/>
@@ -2290,27 +2302,29 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
     </div>
   </div>
 
-   <!-- ===== SECȚIUNEA 17 — CONCLUZII FINALE ===== -->
+  <!-- ===== SECȚIUNEA 17 — CONCLUZII FINALE ===== -->
   <div class="section">
     <div class="section-header">
       <div class="section-num" style="font-size:9px">17</div>
       <div class="section-title">Concluzii finale</div>
     </div>
     <div class="questions-list">
-      <div style="padding:16px 20px;">
-        <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;">
-          <span class="q-index">17.1</span>
-          <span class="q-text" style="text-align:left">Note și concluzii generale în urma inspecției</span>
+      <div class="question-row" style="border-bottom:none;">
+        <div class="q-top" style="flex-direction:column;gap:8px;align-items:flex-start;">
+          <div style="display:flex;gap:12px;align-items:center;">
+            <span class="q-index">17.1</span>
+            <span class="q-text" style="text-align:left">Note și concluzii generale în urma inspecției</span>
+          </div>
+          <textarea id="concluzii-text" rows="5" placeholder="Scrieți concluziile generale, observațiile finale și recomandările în urma inspecției..."
+            style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;"
+            onfocus="this.style.borderColor='var(--accent)'"
+            onblur="this.style.borderColor=''"
+            oninput="concluziiText=this.value"></textarea>
         </div>
-        <textarea id="concluzii-text" rows="6"
-          placeholder="Introduceți notele și concluziile generale..."
-          style="width:100%;border:1px solid var(--border);border-radius:4px;padding:10px;font-family:inherit;font-size:14px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;transition:border-color 0.15s,box-shadow 0.15s;box-sizing:border-box;"
-          onfocus="this.style.borderColor='var(--accent)';this.style.boxShadow='0 0 0 3px rgba(26,77,143,0.1)'"
-          onblur="this.style.borderColor='var(--border)';this.style.boxShadow='none'"
-          oninput="concluziiText=this.value"></textarea>
       </div>
     </div>
   </div>
+
 
   <!-- ===== SECȚIUNEA 18 — SEMNĂTURI ===== -->
   <div class="section">
@@ -2360,6 +2374,56 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
   </div>
 
 
+  <!-- ===== SECȚIUNEA 19 — FEEDBACK FORMULAR ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="font-size:9px">19</div>
+      <div class="section-title">Feedback formular</div>
+    </div>
+    <div class="questions-list">
+      <div class="question-row">
+        <div class="q-top" style="flex-direction:column;gap:8px;align-items:flex-start;">
+          <div style="display:flex;gap:12px;align-items:center;">
+            <span class="q-index">19.1</span>
+            <span class="q-text" style="text-align:left">Ați întâmpinat probleme în utilizarea formularului?</span>
+          </div>
+          <textarea id="fb-probleme" rows="3" placeholder="Descrieți orice dificultăți întâmpinate..."
+            style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;"
+            onfocus="this.style.borderColor='var(--accent)'"
+            onblur="this.style.borderColor=''"
+            oninput="fbProbleme=this.value"></textarea>
+        </div>
+      </div>
+      <div class="question-row">
+        <div class="q-top" style="flex-direction:column;gap:8px;align-items:flex-start;">
+          <div style="display:flex;gap:12px;align-items:center;">
+            <span class="q-index">19.2</span>
+            <span class="q-text" style="text-align:left">Sugestii de îmbunătățire a formularului</span>
+          </div>
+          <textarea id="fb-sugestii-input" rows="3" placeholder="Ce ați schimba sau îmbunătăți la acest formular?"
+            style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;"
+            onfocus="this.style.borderColor='var(--accent)'"
+            onblur="this.style.borderColor=''"
+            oninput="fbSugestii=this.value"></textarea>
+        </div>
+      </div>
+      <div class="question-row" style="border-bottom:none;">
+        <div class="q-top" style="flex-direction:column;gap:8px;align-items:flex-start;">
+          <div style="display:flex;gap:12px;align-items:center;">
+            <span class="q-index">19.3</span>
+            <span class="q-text" style="text-align:left">Feedback general</span>
+          </div>
+          <textarea id="fb-general" rows="3" placeholder="Orice alt comentariu sau feedback general despre experiența de utilizare..."
+            style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;"
+            onfocus="this.style.borderColor='var(--accent)'"
+            onblur="this.style.borderColor=''"
+            oninput="fbGeneral=this.value"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <!-- ACTIONS -->
   <div class="actions-bar">
     <div class="actions-left">
@@ -2368,7 +2432,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
     </div>
     <div class="actions-right">
       <button class="btn btn-secondary" onclick="downloadPDF()">⬇ Descarcă PDF</button>
-      <button class="btn btn-primary" id="submitBtn" onclick="trimiteRaport()">📤 Salvează și Descarcă</button>
+      <button class="btn btn-primary" id="submitBtn" onclick="trimiteRaport()">📤 Salvează în GitHub</button>
     </div>
   </div>
 
@@ -2399,29 +2463,29 @@ emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 // =====================================================
 const QUESTIONS = {
   1: [
-    "Este întocmit și avizat planul de SSM al șantierului? Există în format fizic și⁠/⁠sau electronic disponibil pentru verificare?",
+    "Este întocmit și avizat planul de SSM al șantierului? Există în format fizic și/sau electronic disponibil pentru verificare?",
     "Evaluarea riscurilor este disponibilă și cuprinde: riscurile prezente la locul de muncă, riscurile specifice activității și interferențele (ex: linii electrice, lucrări mecanice etc.)?",
     "Documentația personalului lucrător din șantier este verificată, actualizată și corespunde meseriilor acestora? Este conformă din punct de vedere SSM, SU, PM, electric, ISCIR etc.?",
     "Instruirea lucrătorilor înainte de începerea activității a fost efectuată, documentată și conformă activității și a fost semnată? Este disponibilă pentru verificare?",
     "Șeful de echipă responsabil cu lucrările la fața locului este nominalizat, prezent pe teren și supraveghează activitatea lucrătorilor?",
-    "Echipamentele de protecție individuale și colective sunt disponibile în zona de lucru. Acestea sunt eficiente și potrivite (marcate⁠/⁠certificate conform standardului de referință)?",
+    "Echipamentele de protecție individuale și colective sunt disponibile în zona de lucru. Acestea sunt eficiente și potrivite (marcate/certificate conform standardului de referință)?",
     "EIP-urile specifice activităților curente sunt purtate și utilizate corect?",
     "Echipamentele disponibile în zona de lucru sunt funcționale, adecvate și complete, sunt certificate, verificate periodic și au instrucțiuni de instalare, utilizare și întreținere?",
     "Echipamentul de lucru (de exemplu, scule, vehicule) este utilizat corect?",
     "Vehiculele și utilajele pentru șantierele de construcții (camioane, macarale, excavatoare, coșuri etc.) sunt autorizate, potrivite pentru locul de muncă, intacte, funcționale, certificate și conforme?",
     "Vehiculele și utilajele pentru șantiere (camioane, macarale, excavatoare, coșuri etc.) sunt autorizate, utilizate corect și stabile în raport cu solul?",
     "Planul de evacuare este disponibil, potrivit pentru tipul și întinderea lucrărilor, complet și ușor de implementat, cu indicarea rutelor de evacuare și a punctelor de adunare?",
-    "Numerele de telefon pentru semnalarea situațiilor de urgență sunt indicate și disponibile în mod clar în zonele de lucru și pe centralele telefonice⁠/⁠interfoane. De asemenea, acestea sunt ușor de accesat?",
+    "Numerele de telefon pentru semnalarea situațiilor de urgență sunt indicate și disponibile în mod clar în zonele de lucru și pe centralele telefonice/interfoane. De asemenea, acestea sunt ușor de accesat?",
     "Vizitatorii sunt însoțiți în orice moment, nu interferează cu activitățile în desfășurare. De asemenea, sunt ușor de utilizat și funcționale?",
     "Permisul de lucru este emis, gestionat și respectat de către lucrători?",
-    "Procedurile⁠/⁠metodele de lucru sunt disponibile pentru desfășurarea activităților?",
-    "Activitățile se desfășoară în conformitate cu standardele, procedurile de operare ale companiei și condițiile⁠/⁠cerințele contractuale SSM, SU și PM?",
+    "Procedurile/metodele de lucru sunt disponibile pentru desfășurarea activităților?",
+    "Activitățile se desfășoară în conformitate cu standardele, procedurile de operare ale companiei și condițiile/cerințele contractuale SSM, SU și PM?",
     "Semnalizarea punctului de lucru și a șantierului este în conformitate cu prevederile legale? Este suficientă, vizibilă și amplasată în locurile stabilite?",
     "Tot personalul implicat în activitate cunoaște \"POLITICA DE STOP WORK\"?",
     "Sunt respectate cerințele minime de lucru la temperaturi ridicate și scăzute?",
     "Locurile de muncă sunt menținute într-o stare curată, iar deșeurile rezultate sunt colectate selectiv și depozitate în zonele specifice de depozitare?",
     "Containerele pentru colectarea deșeurilor în șantier sunt suficiente, etichetate corespunzător codurilor de deșeuri și nu prezintă pericol de contaminare a solului sau alte riscuri similare?",
-    "Zonele de încărcare⁠/⁠descărcare sunt adecvate din punct de vedere al condițiilor spațiului și al solului?",
+    "Zonele de încărcare/descărcare sunt adecvate din punct de vedere al condițiilor spațiului și al solului?",
     "Zona de lucru este delimitată în mod eficient (inclusiv de către terți), echipată cu semne adecvate, vizibilă și iluminată. În cazul șantierelor pe drum public, se respectă prevederile codului rutier?",
     "Există un Plan de Mediu în care sunt specificate cerințele legale privind protecția mediului?",
     "În cazul lucrătorilor străini, care necesită anunțarea și înregistrarea la autoritățile locale de pe teritoriul României, se respectă prevederile legale în acest sens?",
@@ -2432,21 +2496,22 @@ const QUESTIONS = {
     "Dispozitivele de legare la pământ și în scurtcircuit au fost montate corect în zona de lucru?",
     "Verificarea absenței tensiunii a fost efectuată?",
     "Dispozitivele de echipotențialitate⁠/⁠continuitate necesare au fost aplicate corect?",
-    "Dispozitivele de echipotențialitate⁠/⁠continuitate, disponibile, în uz sau pentru a fi utilizate, sunt adecvate (cu marcaje conforme cu standardul, complete, intacte, etc. - se trece în \"Note\", ce dispozitive)?",
     "S-au luat măsuri pentru prevenirea atingerii involuntare a părților aflate sub tensiune (distanțe, bariere, teci) și zona de lucru este sigură?",
     "Standardele, procedurile operaționale și instrucțiunile SSM sunt respectate pentru activitățile electrice desfășurate?",
     "EIP pentru protecția împotriva riscului electric este utilizat corect (se indică EIP în cauză la \"Note\": mănuși dielectrice din clasa corespunzătoare, cască cu vizieră⁠/⁠scut de protecție, îmbrăcăminte de protecție, etc.)?",
     "EIP-ul pentru protecția împotriva riscului electric este disponibil la fața locului, este eficient și adecvat (complet, intact, marcat⁠/⁠certificat în conformitate cu standardele de referință etc. - notă: scrieți în \"Note\", ce dispozitive)?",
-    "Instrumentele⁠/⁠echipamentele izolate disponibile la fața locului, utilizate sau urmand a fi utilizate, sunt în stare bună (adecvate pentru utilizare, complete și intacte - se trece în \"Note\" care)?",
+    "Dispozitivele de echipotențialitate⁠/⁠continuitate, disponibile, în uz sau pentru a fi utilizate, sunt adecvate (cu marcaje conforme cu standardul, complete, intacte, etc. - se trece în \"Note\", ce dispozitive)?",
+    "Instrumentele/echipamentele izolate, disponibile la fața locului, utilizate sau urmând a fi utilizate, sunt în stare bună (adecvate pentru utilizare, complete și intacte)?",
     "Există dispozitivele de verificare a absenței tensiunii și sunt în stare bună (adecvate pentru utilizare, complete și intacte)?",
-    "Dispozitivele de legare la pământ și în scurtcircuit utilizate sau care urmeaza a fi utilizate sunt adecvate. (cu marcaje conforme cu standardul, complete, intacte etc. - se trece în \"Note\")?",
+    "Dispozitivele de legare la pământ și în scurtcircuit, utilizate sau care urmează a fi utilizate, sunt adecvate (cu marcaje conforme cu standardul, complete, intacte etc.)?",
     "Muncitorii folosesc corect detectorul personal de tensiune (PVD) furnizat pentru activitate?",
     "Pentru lucrările electrice, este întocmit un permis de lucru valabil pentru lucrarea respectivă, se respectă prevederile, sunt cunoscute riscurile etc.?",
   ],
+
   3: [
     "Echipamentul individual și colectiv de protecție pentru lucrul la înălțime este purtat și utilizat corect?",
-    "EIP-urile pentru lucru la înălțime sunt disponibile la fața locului, eficiente și adecvate (complete, intacte, marcate⁠/⁠certificate în conformitate cu standardele de referință etc.)?",
-    "Toate protecțiile împotriva căderii de la înălțime sunt eficiente și utilizate corect (complete, intacte, marcate⁠/⁠certificate în conformitate cu standardele de referință etc.)?",
+    "EIP-urile pentru lucru la înălțime sunt disponibile la fața locului, eficiente și adecvate (complete, intacte, marcate/certificate în conformitate cu standardele de referință etc.)?",
+    "Toate protecțiile împotriva căderii de la înălțime sunt eficiente și utilizate corect (complete, intacte, marcate/certificate în conformitate cu standardele de referință etc.)?",
     "Echipamentul de acces la înălțime (scări, carabine, schele) este disponibil și potrivit pentru lucrare (complet, intact, marcat, certificat)?",
     "Echipamentul de acces la înălțime (scări, carabine, schele) este instalat și utilizat corect?",
     "Schela este construită corect (examinare vizuală, planeitate, verticalitate), și este semnalizată și utilizată corespunzător?",
@@ -2456,7 +2521,7 @@ const QUESTIONS = {
     "Există sisteme de comunicație între personalul care lucrează la înălțime și cel de la sol (sisteme de emisie-recepție, telefoane mobile etc.)?",
   ],
   4: [
-    "Echipamentele⁠/⁠materialele utilizate pentru activitățile la înălțime sunt asigurate împotriva căderii (de exemplu, prin utilizarea centurilor de lucru adecvate, funiilor etc.)?",
+    "Echipamentele/materialele utilizate pentru activitățile la înălțime sunt asigurate împotriva căderii (de exemplu, prin utilizarea centurilor de lucru adecvate, funiilor etc.)?",
     "S-a efectuat delimitarea zonei cu risc de cădere a obiectelor și se garantează respectarea interdicției de a trece persoanele sub încărcătura suspendată?",
     "Sarcinile suspendate sunt controlate cu frânghii de ghidare, fixate în mod adecvat, iar echipamentul folosit este corespunzător?",
     "Nu sunt depozitate unelte sau echipamente în apropierea marginilor, pe balustrade sau pe suprafețe înalte. Materialele rezultate sunt în ordine și îndepărtate în mod regulat.",
@@ -2470,20 +2535,20 @@ const QUESTIONS = {
     "Muncitorii din apropierea utilajelor cu piese în mișcare urmează instrucțiunile și poartă îmbrăcăminte și accesorii adecvate (evitând colierele, brățările, inelele, îmbrăcămintea largă etc.)?",
   ],
   6: [
-    "Activitățile sunt efectuate corect pentru a evita riscul de prăbușire a structurilor⁠/⁠terenurilor (de exemplu, depozitarea pământului în funcție de adâncime etc.)?",
+    "Activitățile sunt efectuate corect pentru a evita riscul de prăbușire a structurilor/terenurilor (de exemplu, depozitarea pământului în funcție de adâncime etc.)?",
     "Zonele excavate sunt semnalizate pentru a preveni căderea în șanț?",
     "În zonele excavate există limitare de viteză de circulație?",
   ],
   7: [
-    "Manipularea încărcăturilor este conformă cu planul de ridicare, evaluarea adecvării terenului, greutatea materialelor, integritatea frânghiilor⁠/⁠dispozitivelor de ridicare?",
-    "Cărucioarele manuale sau motorizate sunt potrivite pentru sarcina ce trebuie transportată⁠; ⁠acestea sunt echipate cu sisteme pentru blocarea sarcinii?",
-    "Rafturile, spațiile de depozitare, dulapurile etc. sunt ușor accesibile, au indicată capacitatea maximă și prezintă încărcături corect stivuite și⁠/⁠sau fixate pentru a împiedica alunecarea sau căderea?",
+    "Manipularea încărcăturilor este conformă cu planul de ridicare, evaluarea adecvării terenului, greutatea materialelor, integritatea frânghiilor/dispozitivelor de ridicare?",
+    "Cărucioarele manuale sau motorizate sunt potrivite pentru sarcina ce trebuie transportată; acestea sunt echipate cu sisteme pentru blocarea sarcinii?",
+    "Rafturile, spațiile de depozitare, dulapurile etc. sunt ușor accesibile, au indicată capacitatea maximă și prezintă încărcături corect stivuite și/sau fixate pentru a împiedica alunecarea sau căderea?",
   ],
   8: [
     "Fișele de securitate pentru substanțele chimice sunt actualizate, prezente la locul de muncă și puse la dispoziția lucrătorilor?",
     "Manipularea, depozitarea și utilizarea substanțelor se efectuează în conformitate cu prevederile fișelor de securitate și ale documentului de evaluare a riscurilor?",
     "Materialele și substanțele chimice combustibile sunt depozitate în zone separate, departe de sursele de aprindere, iar rezervoarele sunt fixate pentru a preveni răsturnarea și deteriorarea?",
-    "Dacă există un risc de concentrații chimice periculoase în timpul lucrului, concentrația este monitorizată (dacă este necesar, chiar și continuu) cu sisteme de detectare (explozimetru⁠/⁠detector de gaze)?",
+    "Dacă există un risc de concentrații chimice periculoase în timpul lucrului, concentrația este monitorizată (dacă este necesar, chiar și continuu) cu sisteme de detectare (explozimetru/detector de gaze)?",
     "Recipientele folosite pentru depozitarea produselor chimice (solvenți, soluții de curățat, substanțe petroliere) sunt omologate și etichetate corespunzător?",
   ],
   9: [
@@ -2494,14 +2559,14 @@ const QUESTIONS = {
     "În cazul activităților care pot provoca incendii (de exemplu, sudare, tăiere, utilizarea polizorului), permisul de lucru cu foc este disponibil și se respectă?",
     "Există suficiente stingătoare în momentul în care se lucrează cu foc deschis?",
     "Zona este liberă de toate materialele combustibile?",
-    "Prelate⁠/⁠perdele ignifuge sunt utilizate în timpul activităților de sudare?",
+    "Prelate/perdele ignifuge sunt utilizate în timpul activităților de sudare?",
     "Se cunoaște protocolul de comunicare în situații de urgență (accident cu victimă, incendiu etc.)?",
     "Există întocmit un Plan de Urgență specific?",
     "Există un loc special amenajat și semnalizat pentru fumat?",
   ],
   11: [
     "Sistemul de comunicare între lucrători, sistemul de iluminat și monitorizarea atmosferei sunt implementate și efectuate în conformitate cu Planul de lucru și de urgență?",
-    "Echipamentele de prim ajutor și recuperare pentru o persoană vătămată sunt prezente, potrivite și eficiente. Aparatele de respirat sunt disponibile, în bune condiții și respectă standardele⁠/⁠reglementările aplicabile?",
+    "Echipamentele de prim ajutor și recuperare pentru o persoană vătămată sunt prezente, potrivite și eficiente. Aparatele de respirat sunt disponibile, în bune condiții și respectă standardele/reglementările aplicabile?",
     "Planurile de lucru și de evacuare au fost postate la intrarea în spațiul închis?",
     "În mediile cu risc de contaminare de la una sau mai multe substanțe sunt disponibile detectoare de gaz?",
     "Este întocmit un permis de lucru pentru spații închise? Se cunoaște și se respectă întocmai?",
@@ -2510,10 +2575,10 @@ const QUESTIONS = {
     "Lucrătorii expuși la pericolele create prin operațiuni de tăiere sunt protejați cu echipament individual de protecție? Ce anume?",
     "Echipamentele folosite pentru tăiere (flex, circular, pendular etc.) sunt omologate, au marcajul CE, au protecții, astfel încât să nu pună în pericol securitatea și sănătatea lucrătorilor?",
     "Lucrătorii folosesc EIP corespunzător (mănuși de protecție, ochelari de protecție etc.)?",
-    "În momentul când se lucrează cu echipamente de tăiat care fac flamă⁠/⁠scântei, au fost îndepărtate posibilele surse de provocare a incendiului?",
+    "În momentul când se lucrează cu echipamente de tăiat care fac flamă/scântei, au fost îndepărtate posibilele surse de provocare a incendiului?",
   ],
   13: [
-    "Lucrătorii folosesc EIP-ul corespunzător pentru lucrările desfășurate (cască cu prindere sub bărbie, bocanci⁠/⁠cizme de protecție, ochelari, centură de siguranță cu cârlige de prindere, scări etc.)?",
+    "Lucrătorii folosesc EIP-ul corespunzător pentru lucrările desfășurate (cască cu prindere sub bărbie, bocanci/cizme de protecție, ochelari, centură de siguranță cu cârlige de prindere, scări etc.)?",
     "Există disponibilă o procedură de lucru și o evaluare a riscurilor pentru aceste activități? Este îndeplinită procedura?",
     "Există o zonă amenajată și semnalizată corespunzător pentru spălarea betonierelor după turnare?",
     "Sunt respectate cerințele legale pentru lucrul la temperaturi ridicate și scăzute, conform prevederilor legale?",
@@ -2521,21 +2586,24 @@ const QUESTIONS = {
   ],
 };
 
-
+// =====================================================
+// CONFIGURARE SHAREPOINT
+// =====================================================
+const SP_SITE    = "https://deidplr.sharepoint.com/teams/Fise_Santier";
+const SP_LIST    = "Raspunsuri_Formulare";
+const SP_FOLDER  = "Rapoarte_SSM";  // folder în Documents unde se salvează PDF-urile
+// =====================================================
 
 // =====================================================
 // CONFIGURARE PROXY — tokenul GitHub e în GAS, nu aici
 // =====================================================
-const TEXT_SECTIONS = {
-  14: [
-    'Cum au întâmpinat membrii echipei acțiunea de control? (ex.: Deschiși, au înțeles că este o oportunitate de îmbunătățire a modului de lucru etc.)',
-    'Care a fost reacția în fața neconformităților identificate și a propunerilor de remediere? (ex.: Cunoșteau normele și procedurile aduse în discuție legat de neconformitățile identificate; au acceptat propunerile etc.)',
-    'Cum apreciați în general calitatea interacțiunii cu șeful de lucrare și membrii echipei pe durata inspecției? (ex.: Au arătat interes; au evitat interacțiunea etc.)',
-  ],
-  15: [
-    'Cum apreciați în general calitatea interacțiunii cu inspectorul? (ex.: atitudine constructivă asupra procesului de inspecție; abordare profesionistă; neconformitățile menționate au fost evidențiate corect etc.)',
-  ],
-};
+var obsText         = '';
+var fbSugestii      = '';
+var fbRating        = 0;
+var concluziiText   = '';
+var fbProbleme      = '';
+var fbGeneral       = '';
+let textAnswers     = {};
 
 const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbyUWKC07-DEnPvm_z-vJkQLUXNlyYr3ytbpyjxSUjoXTFJRSMXHqbgf4QUMsDd5CT6Btg/exec';
 // =====================================================
@@ -2543,15 +2611,6 @@ const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbyUWKC07-DEnPvm_z
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
 let images = [];     // Array of File objects
 let qImages = {};    // { "1-0": [ {dataUrl, name}, ... ] }
-
-function clearQImagesForKey(key) {
-  // Remove all images for this question key
-  if (qImages[key]) {
-    qImages[key] = [];
-  }
-  const thumbsDiv = document.getElementById('qthumbs-' + key);
-  if (thumbsDiv) thumbsDiv.innerHTML = '';
-}
 
 function handleQImg(key, files) {
   if (!qImages[key]) qImages[key] = [];
@@ -2595,13 +2654,47 @@ function removeQImg(key, idx) {
   const el = document.getElementById(`qthumb-${key}-${idx}`);
   if (el) el.remove();
 }
-let obsText = '';
-let fbSugestii = '';
-let fbRating = 0;
-
 // Feedback sections 14 & 15 text questions
+const TEXT_SECTIONS = {
+  14: [
+    "Cum au întâmpinat membrii echipei acțiunea de control? (ex.: Deschiși, au înțeles că este o oportunitate de îmbunătățire a modului de lucru etc.)",
+    "Care a fost reacția în fața neconformităților identificate și a propunerilor de remediere? (ex.: Cunoșteau normele și procedurile aduse în discuție legat de neconformitățile identificate; au acceptat propunerile etc.)",
+    "Cum apreciați în general calitatea interacțiunii cu șeful de lucrare și membrii echipei pe durata inspecției? (ex.: Au arătat interes; au evitat interacțiunea etc.)",
+  ],
+  15: [
+    "Cum apreciați în general calitatea interacțiunii cu inspectorul? (ex.: atitudine constructivă asupra procesului de inspecție; abordare profesionistă; neconformitățile menționate au fost evidențiate corect etc.)",
+  ],
+};
 
-let textAnswers = {}; document.getElementById('meta-date').value = new Date().toISOString().split('T')[0];
+
+function generateRef() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  return `RPT-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${Math.floor(Math.random()*9000+1000)}`;
+}
+
+document.getElementById('meta-date').value = new Date().toISOString().split('T')[0];
+
+function buildTextSections() {
+  for (const [sec, qs] of Object.entries(TEXT_SECTIONS)) {
+    const container = document.getElementById('section-' + sec + '-text');
+    if (!container) continue;
+    qs.forEach((q, idx) => {
+      const key = `${sec}-${idx}`;
+      textAnswers[key] = '';
+      const row = document.createElement('div');
+      row.className = 'text-question-row';
+      row.innerHTML = `
+        <div class="tq-label">
+          <span class="q-index">${sec}.${idx+1}</span>
+          <span class="q-text">${q}</span>
+        </div>
+        <textarea placeholder="Introduceți răspunsul..." rows="3"
+          oninput="textAnswers['${key}']=this.value"></textarea>`;
+      container.appendChild(row);
+    });
+  }
+}
 
 // Star rating
 function setRating(val) {
@@ -2613,13 +2706,54 @@ function setRating(val) {
   document.getElementById('ratingLabel').textContent = labels[val] || '';
 }
 
+function buildQuestions() {
+  let total = 0;
+  for (const [sec, qs] of Object.entries(QUESTIONS)) {
+    const container = document.getElementById('section-' + sec);
+    qs.forEach((q, idx) => {
+      total++;
+      const key = `${sec}-${idx}`;
+      answers[key] = { value: null, comment: '' };
+
+      const row = document.createElement('div');
+      row.className = 'question-row';
+      row.id = 'row-' + key;
+      row.innerHTML = `
+        <div class="q-top">
+          <span class="q-index">${sec}.${idx+1}</span>
+          <span class="q-text">${q}</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="${key}" data-val="DA" onclick="selectAnswer(this)">DA</button>
+            <button class="opt-btn" data-key="${key}" data-val="NU" onclick="selectAnswer(this)">NU</button>
+            <button class="opt-btn" data-key="${key}" data-val="N/A" onclick="selectAnswer(this)">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-${key}">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3"
+            oninput="updateComment('${key}', this.value)"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-${key}">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-${key}" accept="image/*" multiple
+              onchange="handleQImg('${key}', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-${key}"></div>
+          </div>
+        </div>`;
+      container.appendChild(row);
+    });
+  }
+  document.getElementById('totalQ').textContent = total;
+  updateProgress();
+}
+
 function selectAnswer(btn) {
   const key = btn.dataset.key;
   const val = btn.dataset.val;
 
+  // Toggle: dacă e deja selectat, deselecteaza
   const alreadySelected = btn.classList.contains('selected-' + val.toLowerCase().replace('/',''));
-  const prevVal = answers[key] ? answers[key].value : null;
-
+  
+  // Clear all buttons in this row
   const row = document.getElementById('row-' + key);
   row.querySelectorAll('.opt-btn').forEach(b => b.className = 'opt-btn');
   row.classList.remove('invalid');
@@ -2627,30 +2761,19 @@ function selectAnswer(btn) {
   const commentSection = document.getElementById('comment-' + key);
 
   if (alreadySelected) {
-    // Deselectare — clear note și imagini
     answers[key].value = null;
-    const ta = commentSection.querySelector('textarea');
-    if (ta) { ta.value = ''; }
-    if (answers[key]) answers[key].comment = '';
-    clearQImagesForKey(key);
     commentSection.classList.remove('open');
   } else {
     const cls = val === 'DA' ? 'selected-yes' : val === 'NU' ? 'selected-no' : 'selected-na';
     btn.classList.add(cls);
     answers[key].value = val;
 
-    // Dacă trece de la DA/NU la N/A — șterge notele și imaginile și închide
-    if (val === 'N/A') {
-      const ta = commentSection.querySelector('textarea');
-      if (ta) { ta.value = ''; }
-      if (answers[key]) answers[key].comment = '';
-      clearQImagesForKey(key);
-      commentSection.classList.remove('open');
-      commentSection.style.display = 'none';
-    } else if (val === 'DA' || val === 'NU') {
-      commentSection.style.display = '';
+    // Deschide comentariu pentru DA sau NU
+    if (val === 'DA' || val === 'NU') {
       commentSection.classList.add('open');
       commentSection.querySelector('textarea').focus();
+    } else {
+      commentSection.classList.remove('open');
     }
   }
   updateProgress();
@@ -2661,22 +2784,12 @@ function updateComment(key, val) {
 }
 
 function updateProgress() {
-  // Întrebări DA/NU/N/A
-  var totalDA = Object.keys(answers).length;
-  if (totalDA === 0) totalDA = document.querySelectorAll('.opt-btn[data-key]').length / 3;
-  var doneDA = Object.values(answers).filter(function(a){ return a.value !== null; }).length;
-
-  // Întrebări text (secțiunile 14-15)
-  var textAreas = document.querySelectorAll('.text-question-row textarea');
-  var totalText = textAreas.length;
-  var doneText  = 0;
-  textAreas.forEach(function(ta) { if (ta.value && ta.value.trim() !== '') doneText++; });
-
-  var total = Math.round(totalDA) + totalText;
-  var done  = doneDA + doneText;
-
+  var total = Object.keys(answers).length;
+  // fallback la count din DOM dacă answers nu e încă populat
+  if (total === 0) total = document.querySelectorAll('.opt-btn[data-key]').length / 3;
+  var done = Object.values(answers).filter(function(a){ return a.value !== null; }).length;
   var pt = document.getElementById('progressText');
-  if (pt) pt.textContent = done + ' din ' + total + ' întrebări completate';
+  if (pt) pt.textContent = done + ' din ' + Math.round(total) + ' întrebări completate';
   var fill = document.getElementById('progressFill');
   if (fill) fill.style.width = (total > 0 ? (done/total)*100 : 0) + '%';
 }
@@ -2762,7 +2875,8 @@ function buildPayload() {
     });
   }
   return {
-    nrRaport: '',  // Auto-assigned by GAS
+    nrRaport: document.getElementById('meta-raport').value,
+    nrRaport: document.getElementById('meta-raport').value,
     date: document.getElementById('meta-date').value,
     name: document.getElementById('meta-name').value,
     email: document.getElementById('meta-email').value,
@@ -2772,18 +2886,146 @@ function buildPayload() {
     numFisiere: images.filter(Boolean).length,
     feedbackRating: fbRating,
     feedbackSugestii: fbSugestii,
-    concluzii:        document.getElementById('concluzii-text') ? document.getElementById('concluzii-text').value : '',
-    sigInspectorName:    sigInspectorName,
-    sigInspectorFunctie: sigInspectorFunctie,
-    sigInspectorFirma:   sigInspectorFirma,
-    sigInspectorData:    sigInspectorData,
-    sigSefName:       sigSefName,
-    sigInspector:     getSigDataUrl('inspector'),
-    sigSef:           getSigDataUrl('sef'),
     sections
   };
 }
 
+// SUBMIT TO POWER AUTOMATE
+async function submitForm() {
+  if (!validate()) return;
+
+  const overlay    = document.getElementById('overlay');
+  const overlayMsg = document.querySelector('.overlay div:last-child');
+  overlay.classList.add('show');
+
+  try {
+    // ── 1. Citim imaginile suport ca base64 ──
+    overlayMsg.textContent = 'Se citesc imaginile...';
+    const activeImages = images.filter(Boolean);
+    const imgData = await Promise.all(activeImages.map(f => fileToBase64(f)));
+
+    // ── 2. Construim HTML-ul PDF ──
+    overlayMsg.textContent = 'Se generează PDF-ul...';
+    await new Promise(r => setTimeout(r, 80));
+    const payload  = buildPayload();
+    const pdfHtml  = buildPDFHtml(payload, imgData);
+    const pdfBytes = new TextEncoder().encode(pdfHtml);
+
+    // ── 3. Obținem token SharePoint (Request Digest) ──
+    overlayMsg.textContent = 'Se conectează la SharePoint...';
+    const digestRes = await fetch(SP_SITE + '/_api/contextinfo', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json;odata=verbose' },
+      credentials: 'include'
+    });
+    if (!digestRes.ok) throw new Error('Nu s-a putut obține accesul la SharePoint. Asigurați-vă că sunteți autentificat.');
+    const digestJson = await digestRes.json();
+    const digest = digestJson.d.GetContextWebInformation.FormDigestValue;
+
+    // ── 4. Scriem elementul în lista SharePoint ──
+    overlayMsg.textContent = 'Se salvează în lista SharePoint...';
+    const listItem = {
+      __metadata:      { type: await getListItemType(digest) },
+      Title:           payload.nrRaport   || 'Fără număr',
+      Inspector:       payload.name       || '',
+      Email_Inspector: payload.email      || '',
+      Data_Inspectie:  payload.date       || '',
+      Localitate:      payload.location   || '',
+      Tip_Lucrare:     payload.tipLucrare || '',
+      Observatii:      payload.observatii || '',
+      Rating:          payload.feedbackRating || 0,
+      Sugestii:        payload.feedbackSugestii || '',
+      Fisier_PDF:      SP_SITE + '/Shared%20Documents/' + SP_FOLDER + '/' + encodeURIComponent(fileName),
+      Status:          'Trimis'
+    };
+
+    const listRes = await fetch(
+      SP_SITE + "/_api/web/lists/getbytitle('" + SP_LIST + "')/items",
+      {
+        method:      'POST',
+        credentials: 'include',
+        headers: {
+          'Accept':          'application/json;odata=verbose',
+          'Content-Type':    'application/json;odata=verbose',
+          'X-RequestDigest': digest
+        },
+        body: JSON.stringify(listItem)
+      }
+    );
+    if (!listRes.ok) {
+      const err = await listRes.text();
+      throw new Error('Eroare la scrierea în listă: ' + listRes.status + ' — ' + err.substring(0, 200));
+    }
+
+    // ── 5. Salvăm fișierul HTML/PDF în Documents ──
+    overlayMsg.textContent = 'Se salvează fișierul PDF...';
+
+    // Creăm folderul dacă nu există
+    await fetch(
+      SP_SITE + "/_api/web/folders",
+      {
+        method:      'POST',
+        credentials: 'include',
+        headers: {
+          'Accept':          'application/json;odata=verbose',
+          'Content-Type':    'application/json;odata=verbose',
+          'X-RequestDigest': digest
+        },
+        body: JSON.stringify({
+          __metadata: { type: 'SP.Folder' },
+          ServerRelativeUrl: '/teams/Fise_Santier/Shared Documents/' + SP_FOLDER
+        })
+      }
+    ).catch(() => {}); // ignorăm eroarea dacă folderul există deja
+
+    const uploadRes = await fetch(
+      SP_SITE + "/_api/web/GetFolderByServerRelativeUrl('/teams/Fise_Santier/Shared%20Documents/" + SP_FOLDER + "')" +
+      "/Files/add(url='" + encodeURIComponent(fileName) + "',overwrite=true)",
+      {
+        method:      'POST',
+        credentials: 'include',
+        headers: {
+          'Accept':          'application/json;odata=verbose',
+          'X-RequestDigest': digest,
+          'Content-Length':  pdfBytes.length
+        },
+        body: pdfBytes
+      }
+    );
+    if (!uploadRes.ok) {
+      const err = await uploadRes.text();
+      throw new Error('Eroare la salvarea fișierului: ' + uploadRes.status + ' — ' + err.substring(0, 200));
+    }
+
+    overlay.classList.remove('show');
+    showToast('✔ Raportul a fost salvat în SharePoint și înregistrat în listă!', 'success');
+
+  } catch(e) {
+    overlay.classList.remove('show');
+    console.error('Eroare submit:', e);
+    if (e.message.includes('autentificat') || e.message.includes('401') || e.message.includes('403')) {
+      showToast('Eroare autentificare — deschideți formularul din SharePoint, nu local.', 'error');
+    } else {
+      showToast('Eroare: ' + e.message, 'error');
+    }
+  }
+}
+
+async function getListItemType(digest) {
+  try {
+    const res = await fetch(
+      SP_SITE + "/_api/web/lists/getbytitle('" + SP_LIST + "')?$select=ListItemEntityTypeFullName",
+      {
+        credentials: 'include',
+        headers: { 'Accept': 'application/json;odata=verbose', 'X-RequestDigest': digest }
+      }
+    );
+    const json = await res.json();
+    return json.d.ListItemEntityTypeFullName;
+  } catch(e) {
+    return 'SP.Data.' + SP_LIST.replace(/\s/g,'_x0020_') + 'ListItem';
+  }
+}
 // Citește un File ca Base64 data URL
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
@@ -2796,59 +3038,48 @@ function fileToBase64(file) {
 
 // DOWNLOAD PDF (client-side, cu imagini embedded ca base64)
 async function downloadPDF() {
-  const overlay    = document.getElementById('overlay');
+
+  const overlay = document.getElementById('overlay');
   const overlayMsg = document.querySelector('.overlay div:last-child');
   overlay.classList.add('show');
+  overlayMsg.textContent = 'Se citesc imaginile...';
 
+  // Citim toate imaginile ca Base64 înainte să construim HTML-ul
+  const activeImages = images.filter(Boolean);
+  let imgData = [];
   try {
-    overlayMsg.textContent = 'Se citesc imaginile...';
-    const activeImages = images.filter(Boolean);
-    const imgData = await Promise.all(activeImages.map(f => fileToBase64(f)));
-
-    overlayMsg.textContent = 'Se obține numărul raportului...';
-    let nrRaport = '';
-    if (cachedNrRaport && !cachedNrUsed) {
-      nrRaport = cachedNrRaport;
-    } else {
-      try {
-        const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', { method: 'GET', redirect: 'follow' });
-        const nrData = JSON.parse(await nrRes.text());
-        if (nrData.nextNr) { nrRaport = nrData.nextNr; cachedNrRaport = nrRaport; cachedNrUsed = false; }
-      } catch(e) {}
-    }
-
-    overlayMsg.textContent = 'Se generează PDF-ul...';
-    const payload = buildPayload();
-    payload.nrRaport = nrRaport;
-    const html = buildPDFHtml(payload, imgData);
-
-    const docTitle = (nrRaport || 'SSM')
-      + (payload.location ? '_' + payload.location : '')
-      + (payload.date    ? '_' + payload.date    : '');
-
-    const win = window.open('', '_blank');
-    if (!win) {
-      overlay.classList.remove('show');
-      showToast('Popup blocat. Permite popup-uri pentru acest site.', 'error');
-      return;
-    }
-    // Injectăm titlul în HTML înainte de a-l scrie
-    const htmlWithTitle = html.replace('<title></title>', '<title>' + docTitle + '</title>');
-    win.document.write(htmlWithTitle);
-    win.document.close();
-    win.addEventListener('load', () => {
-      overlay.classList.remove('show');
-      setTimeout(() => win.print(), 300);
-    });
-    setTimeout(() => { overlay.classList.remove('show'); }, 3000);
-
-  } catch(err) {
+    imgData = await Promise.all(activeImages.map(f => fileToBase64(f)));
+  } catch(e) {
     overlay.classList.remove('show');
-    console.error('Eroare PDF:', err);
-    showToast('Eroare: ' + err.message, 'error');
+    showToast('Eroare la citirea imaginilor.', 'error');
+    return;
   }
-}
 
+  overlayMsg.textContent = 'Se generează PDF-ul...';
+  await new Promise(r => setTimeout(r, 200));
+
+  const payload = buildPayload();
+  const html = buildPDFHtml(payload, imgData);
+
+  const win = window.open('', '_blank');
+  if (!win) {
+    overlay.classList.remove('show');
+    showToast('Popup blocat de browser. Permite popup-uri pentru acest site.', 'error');
+    return;
+  }
+  win.document.write(html);
+  win.document.close();
+
+  // Așteptăm ca imaginile să se încarce în fereastra nouă, apoi print
+  win.addEventListener('load', () => {
+    overlay.classList.remove('show');
+    setTimeout(() => win.print(), 300);
+  });
+  // Fallback dacă load nu se declanșează
+  setTimeout(() => {
+    overlay.classList.remove('show');
+  }, 3000);
+}
 
 async function trimiteRaport() {
   if (!validate()) return;
@@ -2863,51 +3094,54 @@ async function trimiteRaport() {
     const activeImages = images.filter(Boolean);
     const imgData = await Promise.all(activeImages.map(f => fileToBase64(f)));
 
-    // ── 2. Obținem numărul raportului ──
-    // Dacă există un număr cached și nefolosit (ex: după descărcare locală), îl refolosim
-    overlayMsg.textContent = 'Se obține numărul raportului...';
-    let nrRaport = '';
-    if (cachedNrRaport && !cachedNrUsed) {
-      nrRaport = cachedNrRaport;
-      console.log('Refolosim nrRaport cached:', nrRaport);
-    } else {
-      try {
-        const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', {
-          method: 'GET', redirect: 'follow'
-        });
-        const nrData = JSON.parse(await nrRes.text());
-        if (nrData.nextNr) {
-          nrRaport       = nrData.nextNr;
-          cachedNrRaport = nrRaport;
-          cachedNrUsed   = false;
-        }
-      } catch(e) {
-        console.warn('Nu am putut obține nr raport:', e);
-      }
+    // ── 2. Generăm PDF-ul ──
+    overlayMsg.textContent = 'Se generează PDF-ul...';
+    await new Promise(r => setTimeout(r, 100));
+    const payload = buildPayload();
+    const pdfHtml = buildPDFHtml(payload, imgData);
+
+    // ── 3. Deschidem PDF local pentru print ──
+    const win = window.open('', '_blank');
+    if (win) {
+      win.document.write(pdfHtml);
+      win.document.close();
+      win.addEventListener('load', () => setTimeout(() => win.print(), 300));
     }
 
-    // ── 3. Construim payload cu numărul corect ──
-    const payload    = buildPayload();
-    payload.nrRaport = nrRaport;
+    // ── 4. Pregătim payload pentru GAS proxy ──
+    overlayMsg.textContent = 'Se încarcă în GitHub...';
+    const ts       = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+    const nr       = (payload.nrRaport || 'fara-nr').replace(/[^a-zA-Z0-9-_]/g, '-');
+    const fileName = 'Raport-' + nr + '-' + ts + '.pdf';
+    // ── 5. Generăm PDF real din HTML (cu tot cu design) ──
+    overlayMsg.textContent = 'Se generează PDF-ul pentru GitHub...';
 
-    // ── 4. Generăm PDF-ul cu numărul corect ──
-    overlayMsg.textContent = 'Se generează PDF-ul...';
-    const pdfHtml   = buildPDFHtml(payload, imgData);
     const pdfBase64 = await (async function() {
+      // Parsăm HTML-ul PDF și extragem doar body-ul + CSS-ul
       const parser  = new DOMParser();
       const pdfDoc  = parser.parseFromString(pdfHtml, 'text/html');
+
+      // Extragem CSS din <style> tags
       let cssText = '';
       pdfDoc.querySelectorAll('style').forEach(function(s) { cssText += s.textContent; });
+
+      // Creăm un container cu stiluri inline
       const container = document.createElement('div');
       container.style.cssText = 'position:fixed;left:-9999px;top:0;width:860px;background:#fff;z-index:-1;font-family:Arial,sans-serif;font-size:12px;color:#1a1917;padding:20px;box-sizing:border-box;';
+
+      // Adăugăm un <style> tag direct în container
       const styleEl = document.createElement('style');
       styleEl.textContent = cssText;
       container.appendChild(styleEl);
+
+      // Adăugăm conținutul body-ului
       const bodyContent = document.createElement('div');
       bodyContent.innerHTML = pdfDoc.body.innerHTML;
       container.appendChild(bodyContent);
+
       document.body.appendChild(container);
       await new Promise(r => setTimeout(r, 1200));
+
       const { jsPDF } = window.jspdf;
       const pdf     = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
       const pageW   = pdf.internal.pageSize.getWidth();
@@ -2915,37 +3149,53 @@ async function trimiteRaport() {
       const margin  = 10;
       const usableW = pageW - margin * 2;
       const usableH = pageH - margin * 2;
+
       const canvas = await html2canvas(container, {
-        scale: 2, useCORS: true, allowTaint: true,
-        backgroundColor: '#ffffff', width: 860, windowWidth: 860
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        width: 860,
+        windowWidth: 860
       });
+
+      // Paginare inteligentă bazată pe rânduri
       const scale   = canvas.width / 860;
       const pageHpx = Math.round(usableH * canvas.width / usableW);
-      const rows = Array.from(container.querySelectorAll('.row, .sec-header'));
+
+      const rows = Array.from(container.querySelectorAll('tr'));
       const safeBottoms = [];
       rows.forEach(function(row) {
         let top = 0, el = row;
-        while (el && el !== container) { top += el.offsetTop || 0; el = el.offsetParent; }
+        while (el && el !== container) {
+          top += el.offsetTop || 0;
+          el   = el.offsetParent;
+        }
         safeBottoms.push(Math.round((top + row.offsetHeight) * scale));
       });
       safeBottoms.sort(function(a,b){ return a-b; });
+
       document.body.removeChild(container);
+
       const breakPoints = [0];
       let pageEnd = pageHpx;
       while (pageEnd < canvas.height) {
         let best = -1;
         for (let k = 0; k < safeBottoms.length; k++) {
-          if (safeBottoms[k] <= pageEnd && safeBottoms[k] > breakPoints[breakPoints.length-1]) best = safeBottoms[k];
+          if (safeBottoms[k] <= pageEnd && safeBottoms[k] > breakPoints[breakPoints.length-1]) {
+            best = safeBottoms[k];
+          }
         }
         const cut = best > 0 ? best : pageEnd;
         breakPoints.push(cut);
         pageEnd = cut + pageHpx;
       }
       breakPoints.push(canvas.height);
+
       for (let p = 0; p < breakPoints.length - 1; p++) {
         if (p > 0) pdf.addPage();
-        const srcY = breakPoints[p];
-        const srcH = breakPoints[p+1] - srcY;
+        const srcY   = breakPoints[p];
+        const srcH   = breakPoints[p+1] - srcY;
         if (srcH <= 0) continue;
         const sliceH = srcH * usableW / canvas.width;
         const slice  = document.createElement('canvas');
@@ -2954,90 +3204,32 @@ async function trimiteRaport() {
         slice.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, srcH, 0, 0, canvas.width, srcH);
         pdf.addImage(slice.toDataURL('image/jpeg', 0.92), 'JPEG', margin, margin, usableW, sliceH);
       }
+
       return pdf.output('datauristring').split(',')[1];
-    })();;
-;
-
-
-    
-    // ── 4.5. Construim rândul CSV ──
-    (function() {
-      var secs = payload.sections || {};
-      var row = [
-        payload.nrRaport || '', payload.name || '', payload.email || '',
-        payload.date || '', payload.location || '', payload.tipLucrare || ''
-      ];
-      for (var s = 1; s <= 13; s++) {
-        var items = secs[s] || secs[String(s)] || [];
-        items.forEach(function(item) {
-          row.push(item.answer || '');
-          row.push(item.comment || '');
-        });
-      }
-      for (var s2 = 14; s2 <= 15; s2++) {
-        var items2 = secs[s2] || secs[String(s2)] || [];
-        items2.forEach(function(item) { row.push(item.answer || ''); });
-      }
-      row.push(payload.observatii || '', payload.concluzii || '',
-               payload.sigInspectorName || '', payload.sigInspectorFunctie || '',
-               payload.sigInspectorFirma || '', payload.sigInspectorData || '');
-      payload.csvRow = row;
     })();
 
-    // ── 5. Trimitem PDF-ul la GAS cu numărul atribuit ──
+
+    // ── 6. Trimitem PDF-ul real la GAS proxy ──
     overlayMsg.textContent = 'Se încarcă în GitHub...';
     const res = await fetch(GAS_PROXY_URL, {
       method:   'POST',
       redirect: 'follow',
       headers:  { 'Content-Type': 'text/plain' },
-      body:     JSON.stringify({
-        pdfHtmlBase64: pdfBase64,
-        fileExt:       'pdf',
-        nrRaport:      nrRaport,
-        inspector:     payload.name        || '',
-        email:         payload.email       || '',
-        data:          payload.date        || '',
-        localitate:    payload.location    || '',
-        tipLucrare:    payload.tipLucrare  || '',
-        observatii:    payload.observatii  || '',
-        concluzii:     payload.concluzii   || '',
-        sections:      payload.sections    || {},
-        csvRow:        payload.csvRow      || []
-      })
+      body:     JSON.stringify({ pdfHtmlBase64: pdfBase64, nrRaport: document.getElementById('meta-raport').value || '', localitate: document.getElementById('meta-location').value || '', data: document.getElementById('meta-date').value || '' })
     });
 
     const text = await res.text();
     let result = {};
     try { result = JSON.parse(text); } catch(e) { result = { status: 'error', message: text }; }
 
-    if (result.status !== 'success') {
-      overlay.classList.remove('show');
+    overlay.classList.remove('show');
+
+    if (result.status === 'success') {
+      showToast('✔ Raportul a fost salvat în GitHub: ' + (result.fileName || fileName), 'success');
+    } else {
       console.error('GAS error:', result);
       showToast('Eroare server: ' + (result.message || 'necunoscută') + '. PDF-ul a fost deschis local.', 'error');
-      return;
     }
-
-    // ── 6. Păstrăm nrRaport confirmat de GAS pentru descărcarea locală ──
-    // cachedNrUsed rămâne false → downloadPDF va refolosi același număr
-    cachedNrRaport = nrRaport;
-    cachedNrUsed   = false;
-
-    // Descarcă PDF local
-    const winLocal = window.open('', '_blank');
-    if (winLocal) {
-      const localTitle = nrRaport
-        + (payload.location ? '_' + payload.location : '')
-        + (payload.date     ? '_' + payload.date     : '');
-      const pdfHtmlTitled = pdfHtml.replace('<title></title>', '<title>' + localTitle + '</title>');
-      winLocal.document.write(pdfHtmlTitled);
-      winLocal.document.close();
-      winLocal.addEventListener('load', () => setTimeout(() => winLocal.print(), 300));
-    }
-
-    overlay.classList.remove('show');
-    showToast('✔ ' + nrRaport + ' salvat în GitHub: ' + result.fileName, 'success');
-
-    // Nr raport folosit - la următoarea acțiune va fi preluat din nou din GitHub
 
   } catch(err) {
     overlay.classList.remove('show');
@@ -3071,111 +3263,39 @@ function buildPDFHtml(p, imgData) {
   const rows = [];
   // Main DA/NU/NA sections 1-13
   for (const [sec, qs] of Object.entries(QUESTIONS)) {
-    rows.push(`<div class="sec-header"><div class="col-q">Secțiunea ${sec}: ${SECTION_NAMES[sec]}</div></div>`);
-
-    // Separate questions: compact (DA/N/A, no notes, no images) vs detailed
-    const compactDA  = []; // DA without notes/images
-    const compactNA  = []; // N/A without notes/images
-    const detailed   = []; // all others
-
+    rows.push(`<tr class="sec-header"><td colspan="3">Secțiunea ${sec}: ${SECTION_NAMES[sec]}</td></tr>`);
     p.sections[sec].forEach((item, i) => {
-      const qkey    = `${sec}-${i}`;
-      const hasNote = item.comment && item.comment.trim() !== '';
-      const hasImg  = (qImages[qkey]||[]).filter(Boolean).length > 0;
-      const ans     = item.answer;
-
-      if ((ans === 'DA' || ans === 'N/A') && !hasNote && !hasImg) {
-        if (ans === 'DA') compactDA.push(`${sec}.${i+1}`);
-        else              compactNA.push(`${sec}.${i+1}`);
-      } else {
-        detailed.push({ item, i, qkey });
-      }
-    });
-
-    // ── Rând compact DA ──
-    if (compactDA.length > 0) {
-      const nums = compactDA.join(', ');
-      rows.push(`<div class="row" style="background:#f0f7f0;">
-        <div class="col-q" style="color:#555;font-size:11px;"><span style="font-weight:600;color:#1a6b3c;">DA</span> — întrebările: <span style="color:#1a6b3c;font-weight:500;">${nums}</span></div>
-        <div class="col-r"><span class="badge" style="background:#1a6b3c;">DA</span></div>
-        <div class="col-c">—</div>
-      </div>`);
-    }
-
-    // ── Rând compact N/A ──
-    if (compactNA.length > 0) {
-      const nums = compactNA.join(', ');
-      rows.push(`<div class="row" style="background:#f5f5f5;">
-        <div class="col-q" style="color:#555;font-size:11px;"><span style="font-weight:600;color:#5a5752;">N/A</span> — întrebările: <span style="color:#5a5752;font-weight:500;">${nums}</span></div>
-        <div class="col-r"><span class="badge" style="background:#5a5752;">N/A</span></div>
-        <div class="col-c">—</div>
-      </div>`);
-    }
-
-    // ── Întrebări detaliate (NU, sau DA/N/A cu note/imagini) ──
-    detailed.forEach(({ item, i, qkey }) => {
-      const ans   = item.answer || '—';
+      const qkey = `${sec}-${i}`;
+      const ans = item.answer || '—';
       const badge = item.answer === 'DA' ? '#1a6b3c' : item.answer === 'NU' ? '#8f1a1a' : '#5a5752';
-      const imgs  = (qImages[qkey]||[]).filter(Boolean);
-      rows.push(`<div class="row">
-        <div class="col-q"><span style="display:block;text-align:left;word-spacing:normal;white-space:normal">${sec}.${i+1}. ${item.question}</span></div>
-        <div class="col-r"><span class="badge" style="background:${badge}">${ans}</span></div>
-        <div class="col-c">${item.comment || '—'}${imgs.map(img=>`<div style="margin-top:6px"><img src="${img.dataUrl}" style="max-width:100%;max-height:160px;border-radius:3px;border:1px solid #ddd;display:block"/></div>`).join('')}</div>
-      </div>`);
+      rows.push(`<tr>
+        <td>${sec}.${i+1}. ${item.question}</td>
+        <td style="text-align:center"><span style="background:${badge};color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:600">${item.answer}</span></td>
+        <td>${item.comment || '—'}${(() => { const qi = (qImages[qkey]||[]).filter(Boolean); return qi.map(img=>`<div style="margin-top:6px"><img src="${img.dataUrl}" style="max-width:100%;max-height:160px;border-radius:3px;border:1px solid #ddd;display:block"/></div>`).join(''); })()}</td>
+      </tr>`);
     });
   }
   // Text sections 14 & 15
   [14, 15].forEach(sec => {
     if (p.sections[sec]) {
-      rows.push(`<div class="sec-header"><div class="col-q">Secțiunea ${sec}: ${SECTION_NAMES[sec]}</div></div>`);
+      rows.push(`<tr class="sec-header"><td colspan="3">Secțiunea ${sec}: ${SECTION_NAMES[sec]}</td></tr>`);
       p.sections[sec].forEach((item, i) => {
-        rows.push(`<div class="row"><div class="col-q">${sec}.${i+1}. ${item.question}</div><div class="col-r"></div><div class="col-c">${item.answer || '—'}</div></div>`);
+        rows.push(`<tr>
+          <td colspan="2">${sec}.${i+1}. ${item.question}</td>
+          <td>${item.answer || '—'}</td>
+        </tr>`);
       });
     }
   });
   // Observatii
-  rows.push(`<div class="sec-header"><div class="col-q">Secțiunea 16: Observații</div></div>`);
-  rows.push(`<div class="row"><div class="col-q">16.1. Încălcări ale regulilor de siguranță identificate</div><div class="col-r"></div><div class="col-c">${p.observatii || '—'}</div></div>`);
-  rows.push(`<div class="row"><div class="col-q">16.2. Fișiere atașate</div><div class="col-r"></div><div class="col-c">${p.numFisiere || 0} fișiere</div></div>`);
+  rows.push(`<tr class="sec-header"><td colspan="3">Secțiunea 16: Observații</td></tr>`);
+  rows.push(`<tr><td colspan="2">16.1. Încălcări ale regulilor de siguranță identificate</td><td>${p.observatii || '—'}</td></tr>`);
+  rows.push(`<tr><td colspan="2">16.2. Fișiere atașate</td><td>${p.numFisiere || 0} fișiere</td></tr>`);
   // Feedback form
   const starStr = fbRating > 0 ? '★'.repeat(fbRating) + '☆'.repeat(5-fbRating) : '—';
-  
-  
-  
-
-  // ── Secțiunea 18: Semnătură inspector ──
-  rows.push(`<div class="sec-header"><div class="col-q">Secțiunea 18: Semnătura inspectorului</div></div>`);
-  rows.push(`<div class="row" style="display:block;padding:0;background:transparent;">
-    <div style="display:flex;">
-      <div style="flex:1;padding:12px 16px;border-right:1px solid #e0deda;">
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;">
-          <div>
-            <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:3px;">Nume</div>
-            <div style="font-size:12px;border-bottom:1px solid #ccc;padding-bottom:4px;min-height:20px;">${p.sigInspectorName || ''}</div>
-          </div>
-          <div>
-            <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:3px;">Funcție</div>
-            <div style="font-size:12px;border-bottom:1px solid #ccc;padding-bottom:4px;min-height:20px;">${p.sigInspectorFunctie || ''}</div>
-          </div>
-          <div>
-            <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:3px;">Firma</div>
-            <div style="font-size:12px;border-bottom:1px solid #ccc;padding-bottom:4px;min-height:20px;">${p.sigInspectorFirma || ''}</div>
-          </div>
-          <div>
-            <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:3px;">Data</div>
-            <div style="font-size:12px;border-bottom:1px solid #ccc;padding-bottom:4px;min-height:20px;">${p.sigInspectorData || ''}</div>
-          </div>
-        </div>
-      </div>
-      <div style="flex:1;padding:12px 16px;">
-        <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:8px;">Semnătură</div>
-        ${p.sigInspector
-          ? '<img src="' + p.sigInspector + '" style="max-width:100%;height:200px;object-fit:contain;display:block;"/>'
-          : '<div style="height:200px;border-bottom:1.5px solid #999;"></div>'
-        }
-      </div>
-    </div>
-  </div>`);
+  rows.push(`<tr class="sec-header"><td colspan="3">Secțiunea 17: Feedback form (temporar)</td></tr>`);
+  rows.push(`<tr><td colspan="2">17.1. Evaluare formular</td><td>${starStr} (${fbRating}/5)</td></tr>`);
+  rows.push(`<tr><td colspan="2">17.2. Sugestii pentru îmbunătățire</td><td>${p.feedbackSugestii || '—'}</td></tr>`);
 
   // Generăm tag-urile <img> cu src=data:... embedded complet
   const imgCards = imgData.map((img, i) => `
@@ -3192,66 +3312,36 @@ function buildPDFHtml(p, imgData) {
     : `<div class="imgs"><h2>Imagini atașate (0)</h2><p style="color:#888;font-size:12px">Nu au fost atașate imagini.</p></div>`;
 
   return `<!DOCTYPE html><html><head><meta charset="UTF-8"/>
-  <meta name="viewport" content="width=860"/>
   <title></title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: unset; }
-    body { font-size: 12px; color: #1a1917; padding: 0; margin: 0; background: #fff; -webkit-text-size-adjust: 100%; width: 100%; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; font-size: 12px; color: #1a1917; padding: 20px; background: #fff; }
 
     .meta { display: flex; flex-wrap: wrap; gap: 0; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; }
     .meta-item { flex: 1 1 33%; padding: 10px 12px; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; }
     .meta-item:nth-child(3n) { border-right: none; }
     .meta-item .lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; color: #888; margin-bottom: 3px; }
     .meta-item .val { font-size: 13px; font-weight: 500; }
-
-    .tbl { width: 100%; margin-bottom: 28px; font-size: 11px; border: 1px solid #e0deda; border-radius: 4px; overflow: hidden; }
-    .tbl-head { display: flex; background: #f0efec; border-bottom: 1px solid #ccc; }
-    .tbl-head .col-q  { flex: 0 0 55%; padding: 7px 8px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-    .tbl-head .col-r  { flex: 0 0 12%; padding: 7px 8px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; }
-    .tbl-head .col-c  { flex: 1; padding: 7px 8px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-
-    .row { display: flex; border-bottom: 1px solid #e0deda; background: #fafaf8; page-break-inside: avoid; break-inside: avoid; }
-    .row:last-child { border-bottom: none; }
-    .col-q { flex: 0 0 55%; padding: 7px 8px; border-right: 1px solid #e0deda; line-height: 1.5; overflow-wrap: break-word; font-size: 11px !important; }
-    .col-r { flex: 0 0 12%; padding: 7px 8px; border-right: 1px solid #e0deda; text-align: center; vertical-align: middle; display: flex; align-items: center; justify-content: center; }
-    .col-c { flex: 1; padding: 7px 8px; line-height: 1.5; text-align: left; word-break: normal; word-spacing: normal; font-size: 11px !important; }
-
-    .sec-header { display: flex; background: #e8eef7; border-bottom: 1px solid #b8c8e8; page-break-inside: avoid; break-inside: avoid; page-break-after: avoid; break-after: avoid; }
-    .sec-header .col-q { flex: 1; font-weight: 700; font-size: 12px; color: #1a4d8f; padding: 8px 10px; border-right: none; background: #e8eef7; }
-
-    .badge { color: #fff; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 600; display: inline-block; }
-
+    table { width: 100%; border-collapse: collapse; margin-bottom: 28px; font-size: 11px; }
+    th { background: #f0efec; text-align: left; padding: 7px 8px; border: 1px solid #ccc; font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em; }
+    td { padding: 7px 8px; border: 1px solid #e0deda; vertical-align: top; line-height: 1.5; }
+    tr { page-break-inside: avoid; break-inside: avoid; }
+    tr:nth-child(even) td { background: #fafaf8; }
+    .sec-header td, tr.sec-header td, tr.sec-header:nth-child(even) td, tr.sec-header:nth-child(odd) td { background: #e8eef7 !important; font-weight: 700; font-size: 12px; color: #1a4d8f; padding: 8px 10px; border: 1px solid #b8c8e8; }
     .imgs { margin-top: 8px; page-break-before: always; }
     .imgs h2 { font-size: 14px; font-weight: 700; color: #1a1917; border-bottom: 2px solid #1a4d8f; padding-bottom: 8px; margin-bottom: 16px; }
     .img-grid { display: flex; flex-wrap: wrap; gap: 16px; }
     .img-card { width: calc(50% - 8px); border: 1px solid #ddd; border-radius: 4px; overflow: hidden; page-break-inside: avoid; }
     .img-card img { width: 100%; height: auto; max-height: 320px; object-fit: contain; display: block; background: #f5f5f5; }
     .img-caption { font-size: 10px; color: #555; padding: 5px 8px; background: #f9f9f7; border-top: 1px solid #eee; }
-
     @media print {
-      .col-q span, .col-c { text-align: left !important; word-spacing: normal !important; white-space: normal !important; }
+      body { padding: 10px; }
+      .imgs { page-break-before: always; }
+      .img-card { page-break-inside: avoid; }
     }
-    .tbl > .row:last-child { page-break-after: avoid; break-after: avoid; }
-    .tbl > div:last-child { page-break-after: avoid; break-after: avoid; }
-        @-moz-document url-prefix() {
-      * { text-align: left !important; word-spacing: normal !important; }
-      .col-q, .col-c { font-size: 11px !important; }
-    }
-    @page {
-      size: A4 portrait;
-      margin: 1cm 1.5cm;
-    }
-    @media print {
-      html, body {
-        width: 210mm;
-        min-height: 297mm;
-        margin: 0 !important;
-        padding: 0 !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-    }
-</style>
+    @page { margin: 1.5cm; size: A4; }
+    @media print { html { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+  </style>
   </head><body>
   <div class="meta">
     <div class="meta-item"><div class="lbl">Nr. Raport</div><div class="val">${p.nrRaport || '—'}</div></div>
@@ -3261,14 +3351,14 @@ function buildPDFHtml(p, imgData) {
     <div class="meta-item"><div class="lbl">Localitate</div><div class="val">${p.location || '—'}</div></div>
     <div class="meta-item"><div class="lbl">Tip lucrare</div><div class="val">${p.tipLucrare || '—'}</div></div>
   </div>
-  <div class="tbl">
-    <div class="tbl-head">
-      <div class="col-q">Întrebare</div>
-      <div class="col-r">Răspuns</div>
-      <div class="col-c">Comentariu</div>
-    </div>
-    ${rows.join('')}
-  </div>
+  <table>
+    <thead><tr>
+      <th style="width:55%">Întrebare</th>
+      <th style="width:10%;text-align:center">Răspuns</th>
+      <th>Comentariu</th>
+    </tr></thead>
+    <tbody>${rows.join('')}</tbody>
+  </table>
   ${imgsSection}
   </body></html>`;
 }
@@ -3280,77 +3370,6 @@ function showToast(msg, type = '') {
   t.className = 'toast show ' + type;
   setTimeout(() => t.className = 'toast', 4500);
 }
-
-
-// ── Cache număr raport ──
-var cachedNrRaport = null;   // numărul obținut de la GAS
-var cachedNrUsed   = false;  // true după ce a fost salvat în GitHub
-
-// ── Variabile semnături și concluzii ──
-var concluziiText    = '';
-var sigInspectorName   = '';
-var sigInspectorFunctie = '';
-var sigInspectorFirma   = '';
-var sigInspectorData    = '';
-var sigSefName       = '';
-var sigCanvases      = {};
-
-function initSignatures() {
-  var canvas = document.getElementById('canvas-inspector');
-
-  if (!canvas) return;
-  if (typeof SignaturePad === 'undefined') return;
-
-  // ── Setăm dimensiunile interne ale canvas-ului să coincidă cu cele CSS ──
-  function resizeCanvas() {
-    var ratio = window.devicePixelRatio || 1;
-    var w = canvas.offsetWidth;
-    var h = canvas.offsetHeight;
-    // Salvăm datele semnăturii înainte de resize
-    var pad      = sigCanvases['inspector'];
-    var sigData  = (pad && !pad.isEmpty()) ? pad.toData() : null;
-    canvas.width  = Math.round(w * ratio);
-    canvas.height = Math.round(h * ratio);
-    var ctx = canvas.getContext('2d');
-    ctx.scale(ratio, ratio);
-    if (pad) {
-      pad.clear();
-      // Restaurăm semnătura după resize
-      if (sigData && sigData.length > 0) {
-        pad.fromData(sigData);
-      }
-    }
-  }
-
-  try {
-    sigCanvases['inspector'] = new SignaturePad(canvas, {
-      backgroundColor: 'rgb(255,255,255)',
-      penColor:        'rgb(0,0,0)'
-    });
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-  } catch(e) {
-    if (dbg) dbg.textContent = '❌ Eroare: ' + e.message;
-  }
-}
-
-function clearSig(id) {
-  var pad = sigCanvases[id];
-  if (pad) pad.clear();
-}
-
-function getSigDataUrl(id) {
-  var pad = sigCanvases[id];
-  if (!pad || pad.isEmpty()) return null;
-  return pad.toDataURL();
-}
-
-
-// ── Auto-completare număr raport ──
-
-
-
 
 // INIT — întrebările sunt statice în HTML, nu mai e nevoie de buildQuestions()
 (function initForm() {
@@ -3390,26 +3409,6 @@ function getSigDataUrl(id) {
     if (t.id === 'obs-text-input')   { obsText    = t.value; return; }
     if (t.id === 'fb-sugestii-input'){ fbSugestii = t.value; return; }
   });
-
-  // Inițializăm semnăturile după ce DOM-ul e gata
-  setTimeout(initSignatures, 500);
-})();
-
-// ── Preluăm numărul raportului la încărcarea paginii ──
-(async function fetchNrRaportOnLoad() {
-  try {
-    const res  = await fetch(GAS_PROXY_URL + '?action=nextNr', {
-      method: 'GET', redirect: 'follow'
-    });
-    const data = JSON.parse(await res.text());
-    if (data.nextNr) {
-      cachedNrRaport = data.nextNr;
-      cachedNrUsed   = false;
-      console.log('Nr raport preîncărcat:', cachedNrRaport);
-    }
-  } catch(e) {
-    console.warn('Nu am putut preîncărca nr raport:', e);
-  }
 })();
 
 // GAS Proxy connection status
@@ -3427,6 +3426,74 @@ setTimeout(function() {
     el.innerHTML = '<span style="color:var(--no)">● Server: indisponibil momentan</span>';
   });
 }, 500);
+
+
+// ── Cache număr raport ──
+var cachedNrRaport = null;
+var cachedNrUsed   = false;
+
+// ── Variabile semnături ──
+var sigInspectorName    = '';
+var sigInspectorFunctie = '';
+var sigInspectorFirma   = '';
+var sigInspectorData    = '';
+var sigSefName          = '';
+var sigCanvases         = {};
+
+function initSignatures() {
+  var canvas = document.getElementById('canvas-inspector');
+  if (!canvas) return;
+  if (typeof SignaturePad === 'undefined') return;
+
+  function resizeCanvas() {
+    var ratio   = window.devicePixelRatio || 1;
+    var w       = canvas.offsetWidth;
+    var h       = canvas.offsetHeight;
+    var pad     = sigCanvases['inspector'];
+    var sigData = (pad && !pad.isEmpty()) ? pad.toData() : null;
+    canvas.width  = Math.round(w * ratio);
+    canvas.height = Math.round(h * ratio);
+    var ctx = canvas.getContext('2d');
+    ctx.scale(ratio, ratio);
+    if (pad) {
+      pad.clear();
+      if (sigData && sigData.length > 0) pad.fromData(sigData);
+    }
+  }
+
+  try {
+    sigCanvases['inspector'] = new SignaturePad(canvas, {
+      backgroundColor: 'rgb(255,255,255)',
+      penColor:        'rgb(0,0,0)'
+    });
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+  } catch(e) {}
+}
+
+function clearSig(id) {
+  var pad = sigCanvases[id];
+  if (pad) pad.clear();
+}
+
+function getSigDataUrl(id) {
+  var pad = sigCanvases[id];
+  if (!pad || pad.isEmpty()) return null;
+  return pad.toDataURL();
+}
+
+// ── Auto-completare număr raport la load ──
+(async function fetchNrRaportOnLoad() {
+  try {
+    const res  = await fetch(GAS_PROXY_URL + '?action=nextNr', { method: 'GET', redirect: 'follow' });
+    const data = JSON.parse(await res.text());
+    if (data.nextNr) { cachedNrRaport = data.nextNr; cachedNrUsed = false; }
+  } catch(e) {}
+})();
+
+// ── Inițializare semnături ──
+setTimeout(initSignatures, 500);
+
 </script>
 </body>
 </html>
