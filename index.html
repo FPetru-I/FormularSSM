@@ -149,7 +149,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
 <header class="page-header">
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v36</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v38</span></h1>
 </header>
 
 <div class="container">
@@ -2746,14 +2746,19 @@ function buildQuestions() {
   updateProgress();
 }
 
+function clearQImagesForKey(key) {
+  if (qImages[key]) qImages[key] = [];
+  const thumbsDiv = document.getElementById('qthumbs-' + key);
+  if (thumbsDiv) thumbsDiv.innerHTML = '';
+}
+
 function selectAnswer(btn) {
   const key = btn.dataset.key;
   const val = btn.dataset.val;
 
-  // Toggle: dacă e deja selectat, deselecteaza
   const alreadySelected = btn.classList.contains('selected-' + val.toLowerCase().replace('/',''));
-  
-  // Clear all buttons in this row
+  const prevVal = answers[key] ? answers[key].value : null;
+
   const row = document.getElementById('row-' + key);
   row.querySelectorAll('.opt-btn').forEach(b => b.className = 'opt-btn');
   row.classList.remove('invalid');
@@ -2761,19 +2766,30 @@ function selectAnswer(btn) {
   const commentSection = document.getElementById('comment-' + key);
 
   if (alreadySelected) {
+    // Deselectare — clear note și imagini
     answers[key].value = null;
+    const ta = commentSection.querySelector('textarea');
+    if (ta) { ta.value = ''; }
+    if (answers[key]) answers[key].comment = '';
+    clearQImagesForKey(key);
     commentSection.classList.remove('open');
   } else {
     const cls = val === 'DA' ? 'selected-yes' : val === 'NU' ? 'selected-no' : 'selected-na';
     btn.classList.add(cls);
     answers[key].value = val;
 
-    // Deschide comentariu pentru DA sau NU
-    if (val === 'DA' || val === 'NU') {
+    if (val === 'N/A') {
+      // N/A — șterge notele și imaginile, închide secțiunea
+      const ta = commentSection.querySelector('textarea');
+      if (ta) { ta.value = ''; }
+      if (answers[key]) answers[key].comment = '';
+      clearQImagesForKey(key);
+      commentSection.classList.remove('open');
+      commentSection.style.display = 'none';
+    } else if (val === 'DA' || val === 'NU') {
+      commentSection.style.display = '';
       commentSection.classList.add('open');
       commentSection.querySelector('textarea').focus();
-    } else {
-      commentSection.classList.remove('open');
     }
   }
   updateProgress();
