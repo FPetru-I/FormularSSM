@@ -2382,6 +2382,11 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
             onfocus="this.style.borderColor='var(--accent)'"
             onblur="this.style.borderColor=''"
             oninput="fbProbleme=this.value"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-fb-probleme">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-fb-probleme" accept="image/*" multiple onchange="handleQImg('fb-probleme', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-fb-probleme"></div>
+          </div>
         </div>
       </div>
       <div class="question-row">
@@ -2592,7 +2597,7 @@ const TEXT_SECTIONS = {
   ],
 };
 
-const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbyUWKC07-DEnPvm_z-vJkQLUXNlyYr3ytbpyjxSUjoXTFJRSMXHqbgf4QUMsDd5CT6Btg/exec';
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbwZ27Joxmosy1IlWTVFHyTmn_hQozTrLLcWgppSftejFn9b6op9kGqUtmRj9oY7Fve17g/exec';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
@@ -3102,11 +3107,15 @@ async function trimiteRaport() {
     cachedNrRaport = nrRaport;
     cachedNrUsed   = false;
 
+
     // ── Trimitem feedback PDF în folder separat (întotdeauna) ──
     try {
       const fbProblemeVal = document.getElementById('fb-probleme')       ? document.getElementById('fb-probleme').value       : '';
       const fbSugestiiVal = document.getElementById('fb-sugestii-input') ? document.getElementById('fb-sugestii-input').value : '';
       const fbGeneralVal  = document.getElementById('fb-general')        ? document.getElementById('fb-general').value         : '';
+
+      // Collect 19.1 images
+      const fbImgs = (qImages['fb-probleme'] || []).filter(Boolean);
 
       const fbHtml = buildFeedbackPdfHtml({
         nrRaport:   nrRaport,
@@ -3114,7 +3123,8 @@ async function trimiteRaport() {
         date:       payload.date || '',
         fbProbleme: fbProblemeVal,
         fbSugestii: fbSugestiiVal,
-        fbGeneral:  fbGeneralVal
+        fbGeneral:  fbGeneralVal,
+        fbImages:   fbImgs
       });
 
       // Generăm PDF binar pentru feedback (același mecanism ca raportul principal)
@@ -3124,7 +3134,7 @@ async function trimiteRaport() {
         let cssText = '';
         fbDoc.querySelectorAll('style').forEach(function(s) { cssText += s.textContent; });
         const container = document.createElement('div');
-        container.style.cssText = 'position:fixed;left:-9999px;top:0;width:794px;background:#fff;z-index:-1;font-family:Arial,sans-serif;font-size:13px;color:#1a1917;padding:48px;box-sizing:border-box;';
+        container.style.cssText = 'position:fixed;left:-9999px;top:0;width:860px;background:#fff;z-index:-1;font-family:Arial,sans-serif;font-size:12px;color:#1a1917;padding:20px;box-sizing:border-box;';
         const styleEl = document.createElement('style');
         styleEl.textContent = cssText;
         container.appendChild(styleEl);
@@ -3132,35 +3142,56 @@ async function trimiteRaport() {
         bodyContent.innerHTML = fbDoc.body.innerHTML;
         container.appendChild(bodyContent);
         document.body.appendChild(container);
-        await new Promise(r => setTimeout(r, 800));
+        await new Promise(r => setTimeout(r, 1200));
         const { jsPDF } = window.jspdf;
         const pdf     = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-        const margin  = 15;
-        const usableW = pdf.internal.pageSize.getWidth() - margin * 2;
-        const usableH = pdf.internal.pageSize.getHeight() - margin * 2;
-        const fbCanvas = await html2canvas(container, {
+        const pageW   = pdf.internal.pageSize.getWidth();
+        const pageH   = pdf.internal.pageSize.getHeight();
+        const margin  = 10;
+        const usableW = pageW - margin * 2;
+        const usableH = pageH - margin * 2;
+        const canvas = await html2canvas(container, {
           scale: 2, useCORS: true, allowTaint: true,
-          backgroundColor: '#ffffff', width: 794, windowWidth: 794
+          backgroundColor: '#ffffff', width: 860, windowWidth: 860
         });
+        const scale   = canvas.width / 860;
+        const pageHpx = Math.round(usableH * canvas.width / usableW);
+        const allEls  = Array.from(container.querySelectorAll('.row, .sec-header'));
+        const safeBottoms = [];
+        allEls.forEach(function(el, idx) {
+          if (el.classList.contains('sec-header') && allEls[idx + 1]) return;
+          let top = 0, node = el;
+          while (node && node !== container) { top += node.offsetTop || 0; node = node.offsetParent; }
+          safeBottoms.push(Math.round((top + el.offsetHeight) * scale));
+        });
+        safeBottoms.sort(function(a,b){ return a-b; });
         document.body.removeChild(container);
-        // Paginate if content taller than one page
-        const pageHpx = Math.round(usableH * fbCanvas.width / usableW);
-        let y = 0;
-        let first = true;
-        while (y < fbCanvas.height) {
-          if (!first) pdf.addPage();
-          first = false;
-          const sliceH  = Math.min(pageHpx, fbCanvas.height - y);
-          const printH  = sliceH * usableW / fbCanvas.width;
-          const slice   = document.createElement('canvas');
-          slice.width   = fbCanvas.width;
-          slice.height  = sliceH;
-          slice.getContext('2d').drawImage(fbCanvas, 0, y, fbCanvas.width, sliceH, 0, 0, fbCanvas.width, sliceH);
-          pdf.addImage(slice.toDataURL('image/jpeg', 0.92), 'JPEG', margin, margin, usableW, printH);
-          y += pageHpx;
+        const breakPoints = [0];
+        let pageEnd = pageHpx;
+        while (pageEnd < canvas.height) {
+          let best = -1;
+          for (let k = 0; k < safeBottoms.length; k++) {
+            if (safeBottoms[k] <= pageEnd && safeBottoms[k] > breakPoints[breakPoints.length-1]) best = safeBottoms[k];
+          }
+          const cut = best > 0 ? best : pageEnd;
+          breakPoints.push(cut);
+          pageEnd = cut + pageHpx;
+        }
+        breakPoints.push(canvas.height);
+        for (let p = 0; p < breakPoints.length - 1; p++) {
+          if (p > 0) pdf.addPage();
+          const srcY   = breakPoints[p];
+          const srcH   = breakPoints[p+1] - srcY;
+          if (srcH <= 0) continue;
+          const sliceH = srcH * usableW / canvas.width;
+          const slice  = document.createElement('canvas');
+          slice.width  = canvas.width;
+          slice.height = srcH;
+          slice.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, srcH, 0, 0, canvas.width, srcH);
+          pdf.addImage(slice.toDataURL('image/jpeg', 0.92), 'JPEG', margin, margin, usableW, sliceH);
         }
         return pdf.output('datauristring').split(',')[1];
-      });
+      })();
 
       await fetch(GAS_PROXY_URL, {
         method: 'POST', redirect: 'follow',
@@ -3450,14 +3481,27 @@ function buildFeedbackPdfHtml(p) {
   var name      = p.name      || '—';
   var date      = p.date      || '—';
   var nrRaport  = p.nrRaport  || '—';
-  var probleme  = p.fbProbleme  ? p.fbProbleme  : '';
-  var sugestii  = p.fbSugestii  ? p.fbSugestii  : '';
-  var general   = p.fbGeneral   ? p.fbGeneral   : '';
+  var probleme  = p.fbProbleme  || '';
+  var sugestii  = p.fbSugestii  || '';
+  var general   = p.fbGeneral   || '';
+  var fbImages  = p.fbImages    || [];
 
-  function answerDiv(val) {
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+  }
+
+  function answerDiv(val, imgs) {
     var cls = val ? 'q-answer' : 'q-answer empty';
-    var txt = val || 'Fără răspuns';
-    return '<div class="' + cls + '">' + txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>') + '</div>';
+    var txt = val ? esc(val) : 'Fără răspuns';
+    var imgHtml = '';
+    if (imgs && imgs.length) {
+      imgHtml = '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;">';
+      imgs.forEach(function(img) {
+        imgHtml += '<img src="' + img.dataUrl + '" style="max-width:200px;max-height:150px;border-radius:4px;border:1px solid #ddd;object-fit:cover;"/>';
+      });
+      imgHtml += '</div>';
+    }
+    return '<div class="' + cls + '">' + txt + imgHtml + '</div>';
   }
 
   return '<!DOCTYPE html><html><head><meta charset="UTF-8"/>' +
@@ -3477,23 +3521,23 @@ function buildFeedbackPdfHtml(p) {
     '</style>' +
     '</head><body>' +
     '<div class="header">' +
-    '<h1>Feedback Formular &mdash; Sec\u021biunea 19</h1>' +
-    '<div class="meta">Inspector: <strong>' + name + '</strong> &nbsp;&nbsp;|&nbsp;&nbsp; Data: <strong>' + date + '</strong> &nbsp;&nbsp;|&nbsp;&nbsp; Nr. Raport: <strong>' + nrRaport + '</strong></div>' +
+    '<h1>Feedback Formular \u2014 Sec\u021biunea 19</h1>' +
+    '<div class="meta">Inspector: <strong>' + name + '</strong> &nbsp;|&nbsp; Data: <strong>' + date + '</strong> &nbsp;|&nbsp; Nr. Raport: <strong>' + nrRaport + '</strong></div>' +
     '</div>' +
     '<div class="question">' +
     '<div class="q-num">19.1</div>' +
     '<div class="q-text">A\u021bi \u00eent\u00e2mpinat probleme \u00een utilizarea formularului?</div>' +
-    answerDiv(probleme) +
+    answerDiv(probleme, fbImages) +
     '</div>' +
     '<div class="question">' +
     '<div class="q-num">19.2</div>' +
     '<div class="q-text">Sugestii de \u00eembun\u0103t\u0103\u021bire a formularului</div>' +
-    answerDiv(sugestii) +
+    answerDiv(sugestii, null) +
     '</div>' +
     '<div class="question">' +
     '<div class="q-num">19.3</div>' +
     '<div class="q-text">Feedback general</div>' +
-    answerDiv(general) +
+    answerDiv(general, null) +
     '</div>' +
     '</body></html>';
 }
