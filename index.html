@@ -2542,7 +2542,7 @@
       <div class="question-row" style="border-bottom:none;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
           <span class="q-index">16.2</span>
-          <span class="q-text">Fișiere pentru suport (imagini)</span>
+          <span class="q-text">Fișiere pentru suport (imagini, video etc.)</span>
         </div>
         <div class="drop-zone" id="dropZone">
           <input type="file" id="fileInput" multiple accept="image/*"/>
@@ -3099,12 +3099,15 @@ function removeImage(idx) {
 
 // VALIDATION
 function validate() {
-  // Validăm doar câmpurile obligatorii de identificare
-  const name = document.getElementById('meta-name').value.trim();
+  const name  = document.getElementById('meta-name').value.trim();
   const email = document.getElementById('meta-email').value.trim();
-  if (!name) { document.getElementById('meta-name').focus(); showToast('Câmpul Nume complet este obligatoriu.', 'error'); return false; }
+  if (!name)  { document.getElementById('meta-name').focus();  showToast('Câmpul Nume complet este obligatoriu.', 'error'); return false; }
   if (!email || !email.includes('@')) { document.getElementById('meta-email').focus(); showToast('Email invalid.', 'error'); return false; }
-  // Întrebările fără răspuns sunt permise — se salvează ca „—"
+  if (!email.toLowerCase().endsWith('@ppcgroup.com')) {
+    document.getElementById('meta-email').focus();
+    showToast('Adresă de email invalidă. Folosiți adresa @ppcgroup.com.', 'error');
+    return false;
+  }
   return true;
 }
 
