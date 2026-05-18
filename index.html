@@ -3071,7 +3071,7 @@ async function trimiteRaport() {
         nrRaport:      nrRaport,
         inspector:     payload.name        || '',
         email:         payload.email       || '',
-        data:          payload.date        || '',
+        data:          dateForFilename(payload.date) || '',
         localitate:    payload.location    || '',
         tipLucrare:    payload.tipLucrare  || '',
         observatii:    payload.observatii  || '',
@@ -3361,6 +3361,17 @@ function buildPDFHtml(p, imgData) {
   </div>
   ${imgsSection}
   </body></html>`;
+}
+
+// Convertește data din dd/mm/yyyy în yyyy-mm-dd pentru nume fișier
+function dateForFilename(dateStr) {
+  if (!dateStr) return '';
+  // If already ISO format (yyyy-mm-dd), return as-is
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
+  // Convert dd/mm/yyyy → yyyy-mm-dd
+  var parts = dateStr.split('/');
+  if (parts.length === 3) return parts[2] + '-' + parts[1] + '-' + parts[0];
+  return dateStr.replace(/\//g, '-');
 }
 
 // FORMAT DATE INPUT (dd/mm/yyyy auto-formatting)
