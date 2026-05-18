@@ -2592,7 +2592,7 @@ const TEXT_SECTIONS = {
   ],
 };
 
-const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbwZ27Joxmosy1IlWTVFHyTmn_hQozTrLLcWgppSftejFn9b6op9kGqUtmRj9oY7Fve17g/exec';
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbyUWKC07-DEnPvm_z-vJkQLUXNlyYr3ytbpyjxSUjoXTFJRSMXHqbgf4QUMsDd5CT6Btg/exec';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
@@ -3468,42 +3468,55 @@ function dateForFilename(dateStr) {
 }
 
 function buildFeedbackPdfHtml(p) {
-  return `<!DOCTYPE html><html><head><meta charset="UTF-8"/>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Arial, sans-serif; font-size: 13px; color: #1a1917; background: #fff; padding: 24px; }
-    .header { margin-bottom: 24px; border-bottom: 2px solid #1a4d8f; padding-bottom: 12px; }
-    .header h1 { font-size: 18px; font-weight: 700; color: #1a4d8f; }
-    .header .meta { font-size: 12px; color: #555; margin-top: 6px; }
-    .question { margin-bottom: 20px; }
-    .q-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #888; margin-bottom: 4px; letter-spacing: 0.05em; }
-    .q-text { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
-    .q-answer { border: 1px solid #ddd; border-radius: 4px; padding: 10px 12px; min-height: 60px; font-size: 13px; line-height: 1.6; background: #fafaf8; white-space: pre-wrap; }
-    .q-answer.empty { color: #aaa; font-style: italic; }
-    @page { size: A4 portrait; margin: 1.5cm; }
-    @media print { body { padding: 0; } }
-  </style>
-  </head><body>
-  <div class="header">
-    <h1>Feedback Formular — Secțiunea 19</h1>
-    <div class="meta">Inspector: <strong>\${p.name || '—'}</strong> &nbsp;|&nbsp; Data: <strong>\${p.date || '—'}</strong> &nbsp;|&nbsp; Nr. Raport: <strong>\${p.nrRaport || '—'}</strong></div>
-  </div>
-  <div class="question">
-    <div class="q-label">19.1</div>
-    <div class="q-text">Ați întâmpinat probleme în utilizarea formularului?</div>
-    <div class="q-answer\${!p.fbProbleme ? ' empty' : ''}">\${p.fbProbleme || 'Fără răspuns'}</div>
-  </div>
-  <div class="question">
-    <div class="q-label">19.2</div>
-    <div class="q-text">Sugestii de îmbunătățire a formularului</div>
-    <div class="q-answer\${!p.fbSugestii ? ' empty' : ''}">\${p.fbSugestii || 'Fără răspuns'}</div>
-  </div>
-  <div class="question">
-    <div class="q-label">19.3</div>
-    <div class="q-text">Feedback general</div>
-    <div class="q-answer\${!p.fbGeneral ? ' empty' : ''}">\${p.fbGeneral || 'Fără răspuns'}</div>
-  </div>
-  </body></html>`;
+  var name      = p.name      || '—';
+  var date      = p.date      || '—';
+  var nrRaport  = p.nrRaport  || '—';
+  var probleme  = p.fbProbleme  ? p.fbProbleme  : '';
+  var sugestii  = p.fbSugestii  ? p.fbSugestii  : '';
+  var general   = p.fbGeneral   ? p.fbGeneral   : '';
+
+  function answerDiv(val) {
+    var cls = val ? 'q-answer' : 'q-answer empty';
+    var txt = val || 'Fără răspuns';
+    return '<div class="' + cls + '">' + txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>') + '</div>';
+  }
+
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"/>' +
+    '<style>' +
+    '* { box-sizing: border-box; margin: 0; padding: 0; }' +
+    'body { font-family: Arial, sans-serif; font-size: 13px; color: #1a1917; background: #fff; padding: 32px; }' +
+    '.header { margin-bottom: 28px; border-bottom: 2px solid #1a4d8f; padding-bottom: 14px; }' +
+    '.header h1 { font-size: 20px; font-weight: 700; color: #1a4d8f; margin-bottom: 6px; }' +
+    '.header .meta { font-size: 12px; color: #555; }' +
+    '.header .meta strong { color: #1a1917; }' +
+    '.question { margin-bottom: 24px; }' +
+    '.q-num { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #9b9890; margin-bottom: 4px; letter-spacing: 0.06em; }' +
+    '.q-text { font-size: 13px; font-weight: 600; color: #1a1917; margin-bottom: 8px; }' +
+    '.q-answer { border: 1px solid #dddbd4; border-radius: 4px; padding: 12px 14px; min-height: 70px; font-size: 13px; line-height: 1.6; background: #f9f8f5; }' +
+    '.q-answer.empty { color: #9b9890; font-style: italic; }' +
+    '@page { size: A4 portrait; margin: 1.5cm; }' +
+    '</style>' +
+    '</head><body>' +
+    '<div class="header">' +
+    '<h1>Feedback Formular &mdash; Sec\u021biunea 19</h1>' +
+    '<div class="meta">Inspector: <strong>' + name + '</strong> &nbsp;&nbsp;|&nbsp;&nbsp; Data: <strong>' + date + '</strong> &nbsp;&nbsp;|&nbsp;&nbsp; Nr. Raport: <strong>' + nrRaport + '</strong></div>' +
+    '</div>' +
+    '<div class="question">' +
+    '<div class="q-num">19.1</div>' +
+    '<div class="q-text">A\u021bi \u00eent\u00e2mpinat probleme \u00een utilizarea formularului?</div>' +
+    answerDiv(probleme) +
+    '</div>' +
+    '<div class="question">' +
+    '<div class="q-num">19.2</div>' +
+    '<div class="q-text">Sugestii de \u00eembun\u0103t\u0103\u021bire a formularului</div>' +
+    answerDiv(sugestii) +
+    '</div>' +
+    '<div class="question">' +
+    '<div class="q-num">19.3</div>' +
+    '<div class="q-text">Feedback general</div>' +
+    answerDiv(general) +
+    '</div>' +
+    '</body></html>';
 }
 
 // FORMAT DATE INPUT (dd/mm/yyyy auto-formatting)
