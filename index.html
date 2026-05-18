@@ -138,7 +138,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
 <header class="page-header">
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v32</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v33</span></h1>
 </header>
 
 <div class="container">
@@ -156,7 +156,8 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
     </div>
     <div class="field-group">
       <label>Data inspecției <span class="req">*</span></label>
-      <input type="date" id="meta-date"/>
+      <input type="text" id="meta-date" placeholder="zz/ll/aaaa" maxlength="10"
+        oninput="formatDateInput(this)" autocomplete="off"/>
     </div>
     <div class="field-group">
       <label>Localitate <span class="req">*</span></label>
@@ -2290,6 +2291,30 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
     </div>
   </div>
 
+  <!-- ===== SECȚIUNEA 17 — CONCLUZII FINALE ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="font-size:9px">17</div>
+      <div class="section-title">Concluzii finale</div>
+    </div>
+    <div class="questions-list">
+      <div class="question-row" style="border-bottom:none;">
+        <div class="q-top" style="flex-direction:column;gap:8px;align-items:flex-start;">
+          <div style="display:flex;gap:12px;align-items:center;">
+            <span class="q-index">17.1</span>
+            <span class="q-text" style="text-align:left">Note și concluzii generale în urma inspecției</span>
+          </div>
+          <textarea id="concluzii-text" rows="6"
+            placeholder="Introduceți notele și concluziile generale în urma inspecției..."
+            style="width:100%;border:1px solid var(--border);border-radius:4px;padding:10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;transition:border-color 0.15s;box-sizing:border-box;"
+            onfocus="this.style.borderColor='var(--accent)'"
+            onblur="this.style.borderColor=''"
+            oninput="concluziiText=this.value"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== SECȚIUNEA 18 — SEMNĂTURI ===== -->
   <div class="section">
     <div class="section-header">
@@ -2318,8 +2343,8 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
           </div>
           <div class="field-group">
             <label>Data</label>
-            <input type="date" id="sig-inspector-data"
-              oninput="sigInspectorData=this.value"/>
+            <input type="text" id="sig-inspector-data" placeholder="zz/ll/aaaa" maxlength="10"
+              oninput="formatDateInput(this); sigInspectorData=this.value;" autocomplete="off"/>
           </div>
         </div>
 
@@ -2337,6 +2362,58 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
     </div>
   </div>
 
+
+  <!-- ===== SECȚIUNEA 19 — FEEDBACK FORMULAR ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="font-size:9px">19</div>
+      <div class="section-title">Feedback formular</div>
+    </div>
+    <div class="questions-list">
+      <div class="question-row">
+        <div class="q-top" style="flex-direction:column;gap:8px;align-items:flex-start;">
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span class="q-index">19.1</span>
+            <span class="q-text">Ați întâmpinat probleme în utilizarea formularului?</span>
+          </div>
+          <textarea id="fb-probleme" rows="3"
+            placeholder="Descrieți orice dificultăți întâmpinate..."
+            style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;"
+            onfocus="this.style.borderColor='var(--accent)'"
+            onblur="this.style.borderColor=''"
+            oninput="fbProbleme=this.value"></textarea>
+        </div>
+      </div>
+      <div class="question-row">
+        <div class="q-top" style="flex-direction:column;gap:8px;align-items:flex-start;">
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span class="q-index">19.2</span>
+            <span class="q-text">Sugestii de îmbunătățire a formularului</span>
+          </div>
+          <textarea id="fb-sugestii-input" rows="3"
+            placeholder="Ce ați schimba sau îmbunătăți la acest formular?"
+            style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;"
+            onfocus="this.style.borderColor='var(--accent)'"
+            onblur="this.style.borderColor=''"
+            oninput="fbSugestii=this.value"></textarea>
+        </div>
+      </div>
+      <div class="question-row" style="border-bottom:none;">
+        <div class="q-top" style="flex-direction:column;gap:8px;align-items:flex-start;">
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span class="q-index">19.3</span>
+            <span class="q-text">Feedback general</span>
+          </div>
+          <textarea id="fb-general" rows="3"
+            placeholder="Orice alt comentariu sau feedback general despre experiența de utilizare..."
+            style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;"
+            onfocus="this.style.borderColor='var(--accent)'"
+            onblur="this.style.borderColor=''"
+            oninput="fbGeneral=this.value"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ACTIONS -->
   <div class="actions-bar">
@@ -2573,13 +2650,23 @@ function removeQImg(key, idx) {
   const el = document.getElementById(`qthumb-${key}-${idx}`);
   if (el) el.remove();
 }
-let obsText = '';
-let fbSugestii = '';
+let obsText      = '';
+let fbSugestii   = '';
+var concluziiText = '';
+var fbProbleme    = '';
+var fbGeneral     = '';
 let fbRating = 0;
 
 // Feedback sections 14 & 15 text questions
 
-let textAnswers = {}; document.getElementById('meta-date').value = new Date().toISOString().split('T')[0];
+let textAnswers = {}; (function() {
+  var now = new Date();
+  var dd = String(now.getDate()).padStart(2,'0');
+  var mm = String(now.getMonth()+1).padStart(2,'0');
+  var yyyy = now.getFullYear();
+  var el = document.getElementById('meta-date');
+  if (el && !el.value) el.value = dd + '/' + mm + '/' + yyyy;
+})();
 
 // Star rating
 function setRating(val) {
@@ -2639,13 +2726,13 @@ function updateComment(key, val) {
 }
 
 function updateProgress() {
-  // Întrebări DA/NU/N/A
+  // Întrebări DA/NU/N/A (secțiunile 1-13)
   var totalDA = Object.keys(answers).length;
   if (totalDA === 0) totalDA = document.querySelectorAll('.opt-btn[data-key]').length / 3;
   var doneDA = Object.values(answers).filter(function(a){ return a.value !== null; }).length;
 
-  // Întrebări text (secțiunile 14-15)
-  var textAreas = document.querySelectorAll('.text-question-row textarea');
+  // Întrebări text (secțiunile 14-15) — exclude sec19 textareas
+  var textAreas = document.querySelectorAll('#section-14-text textarea, #section-15-text textarea');
   var totalText = textAreas.length;
   var doneText  = 0;
   textAreas.forEach(function(ta) { if (ta.value && ta.value.trim() !== '') doneText++; });
@@ -3112,6 +3199,10 @@ function buildPDFHtml(p, imgData) {
     }
   });
   // Observatii
+  // ── Secțiunea 17: Concluzii finale ──
+  rows.push(`<div class="sec-header"><div class="col-q">Secțiunea 17: Concluzii finale</div></div>`);
+  rows.push(`<div class="row"><div class="col-q">17.1. Note și concluzii generale în urma inspecției</div><div class="col-r"></div><div class="col-c">${p.concluzii || '—'}</div></div>`);
+
   rows.push(`<div class="sec-header"><div class="col-q">Secțiunea 16: Observații</div></div>`);
   rows.push(`<div class="row"><div class="col-q">16.1. Încălcări ale regulilor de siguranță identificate</div><div class="col-r"></div><div class="col-c">${p.observatii || '—'}</div></div>`);
   rows.push(`<div class="row"><div class="col-q">16.2. Fișiere atașate</div><div class="col-r"></div><div class="col-c">${p.numFisiere || 0} fișiere</div></div>`);
@@ -3156,6 +3247,17 @@ function buildPDFHtml(p, imgData) {
   </div>`);
 
   // Generăm tag-urile <img> cu src=data:... embedded complet
+  // ── Secțiunea 19: Feedback formular ──
+  const fbProblemeVal  = document.getElementById('fb-probleme')      ? document.getElementById('fb-probleme').value      : '';
+  const fbSugestiiVal  = document.getElementById('fb-sugestii-input') ? document.getElementById('fb-sugestii-input').value : '';
+  const fbGeneralVal   = document.getElementById('fb-general')        ? document.getElementById('fb-general').value        : '';
+  if (fbProblemeVal || fbSugestiiVal || fbGeneralVal) {
+    rows.push(`<div class="sec-header"><div class="col-q">Secțiunea 19: Feedback formular</div></div>`);
+    rows.push(`<div class="row"><div class="col-q">19.1. Ați întâmpinat probleme în utilizarea formularului?</div><div class="col-r"></div><div class="col-c">${fbProblemeVal || '—'}</div></div>`);
+    rows.push(`<div class="row"><div class="col-q">19.2. Sugestii de îmbunătățire a formularului</div><div class="col-r"></div><div class="col-c">${fbSugestiiVal || '—'}</div></div>`);
+    rows.push(`<div class="row"><div class="col-q">19.3. Feedback general</div><div class="col-r"></div><div class="col-c">${fbGeneralVal || '—'}</div></div>`);
+  }
+
   const imgCards = imgData.map((img, i) => `
     <div class="img-card">
       <img src="${img.dataUrl}" alt="${img.name}"/>
@@ -3249,6 +3351,14 @@ function buildPDFHtml(p, imgData) {
   </div>
   ${imgsSection}
   </body></html>`;
+}
+
+// FORMAT DATE INPUT (dd/mm/yyyy auto-formatting)
+function formatDateInput(el) {
+  var v = el.value.replace(/\D/g, '');
+  if (v.length >= 3 && v.length <= 4) v = v.slice(0,2) + '/' + v.slice(2);
+  else if (v.length >= 5) v = v.slice(0,2) + '/' + v.slice(2,4) + '/' + v.slice(4,8);
+  el.value = v;
 }
 
 // TOAST
@@ -3346,9 +3456,17 @@ function getSigDataUrl(id) {
     });
   }
 
-  // Setează data curentă
-  var dateEl = document.getElementById('meta-date');
-  if (dateEl && !dateEl.value) dateEl.value = new Date().toISOString().split('T')[0];
+  // Setează data curentă în format dd/mm/yyyy
+  (function() {
+    var now = new Date();
+    var today = String(now.getDate()).padStart(2,'0') + '/' +
+                String(now.getMonth()+1).padStart(2,'0') + '/' +
+                now.getFullYear();
+    var dateEl = document.getElementById('meta-date');
+    if (dateEl && !dateEl.value) dateEl.value = today;
+    var sigDate = document.getElementById('sig-inspector-data');
+    if (sigDate && !sigDate.value) { sigDate.value = today; sigInspectorData = today; }
+  })();
 
   updateProgress();
 
