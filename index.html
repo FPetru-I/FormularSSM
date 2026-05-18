@@ -2382,6 +2382,11 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
             onfocus="this.style.borderColor='var(--accent)'"
             onblur="this.style.borderColor=''"
             oninput="fbProbleme=this.value"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-fb-probleme">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-fb-probleme" accept="image/*" multiple onchange="handleQImg('fb-probleme', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-fb-probleme"></div>
+          </div>
         </div>
       </div>
       <div class="question-row">
@@ -3102,11 +3107,15 @@ async function trimiteRaport() {
     cachedNrRaport = nrRaport;
     cachedNrUsed   = false;
 
+
     // ── Trimitem feedback PDF în folder separat (întotdeauna) ──
     try {
       const fbProblemeVal = document.getElementById('fb-probleme')       ? document.getElementById('fb-probleme').value       : '';
       const fbSugestiiVal = document.getElementById('fb-sugestii-input') ? document.getElementById('fb-sugestii-input').value : '';
       const fbGeneralVal  = document.getElementById('fb-general')        ? document.getElementById('fb-general').value         : '';
+
+      // Collect 19.1 images
+      const fbImgs = (qImages['fb-probleme'] || []).filter(Boolean);
 
       const fbHtml = buildFeedbackPdfHtml({
         nrRaport:   nrRaport,
@@ -3114,7 +3123,8 @@ async function trimiteRaport() {
         date:       payload.date || '',
         fbProbleme: fbProblemeVal,
         fbSugestii: fbSugestiiVal,
-        fbGeneral:  fbGeneralVal
+        fbGeneral:  fbGeneralVal,
+        fbImages:   fbImgs
       });
 
       // Generăm PDF binar pentru feedback (același mecanism ca raportul principal)
@@ -3471,14 +3481,27 @@ function buildFeedbackPdfHtml(p) {
   var name      = p.name      || '—';
   var date      = p.date      || '—';
   var nrRaport  = p.nrRaport  || '—';
-  var probleme  = p.fbProbleme  ? p.fbProbleme  : '';
-  var sugestii  = p.fbSugestii  ? p.fbSugestii  : '';
-  var general   = p.fbGeneral   ? p.fbGeneral   : '';
+  var probleme  = p.fbProbleme  || '';
+  var sugestii  = p.fbSugestii  || '';
+  var general   = p.fbGeneral   || '';
+  var fbImages  = p.fbImages    || [];
 
-  function answerDiv(val) {
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+  }
+
+  function answerDiv(val, imgs) {
     var cls = val ? 'q-answer' : 'q-answer empty';
-    var txt = val || 'Fără răspuns';
-    return '<div class="' + cls + '">' + txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>') + '</div>';
+    var txt = val ? esc(val) : 'Fără răspuns';
+    var imgHtml = '';
+    if (imgs && imgs.length) {
+      imgHtml = '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;">';
+      imgs.forEach(function(img) {
+        imgHtml += '<img src="' + img.dataUrl + '" style="max-width:200px;max-height:150px;border-radius:4px;border:1px solid #ddd;object-fit:cover;"/>';
+      });
+      imgHtml += '</div>';
+    }
+    return '<div class="' + cls + '">' + txt + imgHtml + '</div>';
   }
 
   return '<!DOCTYPE html><html><head><meta charset="UTF-8"/>' +
@@ -3498,23 +3521,23 @@ function buildFeedbackPdfHtml(p) {
     '</style>' +
     '</head><body>' +
     '<div class="header">' +
-    '<h1>Feedback Formular &mdash; Sec\u021biunea 19</h1>' +
-    '<div class="meta">Inspector: <strong>' + name + '</strong> &nbsp;&nbsp;|&nbsp;&nbsp; Data: <strong>' + date + '</strong> &nbsp;&nbsp;|&nbsp;&nbsp; Nr. Raport: <strong>' + nrRaport + '</strong></div>' +
+    '<h1>Feedback Formular \u2014 Sec\u021biunea 19</h1>' +
+    '<div class="meta">Inspector: <strong>' + name + '</strong> &nbsp;|&nbsp; Data: <strong>' + date + '</strong> &nbsp;|&nbsp; Nr. Raport: <strong>' + nrRaport + '</strong></div>' +
     '</div>' +
     '<div class="question">' +
     '<div class="q-num">19.1</div>' +
     '<div class="q-text">A\u021bi \u00eent\u00e2mpinat probleme \u00een utilizarea formularului?</div>' +
-    answerDiv(probleme) +
+    answerDiv(probleme, fbImages) +
     '</div>' +
     '<div class="question">' +
     '<div class="q-num">19.2</div>' +
     '<div class="q-text">Sugestii de \u00eembun\u0103t\u0103\u021bire a formularului</div>' +
-    answerDiv(sugestii) +
+    answerDiv(sugestii, null) +
     '</div>' +
     '<div class="question">' +
     '<div class="q-num">19.3</div>' +
     '<div class="q-text">Feedback general</div>' +
-    answerDiv(general) +
+    answerDiv(general, null) +
     '</div>' +
     '</body></html>';
 }
