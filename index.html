@@ -2592,7 +2592,7 @@ const TEXT_SECTIONS = {
   ],
 };
 
-const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbyUWKC07-DEnPvm_z-vJkQLUXNlyYr3ytbpyjxSUjoXTFJRSMXHqbgf4QUMsDd5CT6Btg/exec';
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbz6wssSr4PkhCXgsOe6Oqk_s3tkF6PhZnO-4vBL-vbPVLKFYmq3_gkHyLU9wyb181ew/exec';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
@@ -3102,6 +3102,38 @@ async function trimiteRaport() {
     cachedNrRaport = nrRaport;
     cachedNrUsed   = false;
 
+    // ── Trimitem feedback în folder separat (dacă există) ──
+    try {
+      const fbProblemeVal = document.getElementById('fb-probleme')       ? document.getElementById('fb-probleme').value       : '';
+      const fbSugestiiVal = document.getElementById('fb-sugestii-input') ? document.getElementById('fb-sugestii-input').value : '';
+      const fbGeneralVal  = document.getElementById('fb-general')        ? document.getElementById('fb-general').value         : '';
+      if (fbProblemeVal || fbSugestiiVal || fbGeneralVal) {
+        const fbHtml   = buildFeedbackPdfHtml({
+          nrRaport:   nrRaport,
+          name:       payload.name || '',
+          date:       payload.date || '',
+          fbProbleme: fbProblemeVal,
+          fbSugestii: fbSugestiiVal,
+          fbGeneral:  fbGeneralVal
+        });
+        const fbBase64 = btoa(unescape(encodeURIComponent(fbHtml)));
+        await fetch(GAS_PROXY_URL, {
+          method: 'POST', redirect: 'follow',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({
+            pdfHtmlBase64: fbBase64,
+            fileExt:       'html',
+            nrRaport:      nrRaport,
+            folder:        'feedback-formular',
+            inspector:     payload.name || '',
+            data:          dateForFilename(payload.date) || '',
+            localitate:    payload.location || '',
+            tipLucrare:    payload.tipLucrare || ''
+          })
+        });
+      }
+    } catch(e) { console.warn('Feedback send error:', e); }
+
     // Descarcă PDF local
     const winLocal = window.open('', '_blank');
     if (winLocal) {
@@ -3379,6 +3411,45 @@ function dateForFilename(dateStr) {
   var parts = dateStr.split('/');
   if (parts.length === 3) return parts[2] + '-' + parts[1] + '-' + parts[0];
   return dateStr.replace(/\//g, '-');
+}
+
+function buildFeedbackPdfHtml(p) {
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; font-size: 13px; color: #1a1917; background: #fff; padding: 24px; }
+    .header { margin-bottom: 24px; border-bottom: 2px solid #1a4d8f; padding-bottom: 12px; }
+    .header h1 { font-size: 18px; font-weight: 700; color: #1a4d8f; }
+    .header .meta { font-size: 12px; color: #555; margin-top: 6px; }
+    .question { margin-bottom: 20px; }
+    .q-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #888; margin-bottom: 4px; letter-spacing: 0.05em; }
+    .q-text { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+    .q-answer { border: 1px solid #ddd; border-radius: 4px; padding: 10px 12px; min-height: 60px; font-size: 13px; line-height: 1.6; background: #fafaf8; white-space: pre-wrap; }
+    .q-answer.empty { color: #aaa; font-style: italic; }
+    @page { size: A4 portrait; margin: 1.5cm; }
+    @media print { body { padding: 0; } }
+  </style>
+  </head><body>
+  <div class="header">
+    <h1>Feedback Formular — Secțiunea 19</h1>
+    <div class="meta">Inspector: <strong>\${p.name || '—'}</strong> &nbsp;|&nbsp; Data: <strong>\${p.date || '—'}</strong> &nbsp;|&nbsp; Nr. Raport: <strong>\${p.nrRaport || '—'}</strong></div>
+  </div>
+  <div class="question">
+    <div class="q-label">19.1</div>
+    <div class="q-text">Ați întâmpinat probleme în utilizarea formularului?</div>
+    <div class="q-answer\${!p.fbProbleme ? ' empty' : ''}">\${p.fbProbleme || 'Fără răspuns'}</div>
+  </div>
+  <div class="question">
+    <div class="q-label">19.2</div>
+    <div class="q-text">Sugestii de îmbunătățire a formularului</div>
+    <div class="q-answer\${!p.fbSugestii ? ' empty' : ''}">\${p.fbSugestii || 'Fără răspuns'}</div>
+  </div>
+  <div class="question">
+    <div class="q-label">19.3</div>
+    <div class="q-text">Feedback general</div>
+    <div class="q-answer\${!p.fbGeneral ? ' empty' : ''}">\${p.fbGeneral || 'Fără răspuns'}</div>
+  </div>
+  </body></html>`;
 }
 
 // FORMAT DATE INPUT (dd/mm/yyyy auto-formatting)
