@@ -2542,13 +2542,13 @@
       <div class="question-row" style="border-bottom:none;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
           <span class="q-index">16.2</span>
-          <span class="q-text">Fișiere pentru suport (imagini, video etc.)</span>
+          <span class="q-text">Fișiere pentru suport (imagini)</span>
         </div>
         <div class="drop-zone" id="dropZone">
-          <input type="file" id="fileInput" multiple accept="image/*,video/*,.pdf"/>
+          <input type="file" id="fileInput" multiple accept="image/*"/>
           <div class="drop-icon">📎</div>
           <div class="dz-text">Trage fișierele aici sau <strong>selectează fișiere</strong></div>
-          <div class="dz-sub">Imagini, video, PDF — max 5 MB per fișier</div>
+          <div class="dz-sub">Imagini — max 5 MB per fișier</div>
         </div>
         <div class="image-previews" id="imagePreviews"></div>
       </div>
@@ -3071,7 +3071,8 @@ dropZone.addEventListener('drop', e => {
 
 function handleFiles(files) {
   Array.from(files).forEach(file => {
-    if (file.size > 5 * 1024 * 1024) { showToast(`${file.name}: fișier prea mare (max 5 MB).`, 'error'); return; }
+    if (!file.type.startsWith('image/')) { showToast(file.name + ': doar imaginile sunt acceptate.', 'error'); return; }
+    if (file.size > 5 * 1024 * 1024) { showToast(file.name + ': fișier prea mare (max 5 MB).', 'error'); return; }
     if (images.length >= 10) { showToast('Maxim 10 fișiere.', 'error'); return; }
     images.push(file);
     addThumb(file, images.length - 1);
@@ -3079,20 +3080,14 @@ function handleFiles(files) {
 }
 
 function addThumb(file, idx) {
-  const isImg = file.type.startsWith('image/');
   const thumb = document.createElement('div');
   thumb.className = 'img-thumb';
   thumb.id = 'thumb-' + idx;
-  if (isImg) {
-    const reader = new FileReader();
-    reader.onload = e => {
-      thumb.innerHTML = `<img src="${e.target.result}" alt=""/><div class="img-name">${file.name}</div><button class="remove-btn" onclick="removeImage(${idx})">×</button>`;
-    };
-    reader.readAsDataURL(file);
-  } else {
-    const icon = file.type.includes('video') ? '🎬' : file.type.includes('pdf') ? '📄' : '📎';
-    thumb.innerHTML = `<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:28px;background:#f0efec;">${icon}</div><div class="img-name">${file.name}</div><button class="remove-btn" onclick="removeImage(${idx})">×</button>`;
-  }
+  const reader = new FileReader();
+  reader.onload = e => {
+    thumb.innerHTML = `<img src="${e.target.result}" alt=""/><div class="img-name">${file.name}</div><button class="remove-btn" onclick="removeImage(${idx})">×</button>`;
+  };
+  reader.readAsDataURL(file);
   previews.appendChild(thumb);
 }
 
@@ -3297,47 +3292,55 @@ function fileToBase64(file) {
 
 // DOWNLOAD PDF (client-side, cu imagini embedded ca base64)
 async function downloadPDF() {
-
-  const overlay = document.getElementById('overlay');
+  const overlay    = document.getElementById('overlay');
   const overlayMsg = document.querySelector('.overlay div:last-child');
   overlay.classList.add('show');
-  overlayMsg.textContent = 'Se citesc imaginile...';
 
-  // Citim toate imaginile ca Base64 înainte să construim HTML-ul
-  const activeImages = images.filter(Boolean);
-  let imgData = [];
   try {
-    imgData = await Promise.all(activeImages.map(f => fileToBase64(f)));
-  } catch(e) {
+    overlayMsg.textContent = 'Se citesc imaginile...';
+    const activeImages = images.filter(Boolean);
+    const imgData = await Promise.all(activeImages.map(f => fileToBase64(f)));
+
+    overlayMsg.textContent = 'Se obține numărul raportului...';
+    let nrRaport = '';
+    if (cachedNrRaport && !cachedNrUsed) {
+      nrRaport = cachedNrRaport;
+    } else {
+      try {
+        const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', { method: 'GET', redirect: 'follow' });
+        const nrData = JSON.parse(await nrRes.text());
+        if (nrData.nextNr) { nrRaport = nrData.nextNr; cachedNrRaport = nrRaport; cachedNrUsed = false; }
+      } catch(e) {}
+    }
+
+    overlayMsg.textContent = 'Se generează PDF-ul...';
+    const payload = buildPayload();
+    payload.nrRaport = nrRaport;
+    const html = buildPDFHtml(payload, imgData);
+
+    const docTitle = (nrRaport || 'SSM')
+      + (payload.location ? '_' + payload.location : '')
+      + (payload.date     ? '_' + payload.date     : '');
+
+    const win = window.open('', '_blank');
+    if (!win) {
+      overlay.classList.remove('show');
+      showToast('Popup blocat. Permite popup-uri pentru acest site.', 'error');
+      return;
+    }
+    const htmlWithTitle = html.replace('<title></title>', '<title>' + docTitle + '</title>');
+    win.document.write(htmlWithTitle);
+    win.document.close();
+    win.addEventListener('load', () => {
+      overlay.classList.remove('show');
+      setTimeout(() => win.print(), 300);
+    });
+    setTimeout(() => { overlay.classList.remove('show'); }, 3000);
+
+  } catch(err) {
     overlay.classList.remove('show');
-    showToast('Eroare la citirea imaginilor.', 'error');
-    return;
+    showToast('Eroare: ' + err.message, 'error');
   }
-
-  overlayMsg.textContent = 'Se generează PDF-ul...';
-  await new Promise(r => setTimeout(r, 200));
-
-  const payload = buildPayload();
-  const html = buildPDFHtml(payload, imgData);
-
-  const win = window.open('', '_blank');
-  if (!win) {
-    overlay.classList.remove('show');
-    showToast('Popup blocat de browser. Permite popup-uri pentru acest site.', 'error');
-    return;
-  }
-  win.document.write(html);
-  win.document.close();
-
-  // Așteptăm ca imaginile să se încarce în fereastra nouă, apoi print
-  win.addEventListener('load', () => {
-    overlay.classList.remove('show');
-    setTimeout(() => win.print(), 300);
-  });
-  // Fallback dacă load nu se declanșează
-  setTimeout(() => {
-    overlay.classList.remove('show');
-  }, 3000);
 }
 
 async function trimiteRaport() {
@@ -3353,54 +3356,42 @@ async function trimiteRaport() {
     const activeImages = images.filter(Boolean);
     const imgData = await Promise.all(activeImages.map(f => fileToBase64(f)));
 
-    // ── 2. Generăm PDF-ul ──
-    overlayMsg.textContent = 'Se generează PDF-ul...';
-    await new Promise(r => setTimeout(r, 100));
-    const payload = buildPayload();
-    const pdfHtml = buildPDFHtml(payload, imgData);
-
-    // ── 3. Deschidem PDF local pentru print ──
-    const win = window.open('', '_blank');
-    if (win) {
-      win.document.write(pdfHtml);
-      win.document.close();
-      win.addEventListener('load', () => setTimeout(() => win.print(), 300));
+    // ── 2. Obținem numărul raportului ──
+    overlayMsg.textContent = 'Se obține numărul raportului...';
+    let nrRaport = '';
+    if (cachedNrRaport && !cachedNrUsed) {
+      nrRaport = cachedNrRaport;
+    } else {
+      try {
+        const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', { method: 'GET', redirect: 'follow' });
+        const nrData = JSON.parse(await nrRes.text());
+        if (nrData.nextNr) { nrRaport = nrData.nextNr; cachedNrRaport = nrRaport; cachedNrUsed = false; }
+      } catch(e) { console.warn('Nu am putut obține nr raport:', e); }
     }
 
-    // ── 4. Pregătim payload pentru GAS proxy ──
-    overlayMsg.textContent = 'Se încarcă în GitHub...';
-    const ts       = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-    const nr       = (payload.nrRaport || 'fara-nr').replace(/[^a-zA-Z0-9-_]/g, '-');
-    const fileName = 'Raport-' + nr + '-' + ts + '.pdf';
-    // ── 5. Generăm PDF real din HTML (cu tot cu design) ──
-    overlayMsg.textContent = 'Se generează PDF-ul pentru GitHub...';
+    // ── 3. Construim payload ──
+    const payload    = buildPayload();
+    payload.nrRaport = nrRaport;
+
+    // ── 4. Generăm PDF ──
+    overlayMsg.textContent = 'Se generează PDF-ul...';
+    const pdfHtml = buildPDFHtml(payload, imgData);
 
     const pdfBase64 = await (async function() {
-      // Parsăm HTML-ul PDF și extragem doar body-ul + CSS-ul
       const parser  = new DOMParser();
       const pdfDoc  = parser.parseFromString(pdfHtml, 'text/html');
-
-      // Extragem CSS din <style> tags
       let cssText = '';
       pdfDoc.querySelectorAll('style').forEach(function(s) { cssText += s.textContent; });
-
-      // Creăm un container cu stiluri inline
       const container = document.createElement('div');
       container.style.cssText = 'position:fixed;left:-9999px;top:0;width:860px;background:#fff;z-index:-1;font-family:Arial,sans-serif;font-size:12px;color:#1a1917;padding:20px;box-sizing:border-box;';
-
-      // Adăugăm un <style> tag direct în container
       const styleEl = document.createElement('style');
       styleEl.textContent = cssText;
       container.appendChild(styleEl);
-
-      // Adăugăm conținutul body-ului
       const bodyContent = document.createElement('div');
       bodyContent.innerHTML = pdfDoc.body.innerHTML;
       container.appendChild(bodyContent);
-
       document.body.appendChild(container);
       await new Promise(r => setTimeout(r, 1200));
-
       const { jsPDF } = window.jspdf;
       const pdf     = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
       const pageW   = pdf.internal.pageSize.getWidth();
@@ -3408,53 +3399,37 @@ async function trimiteRaport() {
       const margin  = 10;
       const usableW = pageW - margin * 2;
       const usableH = pageH - margin * 2;
-
       const canvas = await html2canvas(container, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        width: 860,
-        windowWidth: 860
+        scale: 2, useCORS: true, allowTaint: true,
+        backgroundColor: '#ffffff', width: 860, windowWidth: 860
       });
-
-      // Paginare inteligentă bazată pe rânduri
       const scale   = canvas.width / 860;
       const pageHpx = Math.round(usableH * canvas.width / usableW);
-
-      const rows = Array.from(container.querySelectorAll('tr'));
+      const rows = Array.from(container.querySelectorAll('.row, .sec-header'));
       const safeBottoms = [];
       rows.forEach(function(row) {
         let top = 0, el = row;
-        while (el && el !== container) {
-          top += el.offsetTop || 0;
-          el   = el.offsetParent;
-        }
+        while (el && el !== container) { top += el.offsetTop || 0; el = el.offsetParent; }
         safeBottoms.push(Math.round((top + row.offsetHeight) * scale));
       });
       safeBottoms.sort(function(a,b){ return a-b; });
-
       document.body.removeChild(container);
-
       const breakPoints = [0];
       let pageEnd = pageHpx;
       while (pageEnd < canvas.height) {
         let best = -1;
         for (let k = 0; k < safeBottoms.length; k++) {
-          if (safeBottoms[k] <= pageEnd && safeBottoms[k] > breakPoints[breakPoints.length-1]) {
-            best = safeBottoms[k];
-          }
+          if (safeBottoms[k] <= pageEnd && safeBottoms[k] > breakPoints[breakPoints.length-1]) best = safeBottoms[k];
         }
         const cut = best > 0 ? best : pageEnd;
         breakPoints.push(cut);
         pageEnd = cut + pageHpx;
       }
       breakPoints.push(canvas.height);
-
       for (let p = 0; p < breakPoints.length - 1; p++) {
         if (p > 0) pdf.addPage();
-        const srcY   = breakPoints[p];
-        const srcH   = breakPoints[p+1] - srcY;
+        const srcY = breakPoints[p];
+        const srcH = breakPoints[p+1] - srcY;
         if (srcH <= 0) continue;
         const sliceH = srcH * usableW / canvas.width;
         const slice  = document.createElement('canvas');
@@ -3463,43 +3438,78 @@ async function trimiteRaport() {
         slice.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, srcH, 0, 0, canvas.width, srcH);
         pdf.addImage(slice.toDataURL('image/jpeg', 0.92), 'JPEG', margin, margin, usableW, sliceH);
       }
-
       return pdf.output('datauristring').split(',')[1];
     })();
 
+    // ── 4.5. Construim rândul CSV ──
+    (function() {
+      var secs = payload.sections || {};
+      var row = [
+        payload.nrRaport || '', payload.name || '', payload.email || '',
+        payload.date || '', payload.location || '', payload.tipLucrare || ''
+      ];
+      for (var s = 1; s <= 13; s++) {
+        var items = secs[s] || secs[String(s)] || [];
+        items.forEach(function(item) { row.push(item.answer || ''); row.push(item.comment || ''); });
+      }
+      for (var s2 = 14; s2 <= 15; s2++) {
+        var items2 = secs[s2] || secs[String(s2)] || [];
+        items2.forEach(function(item) { row.push(item.answer || ''); });
+      }
+      row.push(payload.observatii || '', payload.concluzii || '',
+               payload.sigInspectorName || '', payload.sigInspectorFunctie || '',
+               payload.sigInspectorFirma || '', payload.sigInspectorData || '');
+      payload.csvRow = row;
+    })();
 
-    // ── 6. Trimitem PDF-ul real la GAS proxy ──
+    // ── 5. Trimitem la GAS ──
     overlayMsg.textContent = 'Se încarcă în GitHub...';
     const res = await fetch(GAS_PROXY_URL, {
-      method:   'POST',
-      redirect: 'follow',
-      headers:  { 'Content-Type': 'text/plain' },
-      body:     JSON.stringify({
-          pdfHtmlBase64: pdfBase64,
-          nrRaport:      payload.nrRaport    || '',
-          inspector:     payload.name        || '',
-          email:         payload.email       || '',
-          data:          payload.date        || '',
-          localitate:    payload.location    || '',
-          tipLucrare:    payload.tipLucrare  || '',
-          observatii:    payload.observatii  || '',
-          concluzii:     payload.concluzii   || '',
-          sections:      payload.sections    || {}
-        })
+      method: 'POST', redirect: 'follow',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({
+        pdfHtmlBase64: pdfBase64,
+        fileExt:       'pdf',
+        nrRaport:      nrRaport,
+        inspector:     payload.name        || '',
+        email:         payload.email       || '',
+        data:          payload.date        || '',
+        localitate:    payload.location    || '',
+        tipLucrare:    payload.tipLucrare  || '',
+        observatii:    payload.observatii  || '',
+        concluzii:     payload.concluzii   || '',
+        sections:      payload.sections    || {},
+        csvRow:        payload.csvRow      || []
+      })
     });
 
     const text = await res.text();
     let result = {};
     try { result = JSON.parse(text); } catch(e) { result = { status: 'error', message: text }; }
 
-    overlay.classList.remove('show');
-
-    if (result.status === 'success') {
-      showToast('✔ Raportul a fost salvat în GitHub: ' + (result.fileName || fileName), 'success');
-    } else {
-      console.error('GAS error:', result);
+    if (result.status !== 'success') {
+      overlay.classList.remove('show');
       showToast('Eroare server: ' + (result.message || 'necunoscută') + '. PDF-ul a fost deschis local.', 'error');
+      return;
     }
+
+    // ── 6. Marchăm nr ca folosit și deschidem PDF local ──
+    cachedNrRaport = nrRaport;
+    cachedNrUsed   = false;
+
+    const winLocal = window.open('', '_blank');
+    if (winLocal) {
+      const localTitle = nrRaport
+        + (payload.location ? '_' + payload.location : '')
+        + (payload.date     ? '_' + payload.date     : '');
+      const pdfHtmlTitled = pdfHtml.replace('<title></title>', '<title>' + localTitle + '</title>');
+      winLocal.document.write(pdfHtmlTitled);
+      winLocal.document.close();
+      winLocal.addEventListener('load', () => setTimeout(() => winLocal.print(), 300));
+    }
+
+    overlay.classList.remove('show');
+    showToast('✔ ' + nrRaport + ' salvat în GitHub: ' + result.fileName, 'success');
 
   } catch(err) {
     overlay.classList.remove('show');
@@ -3789,6 +3799,15 @@ function getSigDataUrl(id) {
 
   // Inițializăm semnăturile după ce DOM-ul e gata
   setTimeout(initSignatures, 500);
+})();
+
+// ── Preluăm numărul raportului la încărcarea paginii ──
+(async function fetchNrRaportOnLoad() {
+  try {
+    const res  = await fetch(GAS_PROXY_URL + '?action=nextNr', { method: 'GET', redirect: 'follow' });
+    const data = JSON.parse(await res.text());
+    if (data.nextNr) { cachedNrRaport = data.nextNr; cachedNrUsed = false; }
+  } catch(e) { console.warn('Nu am putut preîncărca nr raport:', e); }
 })();
 
 // GAS Proxy connection status
