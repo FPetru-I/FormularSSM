@@ -2592,7 +2592,7 @@ const TEXT_SECTIONS = {
   ],
 };
 
-const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbwnW78wQuOeUmfBi7EnyF1NBW7GFzF5UzUcpGdIKfOp1vSJOJps06ysVkIdZpv8XISKHw/exec';
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbyUWKC07-DEnPvm_z-vJkQLUXNlyYr3ytbpyjxSUjoXTFJRSMXHqbgf4QUMsDd5CT6Btg/exec';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
@@ -2996,12 +2996,17 @@ async function trimiteRaport() {
       });
       const scale   = canvas.width / 860;
       const pageHpx = Math.round(usableH * canvas.width / usableW);
-      const rows = Array.from(container.querySelectorAll('.row, .sec-header'));
+      const allEls = Array.from(container.querySelectorAll('.row, .sec-header'));
       const safeBottoms = [];
-      rows.forEach(function(row) {
-        let top = 0, el = row;
-        while (el && el !== container) { top += el.offsetTop || 0; el = el.offsetParent; }
-        safeBottoms.push(Math.round((top + row.offsetHeight) * scale));
+      allEls.forEach(function(el, idx) {
+        // If this is a sec-header, use the bottom of the NEXT row instead
+        // so the page never breaks between sec-header and its first question
+        if (el.classList.contains('sec-header') && allEls[idx + 1]) {
+          return; // skip - will be accounted for by next row
+        }
+        let top = 0, node = el;
+        while (node && node !== container) { top += node.offsetTop || 0; node = node.offsetParent; }
+        safeBottoms.push(Math.round((top + el.offsetHeight) * scale));
       });
       safeBottoms.sort(function(a,b){ return a-b; });
       document.body.removeChild(container);
@@ -3307,6 +3312,8 @@ function buildPDFHtml(p, imgData) {
     .col-c { flex: 1; padding: 7px 8px; line-height: 1.5; text-align: left; word-break: normal; word-spacing: normal; font-size: 11px !important; }
 
     .sec-header { display: flex; background: #e8eef7; border-bottom: 1px solid #b8c8e8; page-break-inside: avoid; break-inside: avoid; page-break-after: avoid; break-after: avoid; }
+    .sec-header + .row, .sec-header + div { page-break-before: avoid; break-before: avoid; }
+    .sec-header { page-break-before: auto; break-before: auto; }
     .sec-header .col-q { flex: 1; font-weight: 700; font-size: 12px; color: #1a4d8f; padding: 8px 10px; border-right: none; background: #e8eef7; }
 
     .badge { color: #fff; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 600; display: inline-block; }
