@@ -2271,7 +2271,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
             style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;transition:border-color 0.15s,box-shadow 0.15s;"
             onfocus="this.style.borderColor='var(--accent)';this.style.boxShadow='0 0 0 3px rgba(26,77,143,0.1)'"
             onblur="this.style.borderColor='';this.style.boxShadow=''"
-            oninput="obsText=this.value"></textarea>
+            oninput="obsText=this.value; updateProgress();"></textarea>
         </div>
       </div>
       <!-- 16.2 Upload -->
@@ -2309,7 +2309,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
             style="width:100%;border:1px solid var(--border);border-radius:4px;padding:10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;transition:border-color 0.15s;box-sizing:border-box;"
             onfocus="this.style.borderColor='var(--accent)'"
             onblur="this.style.borderColor=''"
-            oninput="concluziiText=this.value"></textarea>
+            oninput="concluziiText=this.value; updateProgress();"></textarea>
         </div>
       </div>
     </div>
@@ -2731,11 +2731,21 @@ function updateProgress() {
   if (totalDA === 0) totalDA = document.querySelectorAll('.opt-btn[data-key]').length / 3;
   var doneDA = Object.values(answers).filter(function(a){ return a.value !== null; }).length;
 
-  // Întrebări text (secțiunile 14-15) — exclude sec19 textareas
+  // Întrebări text (secțiunile 14-15)
   var textAreas = document.querySelectorAll('#section-14-text textarea, #section-15-text textarea');
   var totalText = textAreas.length;
   var doneText  = 0;
   textAreas.forEach(function(ta) { if (ta.value && ta.value.trim() !== '') doneText++; });
+
+  // Secțiunea 16.1 (obs-text) — inclusă, 16.2 (upload) — exclusă
+  var obs = document.getElementById('obs-text');
+  totalText += 1;
+  if (obs && obs.value && obs.value.trim() !== '') doneText += 1;
+
+  // Secțiunea 17.1 (concluzii-text)
+  var concluzii = document.getElementById('concluzii-text');
+  totalText += 1;
+  if (concluzii && concluzii.value && concluzii.value.trim() !== '') doneText += 1;
 
   var total = Math.round(totalDA) + totalText;
   var done  = doneDA + doneText;
