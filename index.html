@@ -2991,7 +2991,7 @@ async function trimiteRaport() {
       const usableW = pageW - margin * 2;
       const usableH = pageH - margin * 2;
       const canvas = await html2canvas(container, {
-        scale: 2, useCORS: true, allowTaint: true,
+        scale: 4, useCORS: true, allowTaint: true,
         backgroundColor: '#ffffff', width: 860, windowWidth: 860
       });
       const scale   = canvas.width / 860;
@@ -3032,7 +3032,7 @@ async function trimiteRaport() {
         slice.width  = canvas.width;
         slice.height = srcH;
         slice.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, srcH, 0, 0, canvas.width, srcH);
-        pdf.addImage(slice.toDataURL('image/jpeg', 0.92), 'JPEG', margin, margin, usableW, sliceH);
+        pdf.addImage(slice.toDataURL('image/jpeg', 1.0), 'JPEG', margin, margin, usableW, sliceH);
       }
       return pdf.output('datauristring').split(',')[1];
     })();;
@@ -3141,7 +3141,7 @@ async function trimiteRaport() {
         const usableW = pageW - margin * 2;
         const usableH = pageH - margin * 2;
         const canvas = await html2canvas(container, {
-          scale: 2, useCORS: true, allowTaint: true,
+          scale: 4, useCORS: true, allowTaint: true,
           backgroundColor: '#ffffff', width: 860, windowWidth: 860
         });
         const scale   = canvas.width / 860;
@@ -3297,7 +3297,7 @@ function buildPDFHtml(p, imgData) {
       rows.push(`<div class="row">
         <div class="col-q"><span style="display:block;text-align:left;word-spacing:normal;white-space:normal">${sec}.${i+1}. ${item.question}</span></div>
         <div class="col-r"><span class="badge" style="background:${badge}">${ans}</span></div>
-        <div class="col-c">${item.comment || '—'}${imgs.map(img=>`<div style="margin-top:6px"><img src="${img.dataUrl}" style="max-width:100%;max-height:160px;border-radius:3px;border:1px solid #ddd;display:block"/></div>`).join('')}</div>
+        <div class="col-c">${item.comment || '—'}${imgs.map(img=>`<div style="margin-top:6px"><img src="${img.dataUrl}" style="max-width:100%;max-height:400px;border-radius:3px;border:1px solid #ddd;display:block"/></div>`).join('')}</div>
       </div>`);
     });
   }
@@ -3387,13 +3387,13 @@ function buildPDFHtml(p, imgData) {
 
     .tbl { width: 100%; margin-bottom: 28px; font-size: 11px; border: 1px solid #e0deda; border-radius: 4px; overflow: hidden; }
     .tbl-head { display: flex; background: #f0efec; border-bottom: 1px solid #ccc; }
-    .tbl-head .col-q  { flex: 0 0 55%; padding: 7px 8px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+    .tbl-head .col-q  { flex: 0 0 40%; padding: 7px 8px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
     .tbl-head .col-r  { flex: 0 0 12%; padding: 7px 8px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; }
     .tbl-head .col-c  { flex: 1; padding: 7px 8px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
 
     .row { display: flex; border-bottom: 1px solid #e0deda; background: #fafaf8; page-break-inside: avoid; break-inside: avoid; }
     .row:last-child { border-bottom: none; }
-    .col-q { flex: 0 0 55%; padding: 7px 8px; border-right: 1px solid #e0deda; line-height: 1.5; overflow-wrap: break-word; font-size: 11px !important; }
+    .col-q { flex: 0 0 40%; padding: 7px 8px; border-right: 1px solid #e0deda; line-height: 1.5; overflow-wrap: break-word; font-size: 11px !important; }
     .col-r { flex: 0 0 12%; padding: 7px 8px; border-right: 1px solid #e0deda; text-align: center; vertical-align: middle; display: flex; align-items: center; justify-content: center; }
     .col-c { flex: 1; padding: 7px 8px; line-height: 1.5; text-align: left; word-break: normal; word-spacing: normal; font-size: 11px !important; }
 
@@ -3408,7 +3408,7 @@ function buildPDFHtml(p, imgData) {
     .imgs h2 { font-size: 14px; font-weight: 700; color: #1a1917; border-bottom: 2px solid #1a4d8f; padding-bottom: 8px; margin-bottom: 16px; }
     .img-grid { display: flex; flex-wrap: wrap; gap: 16px; }
     .img-card { width: calc(50% - 8px); border: 1px solid #ddd; border-radius: 4px; overflow: hidden; page-break-inside: avoid; }
-    .img-card img { width: 100%; height: auto; max-height: 320px; object-fit: contain; display: block; background: #f5f5f5; }
+    .img-card img { width: 100%; height: auto; max-height: 480px; object-fit: contain; display: block; background: #f5f5f5; }
     .img-caption { font-size: 10px; color: #555; padding: 5px 8px; background: #f9f9f7; border-top: 1px solid #eee; }
 
     @media print {
