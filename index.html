@@ -2592,7 +2592,7 @@ const TEXT_SECTIONS = {
   ],
 };
 
-const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbwZ27Joxmosy1IlWTVFHyTmn_hQozTrLLcWgppSftejFn9b6op9kGqUtmRj9oY7Fve17g/exec';
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbyLrbZFsH_tuf_45IT9tVSA5cPozgGx641vGZI9X7LG3TP7aXaF_D5GoTCNIXCYyDH2oQ/exec';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
@@ -2809,9 +2809,9 @@ function validate() {
   // Validăm doar câmpurile obligatorii de identificare
   const name = document.getElementById('meta-name').value.trim();
   const email = document.getElementById('meta-email').value.trim();
-  if (email && !email.toLowerCase().endsWith('@ppcgroup.com')) {
-    showToast('Adresă de email invalidă.', 'error');
+  if (!email || !email.includes('@')) {
     document.getElementById('meta-email').focus();
+    showToast('Email invalid.', 'error');
     return false;
   }
   if (!name) { document.getElementById('meta-name').focus(); showToast('Câmpul Nume complet este obligatoriu.', 'error'); return false; }
