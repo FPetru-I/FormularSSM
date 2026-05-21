@@ -3199,6 +3199,26 @@ async function trimiteRaport() {
       });
     } catch(e) { console.warn('Feedback PDF error:', e); }
 
+    // ── Upload HTML raw în rapoarte_raw ──
+    try {
+      const htmlRaw = buildPDFHtml(payload, imgData);
+      const htmlBase64 = btoa(unescape(encodeURIComponent(htmlRaw)));
+      await fetch(GAS_PROXY_URL, {
+        method: 'POST', redirect: 'follow',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({
+          pdfHtmlBase64: htmlBase64,
+          fileExt:       'html',
+          nrRaport:      nrRaport,
+          folder:        'rapoarte_raw',
+          inspector:     payload.name     || '',
+          data:          dateForFilename(payload.date) || '',
+          localitate:    payload.location || '',
+          tipLucrare:    payload.tipLucrare || ''
+        })
+      });
+    } catch(e) { console.warn('HTML raw upload error:', e); }
+
     // Descarcă PDF local
     const winLocal = window.open('', '_blank');
     if (winLocal) {
