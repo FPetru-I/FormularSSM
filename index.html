@@ -3675,6 +3675,12 @@ function getSigDataUrl(id) {
 
   // Inițializăm semnăturile după ce DOM-ul e gata
   setTimeout(initSignatures, 500);
+
+  //Avertizare refresh pagina
+  window.addEventListener('beforeunload', function(e) {
+    e.preventDefault();
+    e.returnValue = '';
+});
 })();
 
 // ── Preluăm numărul raportului la încărcarea paginii ──
