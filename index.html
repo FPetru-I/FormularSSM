@@ -2841,17 +2841,40 @@ function removeImage(idx) {
 var _pendingAction = null; // 'download' sau 'submit'
 
 function getIncompleteCount() {
-  var total = Object.keys(answers).length;
-  var done  = Object.values(answers).filter(function(a){ return a.value !== null; }).length;
-  return total - done;
+  // DA/NU/N/A
+  var totalDA = Object.keys(answers).length;
+  var doneDA  = Object.values(answers).filter(function(a){ return a.value !== null; }).length;
+
+  // Text sections 14 & 15
+  var textAreas = document.querySelectorAll('#section-14-text textarea, #section-15-text textarea');
+  var totalText = textAreas.length;
+  var doneText  = 0;
+  textAreas.forEach(function(ta){ if(ta.value && ta.value.trim() !== '') doneText++; });
+
+  // 16.1 observații + 17.1 concluzii
+  var obs = document.getElementById('obs-text');
+  var conc = document.getElementById('concluzii-text');
+  totalText += 2;
+  if(obs && obs.value && obs.value.trim() !== '') doneText++;
+  if(conc && conc.value && conc.value.trim() !== '') doneText++;
+
+  return (totalDA - doneDA) + (totalText - doneText);
+}
+
+function getTotalQuestions() {
+  var totalDA   = Object.keys(answers).length;
+  var totalText = document.querySelectorAll('#section-14-text textarea, #section-15-text textarea').length;
+  totalText += 2; // 16.1 observații + 17.1 concluzii
+  return totalDA + totalText;
 }
 
 function showIncompleteModal(action) {
   var incomplete = getIncompleteCount();
+  var total      = getTotalQuestions();
   _pendingAction = action;
   var label = action === 'download' ? 'descărcarea' : 'salvarea și descărcarea';
   document.getElementById('incompleteModalBody').innerHTML =
-    'Ai <strong>' + incomplete + ' întrebări</strong> fără răspuns din ' + Object.keys(answers).length + ' total.<br><br>' +
+    'Ai <strong>' + incomplete + ' întrebări</strong> fără răspuns din <strong>' + total + ' total</strong>.<br><br>' +
     'Poți reveni și completa formularul, sau continua ' + label + ' cu datele existente.';
   document.getElementById('incompleteModal').classList.add('show');
 }
