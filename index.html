@@ -116,6 +116,21 @@
   .sig-canvas-wrap{border:1.5px solid var(--border);border-radius:6px;background:#fff;display:block;overflow:hidden;}
   .sig-actions{display:flex;justify-content:flex-end;margin-top:6px;}
   .sig-btn-clear{font-size:11px;font-weight:600;color:var(--text-muted);background:none;border:1px solid var(--border);border-radius:4px;padding:4px 12px;cursor:pointer;}
+
+  /* ── MODAL CONFIRMARE INCOMPLETE ── */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;align-items:center;justify-content:center;}
+  .modal-overlay.show{display:flex;}
+  .modal-card{background:#fff;border-radius:12px;padding:28px 32px;max-width:420px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.18);}
+  .modal-title{font-size:16px;font-weight:600;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+  .modal-title svg{width:20px;height:20px;stroke:#f0a500;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+  .modal-body{font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:20px;}
+  .modal-body strong{color:var(--text);}
+  .modal-actions{display:flex;gap:10px;flex-wrap:wrap;}
+  .modal-btn{font-family:inherit;font-size:13px;font-weight:500;padding:8px 16px;border-radius:6px;cursor:pointer;border:1.5px solid transparent;flex:1;min-width:120px;text-align:center;}
+  .modal-btn-cancel{background:transparent;border-color:var(--border-strong);color:var(--text-muted);}
+  .modal-btn-cancel:hover{background:var(--surface2);}
+  .modal-btn-proceed{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .modal-btn-proceed:hover{background:#0f3060;}
 </style>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -2430,6 +2445,23 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 </div>
 
 <!-- Overlay loading -->
+<!-- ── MODAL COMPLETARE INCOMPLETA ── -->
+<div class="modal-overlay" id="incompleteModal">
+  <div class="modal-card">
+    <div class="modal-title">
+      <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Formular incomplet
+    </div>
+    <div class="modal-body" id="incompleteModalBody">
+      Nu ai răspuns la toate întrebările.
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn modal-btn-cancel" onclick="closeIncompleteModal()">← Revino și completează</button>
+      <button class="modal-btn modal-btn-proceed" id="modalProceedBtn" onclick="proceedAnyway()">Continuă oricum</button>
+    </div>
+  </div>
+</div>
+
 <div class="overlay" id="overlay">
   <div class="spinner"></div>
   <div>Se generează PDF-ul...</div>
@@ -2804,6 +2836,39 @@ function removeImage(idx) {
   if (el) el.remove();
 }
 
+
+// ── MODAL COMPLETARE INCOMPLETA ──
+var _pendingAction = null; // 'download' sau 'submit'
+
+function getIncompleteCount() {
+  var total = Object.keys(answers).length;
+  var done  = Object.values(answers).filter(function(a){ return a.value !== null; }).length;
+  return total - done;
+}
+
+function showIncompleteModal(action) {
+  var incomplete = getIncompleteCount();
+  _pendingAction = action;
+  var label = action === 'download' ? 'descărcarea' : 'salvarea și descărcarea';
+  document.getElementById('incompleteModalBody').innerHTML =
+    'Ai <strong>' + incomplete + ' întrebări</strong> fără răspuns din ' + Object.keys(answers).length + ' total.<br><br>' +
+    'Poți reveni și completa formularul, sau continua ' + label + ' cu datele existente.';
+  document.getElementById('incompleteModal').classList.add('show');
+}
+
+function closeIncompleteModal() {
+  document.getElementById('incompleteModal').classList.remove('show');
+  _pendingAction = null;
+}
+
+function proceedAnyway() {
+  document.getElementById('incompleteModal').classList.remove('show');
+  var action = _pendingAction;
+  _pendingAction = null;
+  if(action === 'download') { downloadPDF(true); }
+  else if(action === 'submit') { trimiteRaport(true); }
+}
+
 // VALIDATION
 function validate() {
   // Validăm doar câmpurile obligatorii de identificare
@@ -2870,7 +2935,8 @@ function fileToBase64(file) {
 }
 
 // DOWNLOAD PDF (client-side, cu imagini embedded ca base64)
-async function downloadPDF() {
+async function downloadPDF(bypass) {
+  if(!bypass && getIncompleteCount() > 0){ showIncompleteModal('download'); return; }
   const overlay    = document.getElementById('overlay');
   const overlayMsg = document.querySelector('.overlay div:last-child');
   overlay.classList.add('show');
@@ -2925,8 +2991,9 @@ async function downloadPDF() {
 }
 
 
-async function trimiteRaport() {
+async function trimiteRaport(bypass) {
   if (!validate()) return;
+  if(!bypass && getIncompleteCount() > 0){ showIncompleteModal('submit'); return; }
 
   const overlay    = document.getElementById('overlay');
   const overlayMsg = document.querySelector('.overlay div:last-child');
