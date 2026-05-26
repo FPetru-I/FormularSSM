@@ -1,9 +1,3 @@
-# Documentație completă — Formular SSM (index.html)
-
-> Versiune curentă: v33 · Ultima actualizare: Mai 2026
-
-\---
-
 ## CUPRINS
 
 1. [Prezentare generală](#1-prezentare-generală)
@@ -948,40 +942,4 @@ type: '' (negru neutru) | 'error' (roșu) | 'success' (verde)
 |`initForm()`|—|`void`|Inițializare completă formular (IIFE)|
 |`fetchNrRaportOnLoad()`|—|`Promise<void>`|Preîncarcă numărul raportului în background (IIFE async)|
 
-\---
-
-## 20\. Jurnal modificări
-
-### v33 — Curățare cod neutilizat (Mai 2026)
-
-**Eliminate:**
-
-|Element|Motivul eliminării|
-|-|-|
-|Script tag `@emailjs/browser` din `<head>`|EmailJS nu era folosit în fluxul de trimitere|
-|Constantele `EMAILJS\_SERVICE\_ID`, `EMAILJS\_TEMPLATE\_ID`, `EMAILJS\_PUBLIC\_KEY`|Dependente de EmailJS|
-|`emailjs.init()`|Dependentă de EmailJS|
-|`fbRating` (variabilă globală)|Niciun element de rating stele în HTML|
-|`feedbackRating: fbRating` din `buildPayload()`|Dependentă de fbRating|
-|Funcția `setRating(val)`|Niciun element `.star` în HTML|
-|CSS `.star-rating`, `.star`, `.star.active`|Niciun element HTML corespondent|
-|`starStr` (constantă în `buildPDFHtml`)|Definită dar niciodată folosită în template|
-|Event listener `.star\[data-rating]` din `initForm()`|Fără elemente `.star` în HTML|
-|`sigSefName` (variabilă globală)|Niciun canvas-sef sau secțiune HTML pentru semnătura șefului|
-|`sigSef: getSigDataUrl('sef')` din `buildPayload()`|Dependentă de sigSefName|
-|`feedbackSugestii: fbSugestii` din `buildPayload()`|Valoarea citită direct din DOM în trimiteRaport|
-|`<div id="flowStatus">` din bara de acțiuni|Indicator cosmetic fără utilitate funcțională|
-|Bloc JS "GAS Proxy connection status" (setTimeout + fetch no-cors)|Dependentă de flowStatus div|
-|Event listener `fb-sugestii-input` din `initForm()`|Valoarea citită direct din DOM când e nevoie|
-|`}, 500);` (rând orfan după ștergerea setTimeout flowStatus)|Cauza erorii `Unexpected token '}'`|
-
-**Nemodificate (par neutilizate dar sunt funcționale):**
-
-* `fbSugestii`, `fbProbleme`, `fbGeneral` — valorile sunt citite direct din DOM (`getElementById`) în `trimiteRaport()` pentru generarea PDF-ului de feedback
-* `updateComment()` — apelată prin event delegation pe `textarea\[data-comment-key]`
-* CSS `.sig-grid` — folosit pentru layout-ul secțiunii 18 (semnătură)
-
-\---
-
-*Documentație generată pentru Formularul SSM v33 · Mai 2026*
-
+\--
