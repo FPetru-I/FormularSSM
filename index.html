@@ -100,9 +100,6 @@
   .q-thumb-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
   .q-thumb .q-thumb-remove{position:absolute;top:2px;right:2px;width:16px;height:16px;background:rgba(0,0,0,0.65);color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:10px;display:flex;align-items:center;justify-content:center;}
   .q-thumb-name{width:100%;border:none;border-top:1px solid var(--border);padding:4px 5px;font-family:inherit;font-size:10px;color:var(--text);background:var(--surface2);outline:none;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .star-rating{display:flex;align-items:center;gap:4px;margin-top:4px;}
-  .star{font-size:28px;cursor:pointer;color:#dddbd4;line-height:1;user-select:none;}
-  .star.active{color:#f0a500;}
   .text-question-row{border-bottom:1px solid var(--border);padding:14px 18px;}
   .text-question-row:last-child{border-bottom:none;}
   .text-question-row .tq-label{display:flex;gap:10px;align-items:center;margin-bottom:8px;}
@@ -137,7 +134,6 @@
 }
   
 </style>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/signature_pad@5.1.3/dist/signature_pad.umd.min.js"></script>
@@ -2439,7 +2435,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
   <div class="actions-bar">
     <div class="actions-left">
       <div id="progressText" style="margin-bottom:4px">0 din <span id="totalQ">0</span> întrebări completate</div>
-      <div id="flowStatus" style="font-size:11px;"></div>
+
     </div>
     <div class="actions-right">
       <button class="btn btn-secondary" onclick="downloadPDF()">⬇ Descarcă PDF</button>
@@ -2476,16 +2472,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 <div class="toast" id="toast"></div>
 
 <script>
-// =====================================================
-// CONFIGURARE EMAILJS
-// =====================================================
-const EMAILJS_SERVICE_ID  = 'service_2ur3iz9';
-const EMAILJS_TEMPLATE_ID = 'template_0plnlsg';
-const EMAILJS_PUBLIC_KEY  = '2nWXQm_zf29Au0ehk';
-// =====================================================
 
-emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-// =====================================================
 // CONFIGURARE ÎNTREBĂRI
 // Modificați această listă după necesitățile voastre
 // =====================================================
@@ -2688,11 +2675,7 @@ function removeQImg(key, idx) {
   if (el) el.remove();
 }
 let obsText      = '';
-let fbSugestii   = '';
 var concluziiText = '';
-var fbProbleme    = '';
-var fbGeneral     = '';
-let fbRating = 0;
 
 // Feedback sections 14 & 15 text questions
 
@@ -2704,16 +2687,6 @@ let textAnswers = {}; (function() {
   var el = document.getElementById('meta-date');
   if (el && !el.value) el.value = dd + '/' + mm + '/' + yyyy;
 })();
-
-// Star rating
-function setRating(val) {
-  fbRating = val;
-  const labels = ['','Foarte slab','Slab','Acceptabil','Bun','Excelent'];
-  document.querySelectorAll('.star').forEach((s,i) => {
-    s.classList.toggle('active', i < val);
-  });
-  document.getElementById('ratingLabel').textContent = labels[val] || '';
-}
 
 function selectAnswer(btn) {
   const key = btn.dataset.key;
@@ -2938,16 +2911,12 @@ function buildPayload() {
     tipLucrare: document.getElementById('meta-tiplucrare').value,
     observatii: obsText,
     numFisiere: images.filter(Boolean).length,
-    feedbackRating: fbRating,
-    feedbackSugestii: fbSugestii,
     concluzii:        document.getElementById('concluzii-text') ? document.getElementById('concluzii-text').value : '',
     sigInspectorName:    sigInspectorName,
     sigInspectorFunctie: sigInspectorFunctie,
     sigInspectorFirma:   sigInspectorFirma,
     sigInspectorData:    sigInspectorData,
-    sigSefName:       sigSefName,
     sigInspector:     getSigDataUrl('inspector'),
-    sigSef:           getSigDataUrl('sef'),
     sections
   };
 }
@@ -3434,10 +3403,6 @@ function buildPDFHtml(p, imgData) {
   rows.push(`<div class="row"><div class="col-q">16.1. Încălcări ale regulilor de siguranță identificate</div><div class="col-r"></div><div class="col-c">${p.observatii || '—'}</div></div>`);
   rows.push(`<div class="row"><div class="col-q">16.2. Fișiere atașate</div><div class="col-r"></div><div class="col-c">${p.numFisiere || 0} fișiere</div></div>`);
   // Feedback form
-  const starStr = fbRating > 0 ? '★'.repeat(fbRating) + '☆'.repeat(5-fbRating) : '—';
-  
-  
-  
 
   // ── Secțiunea 18: Semnătură inspector ──
   rows.push(`<div class="sec-header"><div class="col-q">Secțiunea 18: Semnătura inspectorului</div></div>`);
@@ -3661,7 +3626,7 @@ var sigInspectorName   = '';
 var sigInspectorFunctie = '';
 var sigInspectorFirma   = '';
 var sigInspectorData    = '';
-var sigSefName       = '';
+
 var sigCanvases      = {};
 
 function initSignatures() {
@@ -3756,8 +3721,7 @@ function getSigDataUrl(id) {
   container.addEventListener('click', function(e) {
     var btn = e.target.closest('.opt-btn[data-key]');
     if (btn) { selectAnswer(btn); return; }
-    var star = e.target.closest('.star[data-rating]');
-    if (star) { setRating(parseInt(star.dataset.rating, 10)); return; }
+
   });
 
   // Event delegation — textarea note + observații + feedback
@@ -3765,7 +3729,6 @@ function getSigDataUrl(id) {
     var t = e.target;
     if (t.dataset.commentKey) { updateComment(t.dataset.commentKey, t.value); return; }
     if (t.id === 'obs-text-input')   { obsText    = t.value; return; }
-    if (t.id === 'fb-sugestii-input'){ fbSugestii = t.value; return; }
   });
 
   // Inițializăm semnăturile după ce DOM-ul e gata
@@ -3794,22 +3757,6 @@ function getSigDataUrl(id) {
     console.warn('Nu am putut preîncărca nr raport:', e);
   }
 })();
-
-// GAS Proxy connection status
-setTimeout(function() {
-  const el = document.getElementById('flowStatus');
-  if (!el) return;
-  el.innerHTML = '<span style="color:var(--text-faint)">● Verificare conexiune server...</span>';
-  // GAS face redirect 302 - folosim no-cors pentru ping
-  fetch(GAS_PROXY_URL, { mode: 'no-cors' })
-  .then(function() {
-    // no-cors returnează opaque response (status 0) dar înseamnă că serverul e activ
-    el.innerHTML = '<span style="color:var(--yes)">● Server activ — rapoartele se salvează în GitHub</span>';
-  })
-  .catch(function() {
-    el.innerHTML = '<span style="color:var(--no)">● Server: indisponibil momentan</span>';
-  });
-}, 500);
 </script>
 </body>
 </html>
