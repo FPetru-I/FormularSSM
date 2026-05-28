@@ -1316,9 +1316,14 @@ async function trimiteRaport(bypass) {
 
     // ── Upload HTML raw în rapoarte_raw ──
     try {
-      const htmlRaw = buildPDFHtml(payload, imgData);
-      const htmlBase64 = btoa(unescape(encodeURIComponent(htmlRaw)));
-      await fetch(GAS_PROXY_URL, {
+      let htmlRaw = buildPDFHtml(payload, imgData);
+      // Injectează titlul corect în fișierul HTML uploadat
+      const docTitle = nrRaport
+        + (payload.location ? '_' + payload.location : '')
+        + (payload.date     ? '_' + dateForFilename(payload.date) : '');
+        htmlRaw = htmlRaw.replace(/<title[^>]*>[\s\S]*?<\/title>/i, '<title>' + docTitle + '</title>');
+        const htmlBase64 = btoa(unescape(encodeURIComponent(htmlRaw)));
+        await fetch(GAS_PROXY_URL, {
         method: 'POST', redirect: 'follow',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({
