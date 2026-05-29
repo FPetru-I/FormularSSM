@@ -1106,7 +1106,7 @@ async function trimiteRaport(bypass) {
       const usableW = pageW - margin * 2;
       const usableH = pageH - margin * 2;
       const canvas = await html2canvas(container, {
-        scale: 2, useCORS: true, allowTaint: true,
+        scale: 1.5, useCORS: true, allowTaint: true,
         backgroundColor: '#ffffff', width: 860, windowWidth: 860
       });
       const scale   = canvas.width / 860;
@@ -1256,7 +1256,7 @@ async function trimiteRaport(bypass) {
         const usableW = pageW - margin * 2;
         const usableH = pageH - margin * 2;
         const canvas = await html2canvas(container, {
-          scale: 2, useCORS: true, allowTaint: true,
+          scale: 1.5, useCORS: true, allowTaint: true,
           backgroundColor: '#ffffff', width: 860, windowWidth: 860
         });
         const scale   = canvas.width / 860;
