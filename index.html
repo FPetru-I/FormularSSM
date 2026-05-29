@@ -1147,7 +1147,7 @@ async function trimiteRaport(bypass) {
         slice.width  = canvas.width;
         slice.height = srcH;
         slice.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, srcH, 0, 0, canvas.width, srcH);
-        pdf.addImage(slice.toDataURL('image/jpeg', 0.92), 'JPEG', margin, margin, usableW, sliceH);
+        pdf.addImage(slice.toDataURL('image/jpeg', 1), 'JPEG', margin, margin, usableW, sliceH);
       }
       return pdf.output('datauristring').split(',')[1];
     })();;
@@ -1293,7 +1293,7 @@ async function trimiteRaport(bypass) {
           slice.width  = canvas.width;
           slice.height = srcH;
           slice.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, srcH, 0, 0, canvas.width, srcH);
-          pdf.addImage(slice.toDataURL('image/jpeg', 0.92), 'JPEG', margin, margin, usableW, sliceH);
+          pdf.addImage(slice.toDataURL('image/jpeg', 1), 'JPEG', margin, margin, usableW, sliceH);
         }
         return pdf.output('datauristring').split(',')[1];
       })();
