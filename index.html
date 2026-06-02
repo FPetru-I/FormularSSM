@@ -701,7 +701,7 @@ function handleQImg(key, files) {
       var imgIdx      = qImages[key].length;
       var defaultName = file.name.replace(/\.[^.]+$/, '');
       qImages[key].push({ dataUrl: rawDataUrl, name: defaultName });
-      compressImage(rawDataUrl, 1200, 0.85).then(function(compressed) {
+      compressImage(rawDataUrl, 1000, 0.75).then(function(compressed) {
         qImages[key][imgIdx].dataUrl = compressed;
         var container = document.getElementById('qthumbs-' + key);
         if (!container) return;
@@ -865,7 +865,7 @@ function addThumb(file, idx) {
       thumb.innerHTML = '<img src="' + raw + '" alt=""/>' +
         '<div class="img-name">' + file.name + '</div>' +
         '<button class="remove-btn" onclick="removeImage(' + idx + ')">×</button>';
-      compressImage(raw, 1200, 0.85).then(function(compressed) {
+      compressImage(raw, 1000, 0.75).then(function(compressed) {
         imagesData[idx] = { dataUrl: compressed, name: name };
       });
     };
