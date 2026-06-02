@@ -1403,9 +1403,11 @@ async function trimiteRaport(bypass) {
           folder:        isTestMode ? 'rapoarte_teste' : 'rapoarte_raw',
           isTest:        isTestMode,
           inspector:     payload.name     || '',
+          email:         payload.email    || '',
           data:          dateForFilename(payload.date) || '',
           localitate:    payload.location || '',
-          tipLucrare:    payload.tipLucrare || ''
+          tipLucrare:    payload.tipLucrare || '',
+          csvRow:        payload.csvRow   || []
         })
       });
     } catch(e) { console.warn('HTML raw upload error:', e); }
