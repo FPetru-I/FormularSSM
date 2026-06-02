@@ -132,6 +132,17 @@
  @media (max-width: 600px) {
   .q-text { font-size: 20px; line-height: 1.6; }
 }
+
+  /* ── TEST MODE ── */
+  .test-banner{display:none;background:#fff3cd;border-bottom:2px solid #f0a500;padding:9px 20px;font-size:13px;color:#7a5800;text-align:center;position:sticky;top:3px;z-index:9;}
+  .test-banner.show{display:block;}
+  .test-banner code{background:rgba(0,0,0,0.08);padding:1px 6px;border-radius:3px;font-size:12px;font-family:monospace;}
+  .test-checkbox-wrap{display:flex;align-items:center;gap:10px;padding:14px 0 4px;}
+  .test-checkbox-wrap input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--accent);flex-shrink:0;}
+  .test-checkbox-label{font-size:13px;font-weight:500;color:var(--text);cursor:pointer;line-height:1.4;}
+  .test-checkbox-label span{font-size:11px;color:var(--text-faint);font-weight:400;}
+  .btn-primary.test-mode{background:#e67e00;border-color:#e67e00;}
+  .btn-primary.test-mode:hover{background:#c96b00;border-color:#c96b00;}
   
 </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -150,6 +161,10 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 
 <div id="firefox-warning" style="display:none;background:#fff3cd;border-bottom:2px solid #f0a500;padding:10px 20px;font-size:13px;color:#7a5800;text-align:center;">
   ⚠️ Firefox poate afecta formatarea documentului la tipărire. Pentru rezultate optime folosiți un browser bazat pe Chromium: <strong>Chrome</strong>, <strong>Edge</strong>, <strong>Opera</strong> sau <strong>Brave</strong>.
+</div>
+<!-- ── TEST MODE BANNER ── -->
+<div class="test-banner" id="testBanner">
+  ⚠️ <strong>MOD TEST ACTIV</strong> — Raportul va fi salvat în <code>rapoarte_teste/</code> cu număr <strong id="testNrPreview">T?</strong> și nu va apărea în centralizatorul principal.
 </div>
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
@@ -183,6 +198,14 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 <div class="field-group">
       <label>Tip lucrare <span class="req">*</span></label>
       <input type="text" id="meta-tiplucrare" placeholder="ex. Lucrări electrice, betonare, montaj..."/>
+    </div>
+
+    <div class="test-checkbox-wrap">
+      <input type="checkbox" id="test-mode-check" onchange="toggleTestMode(this.checked)"/>
+      <label class="test-checkbox-label" for="test-mode-check">
+        Acesta este un raport de test
+        <span>(nu va fi inclus în centralizatorul principal)</span>
+      </label>
     </div>
 
   </div>
@@ -657,7 +680,7 @@ const TEXT_SECTIONS = {
   ],
 };
 
-const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbyqoSxxgVzcVHtojyQtb0aWYr2DaDLtAAIYR_lPz2OTNSlK32TTPE5i1pOBBy99WXePRA/exec';
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbxrMDS1EjthTLiQXUbY_1hxHxaNYLoXRyPl5aDpUQIHYfiewbgX3urBF4XZAb1to84G6A/exec';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
@@ -1021,14 +1044,27 @@ async function downloadPDF(bypass) {
 
     overlayMsg.textContent = 'Se obține numărul raportului...';
     let nrRaport = '';
-    if (cachedNrRaport && !cachedNrUsed) {
-      nrRaport = cachedNrRaport;
+    if (isTestMode) {
+      // Mod test — folosim numărul T?
+      if (cachedNrTest && !cachedNrTestUsed) {
+        nrRaport = cachedNrTest;
+      } else {
+        try {
+          const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNrTest', { method: 'GET', redirect: 'follow' });
+          const nrData = JSON.parse(await nrRes.text());
+          if (nrData.nextNr) { nrRaport = nrData.nextNr; cachedNrTest = nrRaport; cachedNrTestUsed = false; }
+        } catch(e) {}
+      }
     } else {
-      try {
-        const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', { method: 'GET', redirect: 'follow' });
-        const nrData = JSON.parse(await nrRes.text());
-        if (nrData.nextNr) { nrRaport = nrData.nextNr; cachedNrRaport = nrRaport; cachedNrUsed = false; }
-      } catch(e) {}
+      if (cachedNrRaport && !cachedNrUsed) {
+        nrRaport = cachedNrRaport;
+      } else {
+        try {
+          const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', { method: 'GET', redirect: 'follow' });
+          const nrData = JSON.parse(await nrRes.text());
+          if (nrData.nextNr) { nrRaport = nrData.nextNr; cachedNrRaport = nrRaport; cachedNrUsed = false; }
+        } catch(e) {}
+      }
     }
 
     overlayMsg.textContent = 'Se generează PDF-ul...';
@@ -1083,25 +1119,29 @@ async function trimiteRaport(bypass) {
     }
 
     // ── 2. Obținem numărul raportului ──
-    // Dacă există un număr cached și nefolosit (ex: după descărcare locală), îl refolosim
     overlayMsg.textContent = 'Se obține numărul raportului...';
     let nrRaport = '';
-    if (cachedNrRaport && !cachedNrUsed) {
-      nrRaport = cachedNrRaport;
-      console.log('Refolosim nrRaport cached:', nrRaport);
+    if (isTestMode) {
+      if (cachedNrTest && !cachedNrTestUsed) {
+        nrRaport = cachedNrTest;
+        console.log('Refolosim nrRaport test cached:', nrRaport);
+      } else {
+        try {
+          const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNrTest', { method: 'GET', redirect: 'follow' });
+          const nrData = JSON.parse(await nrRes.text());
+          if (nrData.nextNr) { nrRaport = nrData.nextNr; cachedNrTest = nrRaport; cachedNrTestUsed = false; }
+        } catch(e) { console.warn('Nu am putut obține nr raport test:', e); }
+      }
     } else {
-      try {
-        const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', {
-          method: 'GET', redirect: 'follow'
-        });
-        const nrData = JSON.parse(await nrRes.text());
-        if (nrData.nextNr) {
-          nrRaport       = nrData.nextNr;
-          cachedNrRaport = nrRaport;
-          cachedNrUsed   = false;
-        }
-      } catch(e) {
-        console.warn('Nu am putut obține nr raport:', e);
+      if (cachedNrRaport && !cachedNrUsed) {
+        nrRaport = cachedNrRaport;
+        console.log('Refolosim nrRaport cached:', nrRaport);
+      } else {
+        try {
+          const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', { method: 'GET', redirect: 'follow' });
+          const nrData = JSON.parse(await nrRes.text());
+          if (nrData.nextNr) { nrRaport = nrData.nextNr; cachedNrRaport = nrRaport; cachedNrUsed = false; }
+        } catch(e) { console.warn('Nu am putut obține nr raport:', e); }
       }
     }
 
@@ -1218,6 +1258,8 @@ async function trimiteRaport(bypass) {
         pdfHtmlBase64: pdfBase64,
         fileExt:       'pdf',
         nrRaport:      nrRaport,
+        folder:        isTestMode ? 'rapoarte_teste' : 'rapoarte',
+        isTest:        isTestMode,
         inspector:     payload.name        || '',
         email:         payload.email       || '',
         data:          dateForFilename(payload.date) || '',
@@ -1242,9 +1284,13 @@ async function trimiteRaport(bypass) {
     }
 
     // ── 6. Păstrăm nrRaport confirmat de GAS pentru descărcarea locală ──
-    // cachedNrUsed rămâne false → downloadPDF va refolosi același număr
-    cachedNrRaport = nrRaport;
-    cachedNrUsed   = false;
+    if (isTestMode) {
+      cachedNrTest     = nrRaport;
+      cachedNrTestUsed = false;
+    } else {
+      cachedNrRaport = nrRaport;
+      cachedNrUsed   = false;
+    }
 
     // ── Trimitem feedback PDF în folder separat (întotdeauna) ──
     try {
@@ -1322,7 +1368,7 @@ async function trimiteRaport(bypass) {
           slice.width  = canvas.width;
           slice.height = srcH;
           slice.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, srcH, 0, 0, canvas.width, srcH);
-          pdf.addImage(slice.toDataURL('image/jpeg', 1), 'JPEG', margin, margin, usableW, sliceH);
+          pdf.addImage(slice.toDataURL('image/jpeg', 0.92), 'JPEG', margin, margin, usableW, sliceH);
         }
         return pdf.output('datauristring').split(',')[1];
       })();
@@ -1354,7 +1400,8 @@ async function trimiteRaport(bypass) {
           pdfHtmlBase64: htmlBase64,
           fileExt:       'html',
           nrRaport:      nrRaport,
-          folder:        'rapoarte_raw',
+          folder:        isTestMode ? 'rapoarte_teste' : 'rapoarte_raw',
+          isTest:        isTestMode,
           inspector:     payload.name     || '',
           data:          dateForFilename(payload.date) || '',
           localitate:    payload.location || '',
@@ -1376,7 +1423,7 @@ async function trimiteRaport(bypass) {
     }
 
     overlay.classList.remove('show');
-    showToast('✔ ' + nrRaport + ' salvat în GitHub: ' + result.fileName, 'success');
+    showToast((isTestMode ? '🧪 TEST ' : '✔ ') + nrRaport + ' salvat în GitHub: ' + result.fileName, 'success');
 
     // Nr raport folosit - la următoarea acțiune va fi preluat din nou din GitHub
 
@@ -1700,6 +1747,30 @@ function showToast(msg, type = '') {
 var cachedNrRaport = null;   // numărul obținut de la GAS
 var cachedNrUsed   = false;  // true după ce a fost salvat în GitHub
 
+// ── Test mode ──
+var isTestMode      = false;
+var cachedNrTest    = null;   // numărul T? preîncărcat pentru teste
+var cachedNrTestUsed = false;
+
+function toggleTestMode(checked) {
+  isTestMode = checked;
+  var banner = document.getElementById('testBanner');
+  var btn    = document.getElementById('submitBtn');
+  if (checked) {
+    banner.classList.add('show');
+    btn.textContent = '🧪 Salvează Test';
+    btn.classList.add('test-mode');
+    // Actualizăm preview număr test în banner
+    if (cachedNrTest) {
+      document.getElementById('testNrPreview').textContent = cachedNrTest;
+    }
+  } else {
+    banner.classList.remove('show');
+    btn.textContent = '📤 Salvează și Descarcă';
+    btn.classList.remove('test-mode');
+  }
+}
+
 // ── Variabile semnături și concluzii ──
 var concluziiText    = '';
 var sigInspectorName   = '';
@@ -1824,8 +1895,9 @@ function getSigDataUrl(id) {
 });
 })();
 
-// ── Preluăm numărul raportului la încărcarea paginii ──
+// ── Preluăm numerele raportului la încărcarea paginii ──
 (async function fetchNrRaportOnLoad() {
+  // Normal report number
   try {
     const res  = await fetch(GAS_PROXY_URL + '?action=nextNr', {
       method: 'GET', redirect: 'follow'
@@ -1838,6 +1910,23 @@ function getSigDataUrl(id) {
     }
   } catch(e) {
     console.warn('Nu am putut preîncărca nr raport:', e);
+  }
+  // Test report number
+  try {
+    const resT = await fetch(GAS_PROXY_URL + '?action=nextNrTest', {
+      method: 'GET', redirect: 'follow'
+    });
+    const dataT = JSON.parse(await resT.text());
+    if (dataT.nextNr) {
+      cachedNrTest     = dataT.nextNr;
+      cachedNrTestUsed = false;
+      console.log('Nr raport test preîncărcat:', cachedNrTest);
+      // Actualizăm preview în banner dacă e deja vizibil
+      var preview = document.getElementById('testNrPreview');
+      if (preview) preview.textContent = cachedNrTest;
+    }
+  } catch(e) {
+    console.warn('Nu am putut preîncărca nr raport test:', e);
   }
 })();
 </script>
