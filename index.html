@@ -2616,7 +2616,7 @@ const TEXT_SECTIONS = {
   ],
 };
 
-const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbyBTXIAOTEXqocsEXfe2TIfeqo47IItNJzjoBxU8B_PleRJKyFERBMUXyNcbLzoIOW7/exec';
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbwk_zeUSgKlyLKUeWPs33q4wyUcgrGIl67FrQTH6GN3WZhAd3Q929QiCSIXvAG1yw03Qg/exec';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
@@ -3006,6 +3006,8 @@ async function trimiteRaport(bypass) {
     // Detecția se face ÎNAINTE de nextNr ca să știm ce acțiune să cerem (nextNr sau nextNrTest)
     var isTest = (document.getElementById('meta-location').value || '').trim().toLowerCase() === 'test';
 
+    var isTest = (document.getElementById('meta-location').value || '').trim().toLowerCase() === 'test';
+
     overlayMsg.textContent = 'Se obține numărul raportului...';
     let nrRaport = '';
     if (cachedNrRaport && !cachedNrUsed) {
@@ -3267,7 +3269,7 @@ async function trimiteRaport(bypass) {
           })
         });
       } catch(e) { console.warn('Feedback PDF error:', e); }
-  
+    
   
     } // end if (!isTest)
 
