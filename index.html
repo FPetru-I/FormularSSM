@@ -131,8 +131,6 @@
   
  @media (max-width: 600px) {
   .q-text { font-size: 20px; line-height: 1.6; }
-  .text-question-row textarea { font-size: 20px; line-height: 1.6; }
-  .comment-section textarea { font-size: 20px; line-height: 1.6; }
 }
   
 </style>
@@ -156,7 +154,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
 <header class="page-header">
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v34</span></h1>
+  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v33</span></h1>
 </header>
 
 <div class="container">
@@ -193,8 +191,2035 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 
 
 
-  <div id="questions-container"></div>
+  <!-- ===== SECȚIUNEA 1 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="">1</div>
+      <div class="section-title">Verificare generală șantier</div>
+    </div>
+    <div class="questions-list" id="section-1">
+      <div class="question-row" id="row-1-0">
+        <div class="q-top">
+          <span class="q-index">1.1</span>
+          <span class="q-text" style="text-align:left">Este întocmit și avizat planul de SSM al șantierului? Există în format fizic și/sau electronic disponibil pentru verificare?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-0" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-0" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-0" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-0">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-0"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-0">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-0" accept="image/*" multiple onchange="handleQImg('1-0', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-0"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-1">
+        <div class="q-top">
+          <span class="q-index">1.2</span>
+          <span class="q-text" style="text-align:left">Evaluarea riscurilor este disponibilă și cuprinde: riscurile prezente la locul de muncă, riscurile specifice activității și interferențele (ex: linii electrice, lucrări mecanice etc.)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-1" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-1" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-1" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-1">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-1"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-1">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-1" accept="image/*" multiple onchange="handleQImg('1-1', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-2">
+        <div class="q-top">
+          <span class="q-index">1.3</span>
+          <span class="q-text" style="text-align:left">Documentația personalului lucrător din șantier este verificată, actualizată și corespunde meseriilor acestora? Este conformă din punct de vedere SSM, SU, PM, electric, ISCIR etc.?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-2" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-2" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-2" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-2">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-2"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-2">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-2" accept="image/*" multiple onchange="handleQImg('1-2', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-2"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-3">
+        <div class="q-top">
+          <span class="q-index">1.4</span>
+          <span class="q-text" style="text-align:left">Instruirea lucrătorilor înainte de începerea activității a fost efectuată, documentată și conformă activității și a fost semnată? Este disponibilă pentru verificare?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-3" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-3" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-3" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-3">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-3"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-3">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-3" accept="image/*" multiple onchange="handleQImg('1-3', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-4">
+        <div class="q-top">
+          <span class="q-index">1.5</span>
+          <span class="q-text" style="text-align:left">Șeful de echipă responsabil cu lucrările la fața locului este nominalizat, prezent pe teren și supraveghează activitatea lucrătorilor?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-4" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-4" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-4" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-4">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-4"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-4">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-4" accept="image/*" multiple onchange="handleQImg('1-4', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-4"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-5">
+        <div class="q-top">
+          <span class="q-index">1.6</span>
+          <span class="q-text" style="text-align:left">Echipamentele de protecție individuale și colective sunt disponibile în zona de lucru. Acestea sunt eficiente și potrivite (marcate/certificate conform standardului de referință)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-5" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-5" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-5" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-5">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-5"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-5">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-5" accept="image/*" multiple onchange="handleQImg('1-5', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-5"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-6">
+        <div class="q-top">
+          <span class="q-index">1.7</span>
+          <span class="q-text" style="text-align:left">EIP-urile specifice activităților curente sunt purtate și utilizate corect?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-6" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-6" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-6" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-6">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-6"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-6">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-6" accept="image/*" multiple onchange="handleQImg('1-6', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-6"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-7">
+        <div class="q-top">
+          <span class="q-index">1.8</span>
+          <span class="q-text" style="text-align:left">Echipamentele disponibile în zona de lucru sunt funcționale, adecvate și complete, sunt certificate, verificate periodic și au instrucțiuni de instalare, utilizare și întreținere?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-7" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-7" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-7" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-7">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-7"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-7">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-7" accept="image/*" multiple onchange="handleQImg('1-7', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-7"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-8">
+        <div class="q-top">
+          <span class="q-index">1.9</span>
+          <span class="q-text" style="text-align:left">Echipamentul de lucru (de exemplu, scule, vehicule) este utilizat corect?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-8" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-8" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-8" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-8">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-8"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-8">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-8" accept="image/*" multiple onchange="handleQImg('1-8', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-8"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-9">
+        <div class="q-top">
+          <span class="q-index">1.10</span>
+          <span class="q-text" style="text-align:left">Vehiculele și utilajele pentru șantierele de construcții (camioane, macarale, excavatoare, coșuri etc.) sunt autorizate, potrivite pentru locul de muncă, intacte, funcționale, certificate și conforme?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-9" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-9" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-9" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-9">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-9"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-9">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-9" accept="image/*" multiple onchange="handleQImg('1-9', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-9"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-10">
+        <div class="q-top">
+          <span class="q-index">1.11</span>
+          <span class="q-text" style="text-align:left">Vehiculele și utilajele pentru șantiere (camioane, macarale, excavatoare, coșuri etc.) sunt autorizate, utilizate corect și stabile în raport cu solul?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-10" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-10" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-10" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-10">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-10"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-10">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-10" accept="image/*" multiple onchange="handleQImg('1-10', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-10"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-11">
+        <div class="q-top">
+          <span class="q-index">1.12</span>
+          <span class="q-text" style="text-align:left">Planul de evacuare este disponibil, potrivit pentru tipul și întinderea lucrărilor, complet și ușor de implementat, cu indicarea rutelor de evacuare și a punctelor de adunare?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-11" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-11" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-11" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-11">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-11"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-11">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-11" accept="image/*" multiple onchange="handleQImg('1-11', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-11"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-12">
+        <div class="q-top">
+          <span class="q-index">1.13</span>
+          <span class="q-text" style="text-align:left">Numerele de telefon pentru semnalarea situațiilor de urgență sunt indicate și disponibile în mod clar în zonele de lucru și pe centralele telefonice/interfoane. De asemenea, sunt ușor de utilizat și funcționale?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-12" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-12" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-12" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-12">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-12"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-12">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-12" accept="image/*" multiple onchange="handleQImg('1-12', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-12"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-13">
+        <div class="q-top">
+          <span class="q-index">1.14</span>
+          <span class="q-text" style="text-align:left">Vizitatorii sunt însoțiți în orice moment, nu interferează cu activitățile în desfășurare. De asemenea, sunt ușor de utilizat și funcționale?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-13" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-13" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-13" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-13">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-13"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-13">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-13" accept="image/*" multiple onchange="handleQImg('1-13', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-13"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-14">
+        <div class="q-top">
+          <span class="q-index">1.15</span>
+          <span class="q-text" style="text-align:left">Permisul de lucru este emis, gestionat și respectat de către lucrători?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-14" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-14" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-14" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-14">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-14"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-14">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-14" accept="image/*" multiple onchange="handleQImg('1-14', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-14"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-15">
+        <div class="q-top">
+          <span class="q-index">1.16</span>
+          <span class="q-text" style="text-align:left">Procedurile/metodele de lucru sunt disponibile pentru desfășurarea activităților?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-15" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-15" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-15" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-15">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-15"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-15">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-15" accept="image/*" multiple onchange="handleQImg('1-15', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-15"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-16">
+        <div class="q-top">
+          <span class="q-index">1.17</span>
+          <span class="q-text" style="text-align:left">Activitățile se desfășoară în conformitate cu standardele, procedurile de operare ale companiei și condițiile/cerințele contractuale SSM, SU și PM?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-16" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-16" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-16" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-16">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-16"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-16">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-16" accept="image/*" multiple onchange="handleQImg('1-16', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-16"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-17">
+        <div class="q-top">
+          <span class="q-index">1.18</span>
+          <span class="q-text" style="text-align:left">Semnalizarea punctului de lucru și a șantierului este în conformitate cu prevederile legale? Este suficientă, vizibilă și amplasată în locurile stabilite?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-17" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-17" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-17" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-17">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-17"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-17">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-17" accept="image/*" multiple onchange="handleQImg('1-17', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-17"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-18">
+        <div class="q-top">
+          <span class="q-index">1.19</span>
+          <span class="q-text" style="text-align:left">Tot personalul implicat în activitate cunoaște "POLITICA DE STOP WORK"?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-18" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-18" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-18" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-18">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-18"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-18">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-18" accept="image/*" multiple onchange="handleQImg('1-18', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-18"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-19">
+        <div class="q-top">
+          <span class="q-index">1.20</span>
+          <span class="q-text" style="text-align:left">Sunt respectate cerințele minime de lucru la temperaturi ridicate și scăzute?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-19" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-19" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-19" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-19">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-19"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-19">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-19" accept="image/*" multiple onchange="handleQImg('1-19', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-19"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-20">
+        <div class="q-top">
+          <span class="q-index">1.21</span>
+          <span class="q-text" style="text-align:left">Locurile de muncă sunt menținute într-o stare curată, iar deșeurile rezultate sunt colectate selectiv și depozitate în zonele specifice de depozitare?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-20" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-20" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-20" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-20">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-20"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-20">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-20" accept="image/*" multiple onchange="handleQImg('1-20', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-20"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-21">
+        <div class="q-top">
+          <span class="q-index">1.22</span>
+          <span class="q-text" style="text-align:left">Containerele pentru colectarea deșeurilor în șantier sunt suficiente, etichetate corespunzător codurilor de deșeuri și nu prezintă pericol de contaminare a solului sau alte riscuri similare?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-21" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-21" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-21" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-21">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-21"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-21">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-21" accept="image/*" multiple onchange="handleQImg('1-21', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-21"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-22">
+        <div class="q-top">
+          <span class="q-index">1.23</span>
+          <span class="q-text" style="text-align:left">Zonele de încărcare/descărcare sunt adecvate din punct de vedere al condițiilor spațiului și al solului?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-22" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-22" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-22" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-22">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-22"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-22">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-22" accept="image/*" multiple onchange="handleQImg('1-22', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-22"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-23">
+        <div class="q-top">
+          <span class="q-index">1.24</span>
+          <span class="q-text" style="text-align:left">Zona de lucru este delimitată în mod eficient (inclusiv de către terți), echipată cu semne adecvate, vizibilă și iluminată. În cazul șantierelor pe drum public, se respectă prevederile codului rutier?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-23" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-23" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-23" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-23">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-23"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-23">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-23" accept="image/*" multiple onchange="handleQImg('1-23', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-23"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-24">
+        <div class="q-top">
+          <span class="q-index">1.25</span>
+          <span class="q-text" style="text-align:left">Există un Plan de Mediu în care sunt specificate cerințele legale privind protecția mediului?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-24" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-24" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-24" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-24">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-24"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-24">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-24" accept="image/*" multiple onchange="handleQImg('1-24', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-24"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-1-25">
+        <div class="q-top">
+          <span class="q-index">1.26</span>
+          <span class="q-text" style="text-align:left">În cazul lucrătorilor străini, care necesită anunțarea și înregistrarea la autoritățile locale de pe teritoriul României, se respectă prevederile legale în acest sens?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="1-25" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="1-25" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="1-25" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-1-25">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="1-25"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-1-25">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-1-25" accept="image/*" multiple onchange="handleQImg('1-25', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-1-25"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- ===== SECȚIUNEA 2 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="">2</div>
+      <div class="section-title">Lucrări electrice</div>
+    </div>
+    <div class="questions-list" id="section-2">
+      <div class="question-row" id="row-2-0">
+        <div class="q-top">
+          <span class="q-index">2.1</span>
+          <span class="q-text" style="text-align:left">Au fost realizate separările electrice ale instalației către toate părțile de unde ar putea apărea tensiune?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="2-0" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="2-0" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="2-0" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-2-0">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-0"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-2-0">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-2-0" accept="image/*" multiple onchange="handleQImg('2-0', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-2-0"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-2-1">
+        <div class="q-top">
+          <span class="q-index">2.2</span>
+          <span class="q-text" style="text-align:left">Sunt utilizate elementele de siguranță și blocare la echipamentele de separație (blocare și control de la distanță, blocare mecanică, aplicarea dispozitivelor LOTO)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="2-1" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="2-1" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="2-1" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-2-1">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-1"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-2-1">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-2-1" accept="image/*" multiple onchange="handleQImg('2-1', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-2-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-2-2">
+        <div class="q-top">
+          <span class="q-index">2.3</span>
+          <span class="q-text" style="text-align:left">Dispozitivele de legare la pământ și în scurtcircuit au fost montate corect în zona de lucru?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="2-2" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="2-2" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="2-2" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-2-2">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-2"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-2-2">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-2-2" accept="image/*" multiple onchange="handleQImg('2-2', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-2-2"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-2-3">
+        <div class="q-top">
+          <span class="q-index">2.4</span>
+          <span class="q-text" style="text-align:left">Verificarea absenței tensiunii a fost efectuată?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="2-3" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="2-3" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="2-3" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-2-3">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-3"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-2-3">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-2-3" accept="image/*" multiple onchange="handleQImg('2-3', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-2-3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-2-4">
+        <div class="q-top">
+<span class="q-index">2.5</span>
+<span class="q-text" style="text-align:left">Dispozitivele de echipotențialitate⁠/⁠continuitate necesare au fost aplicate corect?</span>
+<div class="q-options">
+<button class="opt-btn" data-key="2-4" data-val="DA">DA</button>
+<button class="opt-btn" data-key="2-4" data-val="NU">NU</button>
+<button class="opt-btn" data-key="2-4" data-val="N/A">N/A</button>
+</div>
+</div>
+<div class="comment-section" id="comment-2-4">
+<label>Note</label>
+<textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-4"></textarea>
+<div class="q-img-upload">
+<label class="q-img-label" for="qimg-2-4">📷 Adaugă imagine</label>
+<input class="q-img-input" type="file" id="qimg-2-4" accept="image/*" multiple onchange="handleQImg('2-4', this.files)"/>
+<div class="q-thumbs" id="qthumbs-2-4"></div>
+</div>
+</div>
+</div>
+      <div class="question-row" id="row-2-5">
+        <div class="q-top">
+          <span class="q-index">2.6</span>
+          <span class="q-text" style="text-align:left">Dispozitivele de echipotențialitate⁠/⁠continuitate, disponibile, în uz sau pentru a fi utilizate, sunt adecvate (cu marcaje conforme cu standardul, complete, intacte, etc. - se trece în "Note", ce dispozitive)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="2-5" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="2-5" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="2-5" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-2-5">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-4"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-2-5">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-2-5" accept="image/*" multiple onchange="handleQImg('2-5', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-2-5"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-2-6">
+        <div class="q-top">
+          <span class="q-index">2.7</span>
+          <span class="q-text" style="text-align:left">S-au luat măsuri pentru prevenirea atingerii involuntare a părților aflate sub tensiune (distanțe, bariere, teci) și zona de lucru este sigură?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="2-6" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="2-6" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="2-6" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-2-6">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-5"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-2-6">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-2-6" accept="image/*" multiple onchange="handleQImg('2-6', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-2-6"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-2-7">
+        <div class="q-top">
+          <span class="q-index">2.8</span>
+          <span class="q-text" style="text-align:left">Standardele, procedurile operaționale și instrucțiunile SSM sunt respectate pentru activitățile electrice desfășurate?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="2-7" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="2-7" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="2-7" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-2-7">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-6"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-2-7">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-2-7" accept="image/*" multiple onchange="handleQImg('2-7', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-2-7"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-2-8">
+        <div class="q-top">
+          <span class="q-index">2.9</span>
+          <span class="q-text" style="text-align:left">EIP pentru protecția împotriva riscului electric este utilizat corect (se indică EIP în cauză la "Note": mănuși dielectrice din clasa corespunzătoare, cască cu vizieră⁠/⁠scut de protecție, îmbrăcăminte de protecție, etc.)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="2-8" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="2-8" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="2-8" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-2-8">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-7"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-2-8">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-2-8" accept="image/*" multiple onchange="handleQImg('2-8', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-2-8"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-2-9">
+        <div class="q-top">
+          <span class="q-index">2.10</span>
+          <span class="q-text" style="text-align:left">EIP-ul pentru protecția împotriva riscului electric este disponibil la fața locului, este eficient și adecvat (complet, intact, marcat/certificat în conformitate cu standardele de referință etc.)(notă: scrieți în "Note", ce dispozitive)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="2-9" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="2-9" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="2-9" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-2-9">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-8"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-2-9">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-2-9" accept="image/*" multiple onchange="handleQImg('2-9', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-2-9"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-2-10">
+        <div class="q-top">
+          <span class="q-index">2.11</span>
+          <span class="q-text" style="text-align:left">Instrumentele⁠/⁠echipamentele izolate disponibile la fața locului, utilizate sau urmand a fi utilizate, sunt în stare bună (adecvate pentru utilizare, complete și intacte - se trece în "Note" care)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="2-10" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="2-10" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="2-10" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-2-10">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-9"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-2-10">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-2-10" accept="image/*" multiple onchange="handleQImg('2-10', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-2-10"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-2-11">
+        <div class="q-top">
+          <span class="q-index">2.12</span>
+          <span class="q-text" style="text-align:left">Există dispozitivele de verificare a absenței tensiunii și sunt în stare bună (adecvate pentru utilizare, complete și intacte)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="2-11" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="2-11" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="2-11" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-2-11">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-10"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-2-11">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-2-11" accept="image/*" multiple onchange="handleQImg('2-11', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-2-11"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-2-12">
+        <div class="q-top">
+          <span class="q-index">2.13</span>
+          <span class="q-text" style="text-align:left">Dispozitivele de legare la pământ și în scurtcircuit utilizate sau care urmeaza a fi utilizate sunt adecvate. (cu marcaje conforme cu standardul, complete, intacte etc. - se trece în "Note")?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="2-12" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="2-12" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="2-12" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-2-12">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-11"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-2-12">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-2-12" accept="image/*" multiple onchange="handleQImg('2-12', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-2-12"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-2-13">
+        <div class="q-top">
+          <span class="q-index">2.14</span>
+          <span class="q-text" style="text-align:left">Muncitorii folosesc corect detectorul personal de tensiune (PVD) furnizat pentru activitate?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="2-13" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="2-13" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="2-13" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-2-13">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-12"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-2-13">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-2-13" accept="image/*" multiple onchange="handleQImg('2-13', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-2-13"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-2-14">
+        <div class="q-top">
+          <span class="q-index">2.15</span>
+          <span class="q-text" style="text-align:left">Pentru lucrările electrice, este întocmit un permis de lucru valabil pentru lucrarea respectivă, se respectă prevederile, sunt cunoscute riscurile etc.?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="2-14" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="2-14" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="2-14" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-2-14">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="2-13"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-2-14">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-2-14" accept="image/*" multiple onchange="handleQImg('2-14', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-2-14"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECȚIUNEA 3 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="">3</div>
+      <div class="section-title">Lucru la înălțime</div>
+    </div>
+    <div class="questions-list" id="section-3">
+      <div class="question-row" id="row-3-0">
+        <div class="q-top">
+          <span class="q-index">3.1</span>
+          <span class="q-text" style="text-align:left">Echipamentul individual și colectiv de protecție pentru lucrul la înălțime este purtat și utilizat corect?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="3-0" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="3-0" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="3-0" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-3-0">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="3-0"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-3-0">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-3-0" accept="image/*" multiple onchange="handleQImg('3-0', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-3-0"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-3-1">
+        <div class="q-top">
+          <span class="q-index">3.2</span>
+          <span class="q-text" style="text-align:left">EIP-urile pentru lucru la înălțime sunt disponibile la fața locului, eficiente și adecvate (complete, intacte, marcate/certificate în conformitate cu standardele de referință etc.)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="3-1" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="3-1" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="3-1" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-3-1">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="3-1"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-3-1">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-3-1" accept="image/*" multiple onchange="handleQImg('3-1', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-3-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-3-2">
+        <div class="q-top">
+          <span class="q-index">3.3</span>
+          <span class="q-text" style="text-align:left">Toate protecțiile împotriva căderii de la înălțime sunt eficiente și utilizate corect (complete, intacte, marcate/certificate în conformitate cu standardele de referință etc.)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="3-2" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="3-2" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="3-2" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-3-2">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="3-2"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-3-2">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-3-2" accept="image/*" multiple onchange="handleQImg('3-2', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-3-2"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-3-3">
+        <div class="q-top">
+          <span class="q-index">3.4</span>
+          <span class="q-text" style="text-align:left">Echipamentul de acces la înălțime (scări, carabine, schele) este disponibil și potrivit pentru lucrare (complet, intact, marcat, certificat)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="3-3" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="3-3" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="3-3" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-3-3">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="3-3"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-3-3">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-3-3" accept="image/*" multiple onchange="handleQImg('3-3', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-3-3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-3-4">
+        <div class="q-top">
+          <span class="q-index">3.5</span>
+          <span class="q-text" style="text-align:left">Echipamentul de acces la înălțime (scări, carabine, schele) este instalat și utilizat corect?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="3-4" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="3-4" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="3-4" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-3-4">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="3-4"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-3-4">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-3-4" accept="image/*" multiple onchange="handleQImg('3-4', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-3-4"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-3-5">
+        <div class="q-top">
+          <span class="q-index">3.6</span>
+          <span class="q-text" style="text-align:left">Schela este construită corect (examinare vizuală, planeitate, verticalitate), și este semnalizată și utilizată corespunzător?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="3-5" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="3-5" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="3-5" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-3-5">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="3-5"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-3-5">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-3-5" accept="image/*" multiple onchange="handleQImg('3-5', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-3-5"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-3-6">
+        <div class="q-top">
+          <span class="q-index">3.7</span>
+          <span class="q-text" style="text-align:left">Schelele sunt asamblate, demontate sau mutate de personal instruit și calificat?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="3-6" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="3-6" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="3-6" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-3-6">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="3-6"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-3-6">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-3-6" accept="image/*" multiple onchange="handleQImg('3-6', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-3-6"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-3-7">
+        <div class="q-top">
+          <span class="q-index">3.8</span>
+          <span class="q-text" style="text-align:left">Scările sunt poziționate și fixate corect pe suprafețe stabile (atât verticale, cât și orizontale) și utilizate corect, în conformitate cu activitățile planificate?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="3-7" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="3-7" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="3-7" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-3-7">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="3-7"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-3-7">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-3-7" accept="image/*" multiple onchange="handleQImg('3-7', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-3-7"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-3-8">
+        <div class="q-top">
+          <span class="q-index">3.9</span>
+          <span class="q-text" style="text-align:left">Zona de lucru, dacă prezintă goluri tehnologice și nu numai, este semnalizată corespunzător pentru prevenirea căderii de la înălțime?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="3-8" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="3-8" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="3-8" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-3-8">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="3-8"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-3-8">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-3-8" accept="image/*" multiple onchange="handleQImg('3-8', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-3-8"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-3-9">
+        <div class="q-top">
+          <span class="q-index">3.10</span>
+          <span class="q-text" style="text-align:left">Există sisteme de comunicație între personalul care lucrează la înălțime și cel de la sol (sisteme de emisie-recepție, telefoane mobile etc.)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="3-9" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="3-9" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="3-9" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-3-9">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="3-9"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-3-9">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-3-9" accept="image/*" multiple onchange="handleQImg('3-9', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-3-9"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECȚIUNEA 4 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="">4</div>
+      <div class="section-title">Risc de cădere a obiectelor și manipularea încărcăturilor</div>
+    </div>
+    <div class="questions-list" id="section-4">
+      <div class="question-row" id="row-4-0">
+        <div class="q-top">
+          <span class="q-index">4.1</span>
+          <span class="q-text" style="text-align:left">Echipamentele/materialele utilizate pentru activitățile la înălțime sunt asigurate împotriva căderii (de exemplu, prin utilizarea centurilor de lucru adecvate, funiilor etc.)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="4-0" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="4-0" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="4-0" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-4-0">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="4-0"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-4-0">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-4-0" accept="image/*" multiple onchange="handleQImg('4-0', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-4-0"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-4-1">
+        <div class="q-top">
+          <span class="q-index">4.2</span>
+          <span class="q-text" style="text-align:left">S-a efectuat delimitarea zonei cu risc de cădere a obiectelor și se garantează respectarea interdicției de a trece persoanele sub încărcătura suspendată?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="4-1" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="4-1" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="4-1" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-4-1">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="4-1"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-4-1">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-4-1" accept="image/*" multiple onchange="handleQImg('4-1', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-4-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-4-2">
+        <div class="q-top">
+          <span class="q-index">4.3</span>
+          <span class="q-text" style="text-align:left">Sarcinile suspendate sunt controlate cu frânghii de ghidare, fixate în mod adecvat, iar echipamentul folosit este corespunzător?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="4-2" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="4-2" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="4-2" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-4-2">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="4-2"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-4-2">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-4-2" accept="image/*" multiple onchange="handleQImg('4-2', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-4-2"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-4-3">
+        <div class="q-top">
+          <span class="q-index">4.4</span>
+          <span class="q-text" style="text-align:left">Nu sunt depozitate unelte sau echipamente în apropierea marginilor, pe balustrade sau pe suprafețe înalte. Materialele rezultate sunt în ordine și îndepărtate în mod regulat.</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="4-3" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="4-3" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="4-3" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-4-3">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="4-3"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-4-3">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-4-3" accept="image/*" multiple onchange="handleQImg('4-3', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-4-3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-4-4">
+        <div class="q-top">
+          <span class="q-index">4.5</span>
+          <span class="q-text" style="text-align:left">În timpul manipulării încărcăturilor, există cel puțin un coordonator responsabil cu ghidarea manevrelor, iar procedurile adoptate garantează siguranța operațiunilor.</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="4-4" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="4-4" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="4-4" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-4-4">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="4-4"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-4-4">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-4-4" accept="image/*" multiple onchange="handleQImg('4-4', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-4-4"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-4-5">
+        <div class="q-top">
+          <span class="q-index">4.6</span>
+          <span class="q-text" style="text-align:left">Sculele care urmează a fi ridicate sunt depozitate în mod corespunzător, în echipamente omologate și verificate? Nu se depășește sarcina maximă de ridicare indicată?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="4-5" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="4-5" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="4-5" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-4-5">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="4-5"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-4-5">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-4-5" accept="image/*" multiple onchange="handleQImg('4-5', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-4-5"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-4-6">
+        <div class="q-top">
+          <span class="q-index">4.7</span>
+          <span class="q-text" style="text-align:left">Echipamentele de ridicat (cârligul macaralei, lanțuri de prindere, sufe de ridicat etc.) sunt verificate și au elementele de identificare vizibile?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="4-6" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="4-6" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="4-6" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-4-6">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="4-6"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-4-6">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-4-6" accept="image/*" multiple onchange="handleQImg('4-6', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-4-6"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECȚIUNEA 5 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="">5</div>
+      <div class="section-title">Utilaje și echipamente cu piese în mișcare</div>
+    </div>
+    <div class="questions-list" id="section-5">
+      <div class="question-row" id="row-5-0">
+        <div class="q-top">
+          <span class="q-index">5.1</span>
+          <span class="q-text" style="text-align:left">Utilajele și dispozitivele utilizate pentru executarea activității sunt echipate cu protecții adecvate și cu sisteme de oprire de urgență, accesibile în timpul activităților?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="5-0" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="5-0" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="5-0" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-5-0">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="5-0"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-5-0">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-5-0" accept="image/*" multiple onchange="handleQImg('5-0', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-5-0"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-5-1">
+        <div class="q-top">
+          <span class="q-index">5.2</span>
+          <span class="q-text" style="text-align:left">Toate comenzile dispozitivelor sunt etichetate în mod clar cu funcția lor?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="5-1" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="5-1" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="5-1" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-5-1">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="5-1"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-5-1">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-5-1" accept="image/*" multiple onchange="handleQImg('5-1', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-5-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-5-2">
+        <div class="q-top">
+          <span class="q-index">5.3</span>
+          <span class="q-text" style="text-align:left">Muncitorii din apropierea utilajelor cu piese în mișcare urmează instrucțiunile și poartă îmbrăcăminte și accesorii adecvate (evitând colierele, brățările, inelele, îmbrăcămintea largă etc.)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="5-2" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="5-2" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="5-2" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-5-2">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="5-2"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-5-2">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-5-2" accept="image/*" multiple onchange="handleQImg('5-2', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-5-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECȚIUNEA 6 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="">6</div>
+      <div class="section-title">Excavații și lucrări în sol</div>
+    </div>
+    <div class="questions-list" id="section-6">
+      <div class="question-row" id="row-6-0">
+        <div class="q-top">
+          <span class="q-index">6.1</span>
+          <span class="q-text" style="text-align:left">Activitățile sunt efectuate corect pentru a evita riscul de prăbușire a structurilor/terenurilor (de exemplu, depozitarea pământului în funcție de adâncime etc.)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="6-0" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="6-0" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="6-0" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-6-0">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="6-0"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-6-0">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-6-0" accept="image/*" multiple onchange="handleQImg('6-0', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-6-0"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-6-1">
+        <div class="q-top">
+          <span class="q-index">6.2</span>
+          <span class="q-text" style="text-align:left">Zonele excavate sunt semnalizate pentru a preveni căderea în șanț?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="6-1" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="6-1" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="6-1" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-6-1">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="6-1"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-6-1">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-6-1" accept="image/*" multiple onchange="handleQImg('6-1', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-6-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-6-2">
+        <div class="q-top">
+          <span class="q-index">6.3</span>
+          <span class="q-text" style="text-align:left">În zonele excavate există limitare de viteză de circulație?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="6-2" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="6-2" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="6-2" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-6-2">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="6-2"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-6-2">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-6-2" accept="image/*" multiple onchange="handleQImg('6-2', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-6-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECȚIUNEA 7 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="">7</div>
+      <div class="section-title">Manipularea și depozitarea materialelor</div>
+    </div>
+    <div class="questions-list" id="section-7">
+      <div class="question-row" id="row-7-0">
+        <div class="q-top">
+          <span class="q-index">7.1</span>
+          <span class="q-text" style="text-align:left">Manipularea încărcăturilor este conformă cu planul de ridicare, evaluarea adecvării terenului, greutatea materialelor, integritatea frânghiilor/dispozitivelor de ridicare?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="7-0" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="7-0" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="7-0" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-7-0">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="7-0"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-7-0">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-7-0" accept="image/*" multiple onchange="handleQImg('7-0', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-7-0"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-7-1">
+        <div class="q-top">
+          <span class="q-index">7.2</span>
+          <span class="q-text" style="text-align:left">Cărucioarele manuale sau motorizate sunt potrivite pentru sarcina ce trebuie transportată; acestea sunt echipate cu sisteme pentru blocarea sarcinii?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="7-1" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="7-1" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="7-1" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-7-1">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="7-1"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-7-1">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-7-1" accept="image/*" multiple onchange="handleQImg('7-1', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-7-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-7-2">
+        <div class="q-top">
+          <span class="q-index">7.3</span>
+          <span class="q-text" style="text-align:left">Rafturile, spațiile de depozitare, dulapurile etc. sunt ușor accesibile, au indicată capacitatea maximă și prezintă încărcături corect stivuite și/sau fixate pentru a împiedica alunecarea sau căderea?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="7-2" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="7-2" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="7-2" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-7-2">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="7-2"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-7-2">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-7-2" accept="image/*" multiple onchange="handleQImg('7-2', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-7-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECȚIUNEA 8 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="">8</div>
+      <div class="section-title">Substanțe chimice și periculoase</div>
+    </div>
+    <div class="questions-list" id="section-8">
+      <div class="question-row" id="row-8-0">
+        <div class="q-top">
+          <span class="q-index">8.1</span>
+          <span class="q-text" style="text-align:left">Fișele de securitate pentru substanțele chimice sunt actualizate, prezente la locul de muncă și puse la dispoziția lucrătorilor?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="8-0" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="8-0" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="8-0" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-8-0">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="8-0"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-8-0">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-8-0" accept="image/*" multiple onchange="handleQImg('8-0', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-8-0"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-8-1">
+        <div class="q-top">
+          <span class="q-index">8.2</span>
+          <span class="q-text" style="text-align:left">Manipularea, depozitarea și utilizarea substanțelor se efectuează în conformitate cu prevederile fișelor de securitate și ale documentului de evaluare a riscurilor?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="8-1" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="8-1" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="8-1" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-8-1">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="8-1"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-8-1">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-8-1" accept="image/*" multiple onchange="handleQImg('8-1', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-8-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-8-2">
+        <div class="q-top">
+          <span class="q-index">8.3</span>
+          <span class="q-text" style="text-align:left">Materialele și substanțele chimice combustibile sunt depozitate în zone separate, departe de sursele de aprindere, iar rezervoarele sunt fixate pentru a preveni răsturnarea și deteriorarea?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="8-2" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="8-2" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="8-2" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-8-2">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="8-2"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-8-2">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-8-2" accept="image/*" multiple onchange="handleQImg('8-2', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-8-2"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-8-3">
+        <div class="q-top">
+          <span class="q-index">8.4</span>
+          <span class="q-text" style="text-align:left">Dacă există un risc de concentrații chimice periculoase în timpul lucrului, concentrația este monitorizată (dacă este necesar, chiar și continuu) cu sisteme de detectare (explozimetru/detector de gaze)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="8-3" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="8-3" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="8-3" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-8-3">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="8-3"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-8-3">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-8-3" accept="image/*" multiple onchange="handleQImg('8-3', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-8-3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-8-4">
+        <div class="q-top">
+          <span class="q-index">8.5</span>
+          <span class="q-text" style="text-align:left">Recipientele folosite pentru depozitarea produselor chimice (solvenți, soluții de curățat, substanțe petroliere) sunt omologate și etichetate corespunzător?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="8-4" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="8-4" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="8-4" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-8-4">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="8-4"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-8-4">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-8-4" accept="image/*" multiple onchange="handleQImg('8-4', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-8-4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECȚIUNEA 9 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="">9</div>
+      <div class="section-title">Lucru izolat</div>
+    </div>
+    <div class="questions-list" id="section-9">
+      <div class="question-row" id="row-9-0">
+        <div class="q-top">
+          <span class="q-index">9.1</span>
+          <span class="q-text" style="text-align:left">Dacă lucrătorul desfășoară o activitate izolată de ceilalți lucrători, acesta are un mijloc de comunicare care permite angajatului să solicite ajutor în caz de urgență și a fost instruit pentru folosirea acestuia?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="9-0" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="9-0" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="9-0" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-9-0">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="9-0"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-9-0">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-9-0" accept="image/*" multiple onchange="handleQImg('9-0', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-9-0"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-9-1">
+        <div class="q-top">
+          <span class="q-index">9.2</span>
+          <span class="q-text" style="text-align:left">Există o procedură scrisă în care sunt specificate măsurile care trebuie luate pentru astfel de situații, o evaluare a riscurilor, timpii de intervenție etc.?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="9-1" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="9-1" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="9-1" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-9-1">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="9-1"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-9-1">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-9-1" accept="image/*" multiple onchange="handleQImg('9-1', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-9-1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECȚIUNEA 10 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="font-size:9px">10</div>
+      <div class="section-title">Risc de incendiu</div>
+    </div>
+    <div class="questions-list" id="section-10">
+      <div class="question-row" id="row-10-0">
+        <div class="q-top">
+          <span class="q-index">10.1</span>
+          <span class="q-text" style="text-align:left">În cazul activităților care pot provoca incendii (de exemplu, sudare, tăiere, utilizarea polizorului), permisul de lucru cu foc este disponibil și se respectă?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="10-0" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="10-0" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="10-0" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-10-0">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="10-0"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-10-0">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-10-0" accept="image/*" multiple onchange="handleQImg('10-0', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-10-0"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-10-1">
+        <div class="q-top">
+          <span class="q-index">10.2</span>
+          <span class="q-text" style="text-align:left">Există suficiente stingătoare în momentul în care se lucrează cu foc deschis?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="10-1" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="10-1" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="10-1" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-10-1">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="10-1"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-10-1">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-10-1" accept="image/*" multiple onchange="handleQImg('10-1', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-10-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-10-2">
+        <div class="q-top">
+          <span class="q-index">10.3</span>
+          <span class="q-text" style="text-align:left">Zona este liberă de toate materialele combustibile?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="10-2" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="10-2" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="10-2" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-10-2">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="10-2"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-10-2">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-10-2" accept="image/*" multiple onchange="handleQImg('10-2', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-10-2"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-10-3">
+        <div class="q-top">
+          <span class="q-index">10.4</span>
+          <span class="q-text" style="text-align:left">Prelate/perdele ignifuge sunt utilizate în timpul activităților de sudare?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="10-3" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="10-3" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="10-3" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-10-3">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="10-3"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-10-3">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-10-3" accept="image/*" multiple onchange="handleQImg('10-3', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-10-3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-10-4">
+        <div class="q-top">
+          <span class="q-index">10.5</span>
+          <span class="q-text" style="text-align:left">Se cunoaște protocolul de comunicare în situații de urgență (accident cu victimă, incendiu etc.)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="10-4" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="10-4" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="10-4" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-10-4">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="10-4"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-10-4">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-10-4" accept="image/*" multiple onchange="handleQImg('10-4', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-10-4"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-10-5">
+        <div class="q-top">
+          <span class="q-index">10.6</span>
+          <span class="q-text" style="text-align:left">Există întocmit un Plan de Urgență specific?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="10-5" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="10-5" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="10-5" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-10-5">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="10-5"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-10-5">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-10-5" accept="image/*" multiple onchange="handleQImg('10-5', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-10-5"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-10-6">
+        <div class="q-top">
+          <span class="q-index">10.7</span>
+          <span class="q-text" style="text-align:left">Există un loc special amenajat și semnalizat pentru fumat?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="10-6" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="10-6" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="10-6" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-10-6">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="10-6"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-10-6">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-10-6" accept="image/*" multiple onchange="handleQImg('10-6', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-10-6"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECȚIUNEA 11 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="font-size:9px">11</div>
+      <div class="section-title">Spații închise</div>
+    </div>
+    <div class="questions-list" id="section-11">
+      <div class="question-row" id="row-11-0">
+        <div class="q-top">
+          <span class="q-index">11.1</span>
+          <span class="q-text" style="text-align:left">Sistemul de comunicare între lucrători, sistemul de iluminat și monitorizarea atmosferei sunt implementate și efectuate în conformitate cu Planul de lucru și de urgență?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="11-0" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="11-0" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="11-0" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-11-0">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="11-0"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-11-0">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-11-0" accept="image/*" multiple onchange="handleQImg('11-0', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-11-0"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-11-1">
+        <div class="q-top">
+          <span class="q-index">11.2</span>
+          <span class="q-text" style="text-align:left">Echipamentele de prim ajutor și recuperare pentru o persoană vătămată sunt prezente, potrivite și eficiente. Aparatele de respirat sunt disponibile, în bune condiții și respectă standardele/reglementările aplicabile?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="11-1" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="11-1" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="11-1" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-11-1">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="11-1"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-11-1">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-11-1" accept="image/*" multiple onchange="handleQImg('11-1', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-11-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-11-2">
+        <div class="q-top">
+          <span class="q-index">11.3</span>
+          <span class="q-text" style="text-align:left">Planurile de lucru și de evacuare au fost postate la intrarea în spațiul închis?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="11-2" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="11-2" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="11-2" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-11-2">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="11-2"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-11-2">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-11-2" accept="image/*" multiple onchange="handleQImg('11-2', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-11-2"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-11-3">
+        <div class="q-top">
+          <span class="q-index">11.4</span>
+          <span class="q-text" style="text-align:left">În mediile cu risc de contaminare de la una sau mai multe substanțe sunt disponibile detectoare de gaz?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="11-3" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="11-3" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="11-3" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-11-3">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="11-3"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-11-3">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-11-3" accept="image/*" multiple onchange="handleQImg('11-3', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-11-3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-11-4">
+        <div class="q-top">
+          <span class="q-index">11.5</span>
+          <span class="q-text" style="text-align:left">Este întocmit un permis de lucru pentru spații închise? Se cunoaște și se respectă întocmai?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="11-4" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="11-4" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="11-4" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-11-4">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="11-4"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-11-4">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-11-4" accept="image/*" multiple onchange="handleQImg('11-4', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-11-4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECȚIUNEA 12 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="font-size:9px">12</div>
+      <div class="section-title">Operațiuni de tăiere</div>
+    </div>
+    <div class="questions-list" id="section-12">
+      <div class="question-row" id="row-12-0">
+        <div class="q-top">
+          <span class="q-index">12.1</span>
+          <span class="q-text" style="text-align:left">Lucrătorii expuși la pericolele create prin operațiuni de tăiere sunt protejați cu echipament individual de protecție? Ce anume?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="12-0" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="12-0" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="12-0" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-12-0">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="12-0"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-12-0">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-12-0" accept="image/*" multiple onchange="handleQImg('12-0', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-12-0"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-12-1">
+        <div class="q-top">
+          <span class="q-index">12.2</span>
+          <span class="q-text" style="text-align:left">Echipamentele folosite pentru tăiere (flex, circular, pendular etc.) sunt omologate, au marcajul CE, au protecții, astfel încât să nu pună în pericol securitatea și sănătatea lucrătorilor?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="12-1" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="12-1" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="12-1" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-12-1">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="12-1"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-12-1">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-12-1" accept="image/*" multiple onchange="handleQImg('12-1', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-12-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-12-2">
+        <div class="q-top">
+          <span class="q-index">12.3</span>
+          <span class="q-text" style="text-align:left">Lucrătorii folosesc EIP corespunzător (mănuși de protecție, ochelari de protecție etc.)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="12-2" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="12-2" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="12-2" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-12-2">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="12-2"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-12-2">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-12-2" accept="image/*" multiple onchange="handleQImg('12-2', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-12-2"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-12-3">
+        <div class="q-top">
+          <span class="q-index">12.4</span>
+          <span class="q-text" style="text-align:left">În momentul când se lucrează cu echipamente de tăiat care fac flamă/scântei, au fost îndepărtate posibilele surse de provocare a incendiului?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="12-3" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="12-3" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="12-3" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-12-3">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="12-3"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-12-3">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-12-3" accept="image/*" multiple onchange="handleQImg('12-3', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-12-3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECȚIUNEA 13 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="font-size:9px">13</div>
+      <div class="section-title">Lucrări de betonare și turnare</div>
+    </div>
+    <div class="questions-list" id="section-13">
+      <div class="question-row" id="row-13-0">
+        <div class="q-top">
+          <span class="q-index">13.1</span>
+          <span class="q-text" style="text-align:left">Lucrătorii folosesc EIP-ul corespunzător pentru lucrările desfășurate (cască cu prindere sub bărbie, bocanci/cizme de protecție, ochelari, centură de siguranță cu cârlige de prindere, scări etc.)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="13-0" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="13-0" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="13-0" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-13-0">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="13-0"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-13-0">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-13-0" accept="image/*" multiple onchange="handleQImg('13-0', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-13-0"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-13-1">
+        <div class="q-top">
+          <span class="q-index">13.2</span>
+          <span class="q-text" style="text-align:left">Există disponibilă o procedură de lucru și o evaluare a riscurilor pentru aceste activități? Este îndeplinită procedura?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="13-1" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="13-1" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="13-1" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-13-1">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="13-1"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-13-1">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-13-1" accept="image/*" multiple onchange="handleQImg('13-1', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-13-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-13-2">
+        <div class="q-top">
+          <span class="q-index">13.3</span>
+          <span class="q-text" style="text-align:left">Există o zonă amenajată și semnalizată corespunzător pentru spălarea betonierelor după turnare?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="13-2" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="13-2" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="13-2" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-13-2">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="13-2"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-13-2">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-13-2" accept="image/*" multiple onchange="handleQImg('13-2', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-13-2"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-13-3">
+        <div class="q-top">
+          <span class="q-index">13.4</span>
+          <span class="q-text" style="text-align:left">Sunt respectate cerințele legale pentru lucrul la temperaturi ridicate și scăzute, conform prevederilor legale?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="13-3" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="13-3" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="13-3" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-13-3">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="13-3"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-13-3">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-13-3" accept="image/*" multiple onchange="handleQImg('13-3', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-13-3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-row" id="row-13-4">
+        <div class="q-top">
+          <span class="q-index">13.5</span>
+          <span class="q-text" style="text-align:left">După terminarea lucrărilor, zona de lucru este ecologizată, sunt colectate și îndepărtate deșeurile rezultate (resturi de fier, sârme, lemne, plastic, beton etc.)?</span>
+          <div class="q-options">
+            <button class="opt-btn" data-key="13-4" data-val="DA">DA</button>
+            <button class="opt-btn" data-key="13-4" data-val="NU">NU</button>
+            <button class="opt-btn" data-key="13-4" data-val="N/A">N/A</button>
+          </div>
+        </div>
+        <div class="comment-section" id="comment-13-4">
+          <label>Note</label>
+          <textarea placeholder="Adaugă note..." rows="3" data-comment-key="13-4"></textarea>
+          <div class="q-img-upload">
+            <label class="q-img-label" for="qimg-13-4">📷 Adaugă imagine</label>
+            <input class="q-img-input" type="file" id="qimg-13-4" accept="image/*" multiple onchange="handleQImg('13-4', this.files)"/>
+            <div class="q-thumbs" id="qthumbs-13-4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ===== SECȚIUNEA 14 ===== -->
   <div class="section">
@@ -466,7 +2491,7 @@ const QUESTIONS = {
     "Vehiculele și utilajele pentru șantiere (camioane, macarale, excavatoare, coșuri etc.) sunt autorizate, utilizate corect și stabile în raport cu solul?",
     "Planul de evacuare este disponibil, potrivit pentru tipul și întinderea lucrărilor, complet și ușor de implementat, cu indicarea rutelor de evacuare și a punctelor de adunare?",
     "Numerele de telefon pentru semnalarea situațiilor de urgență sunt indicate și disponibile în mod clar în zonele de lucru și pe centralele telefonice⁠/⁠interfoane. De asemenea, acestea sunt ușor de accesat?",
-    "Vizitatorii sunt însoțiți în orice moment, nu interferează cu activitățile în desfășurare.",
+    "Vizitatorii sunt însoțiți în orice moment, nu interferează cu activitățile în desfășurare. De asemenea, sunt ușor de utilizat și funcționale?",
     "Permisul de lucru este emis, gestionat și respectat de către lucrători?",
     "Procedurile⁠/⁠metodele de lucru sunt disponibile pentru desfășurarea activităților?",
     "Activitățile se desfășoară în conformitate cu standardele, procedurile de operare ale companiei și condițiile⁠/⁠cerințele contractuale SSM, SU și PM?",
@@ -575,74 +2600,6 @@ const QUESTIONS = {
   ],
 };
 
-const SECTION_META = {
-  1:  { title: 'Verificare generală șantier' },
-  2:  { title: 'Lucrări electrice' },
-  3:  { title: 'Lucru la înălțime' },
-  4:  { title: 'Risc de cădere a obiectelor și manipularea încărcăturilor' },
-  5:  { title: 'Utilaje și echipamente cu piese în mișcare' },
-  6:  { title: 'Excavații și lucrări în sol' },
-  7:  { title: 'Manipularea și depozitarea materialelor' },
-  8:  { title: 'Substanțe chimice și periculoase' },
-  9:  { title: 'Lucru izolat' },
-  10: { title: 'Risc de incendiu' },
-  11: { title: 'Spații închise' },
-  12: { title: 'Operațiuni de tăiere' },
-  13: { title: 'Lucrări de betonare și turnare' },
-};
-
-function buildQuestionRow(sec, idx, questionText) {
-  var key = sec + '-' + idx;
-  var d = document.createElement('div');
-  d.className = 'question-row';
-  d.id = 'row-' + key;
-  d.innerHTML = [
-    '<div class="q-top">',
-      '<span class="q-index">' + sec + '.' + (idx + 1) + '</span>',
-      '<span class="q-text" style="text-align:left">' + questionText + '</span>',
-      '<div class="q-options">',
-        '<button class="opt-btn" data-key="' + key + '" data-val="DA">DA</button>',
-        '<button class="opt-btn" data-key="' + key + '" data-val="NU">NU</button>',
-        '<button class="opt-btn" data-key="' + key + '" data-val="N/A">N/A</button>',
-      '</div>',
-    '</div>',
-    '<div class="comment-section" id="comment-' + key + '">',
-      '<label>Note</label>',
-      '<textarea placeholder="Adaugă note..." rows="3" data-comment-key="' + key + '"></textarea>',
-      '<div class="q-img-upload">',
-        '<label class="q-img-label" for="qimg-' + key + '">📷 Adaugă imagine</label>',
-        '<input class="q-img-input" type="file" id="qimg-' + key + '" accept="image/*" multiple/>',
-        '<div class="q-thumbs" id="qthumbs-' + key + '"></div>',
-      '</div>',
-    '</div>'
-  ].join('');
-  var inp = d.querySelector('.q-img-input');
-  if (inp) inp.addEventListener('change', function() { handleQImg(key, this.files); });
-  return d;
-}
-
-function buildFormHTML() {
-  var container = document.getElementById('questions-container');
-  if (!container) return;
-  var secs = Object.keys(QUESTIONS).map(Number).filter(function(s){ return s <= 13; }).sort(function(a,b){return a-b;});
-  secs.forEach(function(sec) {
-    var section = document.createElement('div');
-    section.className = 'section';
-    var fontSize = sec >= 10 ? 'font-size:9px' : '';
-    var header = document.createElement('div');
-    header.className = 'section-header';
-    header.innerHTML = '<div class="section-num" style="' + fontSize + '">' + sec + '</div>' +
-      '<div class="section-title">' + SECTION_META[sec].title + '</div>';
-    section.appendChild(header);
-    var list = document.createElement('div');
-    list.className = 'questions-list';
-    list.id = 'section-' + sec;
-    QUESTIONS[sec].forEach(function(q, idx) { list.appendChild(buildQuestionRow(sec, idx, q)); });
-    section.appendChild(list);
-    container.appendChild(section);
-  });
-}
-
 
 
 // =====================================================
@@ -659,12 +2616,11 @@ const TEXT_SECTIONS = {
   ],
 };
 
-const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbzlN-jnjG8mRfXfMSRZR2q43wFr9wl7WTF307ToezRv0wie5G5EOO8Haz4zFxxGH9TyXQ/exec';
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbxAXDYlOH5yhUrJQt_P0qaJkZMPxzjN7Zge9NuV37GPZd1wg_lJB54-GmDb8KGRi5Cn/exec';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
 let images = [];     // Array of File objects
-let imagesData = []; // Array de { dataUrl, name } comprimate pentru sec. 16
 let qImages = {};    // { "1-0": [ {dataUrl, name}, ... ] }
 
 function clearQImagesForKey(key) {
@@ -676,51 +2632,33 @@ function clearQImagesForKey(key) {
   if (thumbsDiv) thumbsDiv.innerHTML = '';
 }
 
-// Compresie imagine: maxWidth px, quality 0-1
-function compressImage(dataUrl, maxWidth, quality) {
-  return new Promise(function(resolve) {
-    var img = new Image();
-    img.onload = function() {
-      var ratio = Math.min(1, maxWidth / img.width);
-      var c = document.createElement('canvas');
-      c.width  = Math.round(img.width  * ratio);
-      c.height = Math.round(img.height * ratio);
-      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-      resolve(c.toDataURL('image/jpeg', quality));
-    };
-    img.src = dataUrl;
-  });
-}
-
 function handleQImg(key, files) {
   if (!qImages[key]) qImages[key] = [];
-  Array.from(files).forEach(function(file) {
+  Array.from(files).forEach(file => {
     if (!file.type.startsWith('image/')) return;
     if (file.size > 5 * 1024 * 1024) { showToast(file.name + ': prea mare (max 5 MB).', 'error'); return; }
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      var rawDataUrl  = e.target.result;
-      var imgIdx      = qImages[key].length;
-      var defaultName = file.name.replace(/\.[^.]+$/, '');
-      qImages[key].push({ dataUrl: rawDataUrl, name: defaultName });
-      compressImage(rawDataUrl, 1200, 0.65).then(function(compressed) {
-        qImages[key][imgIdx].dataUrl = compressed;
-        var container = document.getElementById('qthumbs-' + key);
-        if (!container) return;
-        var thumb = document.createElement('div');
-        thumb.className = 'q-thumb';
-        thumb.id = 'qthumb-' + key + '-' + imgIdx;
-        thumb.innerHTML =
-          '<div class="q-thumb-img-wrap">' +
-            '<img src="' + compressed + '" alt=""/>' +
-            '<button class="q-thumb-remove" onclick="removeQImg(\'' + key + '\',' + imgIdx + ')">×</button>' +
-          '</div>' +
-          '<input class="q-thumb-name" type="text" value="' + defaultName + '"' +
-            ' title="Redenumește imaginea"' +
-            ' placeholder="Nume imagine..."' +
-            ' oninput="renameQImg(\'' + key + '\',' + imgIdx + ',this.value)"/>';
-        container.appendChild(thumb);
-      });
+    const reader = new FileReader();
+    reader.onload = e => {
+      const dataUrl = e.target.result;
+      const imgIdx = qImages[key].length;
+      // Strip extension for default display name
+      const defaultName = file.name.replace(/\.[^.]+$/, '');
+      qImages[key].push({ dataUrl, name: defaultName });
+      const container = document.getElementById('qthumbs-' + key);
+      if (!container) return;
+      const thumb = document.createElement('div');
+      thumb.className = 'q-thumb';
+      thumb.id = `qthumb-${key}-${imgIdx}`;
+      thumb.innerHTML = `
+        <div class="q-thumb-img-wrap">
+          <img src="${dataUrl}" alt=""/>
+          <button class="q-thumb-remove" onclick="removeQImg('${key}',${imgIdx})">×</button>
+        </div>
+        <input class="q-thumb-name" type="text" value="${defaultName}"
+          title="Redenumește imaginea"
+          placeholder="Nume imagine..."
+          oninput="renameQImg('${key}',${imgIdx},this.value)"/>`;
+      container.appendChild(thumb);
     };
     reader.readAsDataURL(file);
   });
@@ -844,47 +2782,35 @@ dropZone.addEventListener('drop', e => {
 });
 
 function handleFiles(files) {
-  Array.from(files).forEach(function(file) {
-    if (file.size > 5 * 1024 * 1024) { showToast(file.name + ': fișier prea mare (max 5 MB).', 'error'); return; }
+  Array.from(files).forEach(file => {
+    if (file.size > 5 * 1024 * 1024) { showToast(`${file.name}: fișier prea mare (max 5 MB).`, 'error'); return; }
     if (images.length >= 10) { showToast('Maxim 10 fișiere.', 'error'); return; }
     images.push(file);
-    imagesData.push(null);
-    var idx = images.length - 1;
-    addThumb(file, idx);
+    addThumb(file, images.length - 1);
   });
 }
 
 function addThumb(file, idx) {
-  var isImg = file.type.startsWith('image/');
-  var thumb = document.createElement('div');
+  const isImg = file.type.startsWith('image/');
+  const thumb = document.createElement('div');
   thumb.className = 'img-thumb';
   thumb.id = 'thumb-' + idx;
   if (isImg) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      var raw = e.target.result;
-      var name = file.name.replace(/\.[^.]+$/, '');
-      thumb.innerHTML = '<img src="' + raw + '" alt=""/>' +
-        '<div class="img-name">' + file.name + '</div>' +
-        '<button class="remove-btn" onclick="removeImage(' + idx + ')">×</button>';
-      compressImage(raw, 1200, 0.65).then(function(compressed) {
-        imagesData[idx] = { dataUrl: compressed, name: name };
-      });
+    const reader = new FileReader();
+    reader.onload = e => {
+      thumb.innerHTML = `<img src="${e.target.result}" alt=""/><div class="img-name">${file.name}</div><button class="remove-btn" onclick="removeImage(${idx})">×</button>`;
     };
     reader.readAsDataURL(file);
   } else {
-    var icon = file.type.includes('video') ? '🎬' : file.type.includes('pdf') ? '📄' : '📎';
-    thumb.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;background:#f0efec;">' + icon + '</div>' +
-      '<div class="img-name">' + file.name + '</div>' +
-      '<button class="remove-btn" onclick="removeImage(' + idx + ')">×</button>';
+    const icon = file.type.includes('video') ? '🎬' : file.type.includes('pdf') ? '📄' : '📎';
+    thumb.innerHTML = `<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:28px;background:#f0efec;">${icon}</div><div class="img-name">${file.name}</div><button class="remove-btn" onclick="removeImage(${idx})">×</button>`;
   }
   previews.appendChild(thumb);
 }
 
 function removeImage(idx) {
   images[idx] = null;
-  imagesData[idx] = null;
-  var el = document.getElementById('thumb-' + idx);
+  const el = document.getElementById('thumb-' + idx);
   if (el) el.remove();
 }
 
@@ -1014,12 +2940,8 @@ async function downloadPDF(bypass) {
 
   try {
     overlayMsg.textContent = 'Se citesc imaginile...';
-    const imgData = [];
-    for (var _i = 0; _i < images.length; _i++) {
-      if (!images[_i]) continue;
-      if (imagesData[_i]) { imgData.push(imagesData[_i]); }
-      else if (images[_i] && !images[_i].type.startsWith('image/')) { imgData.push(await fileToBase64(images[_i])); }
-    }
+    const activeImages = images.filter(Boolean);
+    const imgData = await Promise.all(activeImages.map(f => fileToBase64(f)));
 
     overlayMsg.textContent = 'Se obține numărul raportului...';
     let nrRaport = '';
@@ -1077,12 +2999,8 @@ async function trimiteRaport(bypass) {
   try {
     // ── 1. Citim imaginile ──
     overlayMsg.textContent = 'Se citesc imaginile...';
-    const imgData = [];
-    for (var _i = 0; _i < images.length; _i++) {
-      if (!images[_i]) continue;
-      if (imagesData[_i]) { imgData.push(imagesData[_i]); }
-      else if (images[_i] && !images[_i].type.startsWith('image/')) { imgData.push(await fileToBase64(images[_i])); }
-    }
+    const activeImages = images.filter(Boolean);
+    const imgData = await Promise.all(activeImages.map(f => fileToBase64(f)));
 
     // ── 2. Obținem numărul raportului ──
     // Dacă există un număr cached și nefolosit (ex: după descărcare locală), îl refolosim
@@ -1110,6 +3028,9 @@ async function trimiteRaport(bypass) {
     // ── 3. Construim payload cu numărul corect ──
     const payload    = buildPayload();
     payload.nrRaport = nrRaport;
+
+    // ── Detectare automată mod test după localitate ──
+    var isTest = (payload.location || '').trim().toLowerCase() === 'test';
 
     // ── 4. Generăm PDF-ul cu numărul corect ──
     overlayMsg.textContent = 'Se generează PDF-ul...';
@@ -1324,7 +3245,7 @@ async function trimiteRaport(bypass) {
           slice.width  = canvas.width;
           slice.height = srcH;
           slice.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, srcH, 0, 0, canvas.width, srcH);
-          pdf.addImage(slice.toDataURL('image/jpeg', 1), 'JPEG', margin, margin, usableW, sliceH);
+          pdf.addImage(slice.toDataURL('image/jpeg', 0.92), 'JPEG', margin, margin, usableW, sliceH);
         }
         return pdf.output('datauristring').split(',')[1];
       })();
@@ -1356,11 +3277,13 @@ async function trimiteRaport(bypass) {
           pdfHtmlBase64: htmlBase64,
           fileExt:       'html',
           nrRaport:      nrRaport,
-          folder:        'rapoarte_raw',
+          folder:        isTest ? 'rapoarte_teste' : 'rapoarte_raw',
           inspector:     payload.name     || '',
+          email:         payload.email    || '',
           data:          dateForFilename(payload.date) || '',
           localitate:    payload.location || '',
-          tipLucrare:    payload.tipLucrare || ''
+          tipLucrare:    payload.tipLucrare || '',
+          csvRow:        isTest ? [] : (payload.csvRow || [])
         })
       });
     } catch(e) { console.warn('HTML raw upload error:', e); }
@@ -1770,9 +3693,6 @@ function getSigDataUrl(id) {
 
 // INIT — întrebările sunt statice în HTML, nu mai e nevoie de buildQuestions()
 (function initForm() {
-  // Generează dinamic HTML-ul secțiunilor 1-13 din QUESTIONS{}
-  buildFormHTML();
-
   // Inițializează answers{} din butoanele DA/NU/NA deja existente în DOM
   document.querySelectorAll('.opt-btn[data-key]').forEach(function(btn) {
     var k = btn.dataset.key;
