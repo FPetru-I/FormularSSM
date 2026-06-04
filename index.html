@@ -1759,7 +1759,8 @@ function clearSig(id) {
 function getSigDataUrl(id) {
   var pad = sigCanvases[id];
   if (!pad || pad.isEmpty()) return null;
-  return pad.toDataURL();
+  var canvas = document.getElementById('canvas-' + id);
+  return canvas.toDataURL('image/jpeg', 0.65);
 }
 
 
