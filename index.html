@@ -3798,7 +3798,9 @@ function applyZoom(val) {
   val = Math.max(80, Math.min(150, parseInt(val)));
   document.getElementById('zoomRange').value = val;
   document.getElementById('zoomVal').textContent = val + '%';
-  document.querySelector('.container').style.fontSize = (val / 100) + 'rem';
+  // Setăm zoom CSS pe container — suprascrie CSS reset-ul
+  var container = document.querySelector('.container');
+  if (container) container.style.zoom = (val / 100);
   try { localStorage.setItem('ssm_zoom', val); } catch(e) {}
 }
 
