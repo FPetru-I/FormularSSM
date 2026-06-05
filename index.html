@@ -2656,38 +2656,58 @@ function clearQImagesForKey(key) {
   if (thumbsDiv) thumbsDiv.innerHTML = '';
 }
 
+// Compresie imagine: maxWidth px, quality 0-1
+function compressImage(dataUrl, maxWidth, quality) {
+  return new Promise(function(resolve) {
+    var img = new Image();
+    img.onload = function() {
+      var ratio = Math.min(1, maxWidth / img.width);
+      var c = document.createElement('canvas');
+      c.width  = Math.round(img.width  * ratio);
+      c.height = Math.round(img.height * ratio);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      resolve(c.toDataURL('image/jpeg', quality));
+    };
+    img.src = dataUrl;
+  });
+}
+  
 function handleQImg(key, files) {
   if (!qImages[key]) qImages[key] = [];
-  Array.from(files).forEach(file => {
+  Array.from(files).forEach(function(file) {
     if (!file.type.startsWith('image/')) return;
     if (file.size > 5 * 1024 * 1024) { showToast(file.name + ': prea mare (max 5 MB).', 'error'); return; }
-    const reader = new FileReader();
-    reader.onload = e => {
-      const dataUrl = e.target.result;
-      const imgIdx = qImages[key].length;
-      // Strip extension for default display name
-      const defaultName = file.name.replace(/\.[^.]+$/, '');
-      qImages[key].push({ dataUrl, name: defaultName });
-      const container = document.getElementById('qthumbs-' + key);
-      if (!container) return;
-      const thumb = document.createElement('div');
-      thumb.className = 'q-thumb';
-      thumb.id = `qthumb-${key}-${imgIdx}`;
-      thumb.innerHTML = `
-        <div class="q-thumb-img-wrap">
-          <img src="${dataUrl}" alt=""/>
-          <button class="q-thumb-remove" onclick="removeQImg('${key}',${imgIdx})">×</button>
-        </div>
-        <input class="q-thumb-name" type="text" value="${defaultName}"
-          title="Redenumește imaginea"
-          placeholder="Nume imagine..."
-          oninput="renameQImg('${key}',${imgIdx},this.value)"/>`;
-      container.appendChild(thumb);
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var rawDataUrl  = e.target.result;
+      var imgIdx      = qImages[key].length;
+      var defaultName = file.name.replace(/\.[^.]+$/, '');
+      qImages[key].push({ dataUrl: rawDataUrl, name: defaultName });
+      compressImage(rawDataUrl, 1200, 0.65).then(function(compressed) {
+        qImages[key][imgIdx].dataUrl = compressed;
+        var container = document.getElementById('qthumbs-' + key);
+        if (!container) return;
+        var thumb = document.createElement('div');
+        thumb.className = 'q-thumb';
+        thumb.id = 'qthumb-' + key + '-' + imgIdx;
+        thumb.innerHTML =
+          '<div class="q-thumb-img-wrap">' +
+            '<img src="' + compressed + '" alt=""/>' +
+            '<button class="q-thumb-remove" onclick="removeQImg(\'' + key + '\',' + imgIdx + ')">×</button>' +
+          '</div>' +
+          '<input class="q-thumb-name" type="text" value="' + defaultName + '"' +
+            ' title="Redenumește imaginea"' +
+            ' placeholder="Nume imagine..."' +
+            ' oninput="renameQImg(\'' + key + '\',' + imgIdx + ',this.value)"/>';
+        container.appendChild(thumb);
+      });
     };
     reader.readAsDataURL(file);
   });
   document.getElementById('qimg-' + key).value = '';
 }
+
+
 
 function renameQImg(key, idx, val) {
   if (qImages[key] && qImages[key][idx]) qImages[key][idx].name = val;
@@ -2815,26 +2835,36 @@ function handleFiles(files) {
 }
 
 function addThumb(file, idx) {
-  const isImg = file.type.startsWith('image/');
-  const thumb = document.createElement('div');
+  var isImg = file.type.startsWith('image/');
+  var thumb = document.createElement('div');
   thumb.className = 'img-thumb';
   thumb.id = 'thumb-' + idx;
   if (isImg) {
-    const reader = new FileReader();
-    reader.onload = e => {
-      thumb.innerHTML = `<img src="${e.target.result}" alt=""/><div class="img-name">${file.name}</div><button class="remove-btn" onclick="removeImage(${idx})">×</button>`;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var raw = e.target.result;
+      var name = file.name.replace(/\.[^.]+$/, '');
+      thumb.innerHTML = '<img src="' + raw + '" alt=""/>' +
+        '<div class="img-name">' + file.name + '</div>' +
+        '<button class="remove-btn" onclick="removeImage(' + idx + ')">×</button>';
+      compressImage(raw, 1200, 0.65).then(function(compressed) {
+        imagesData[idx] = { dataUrl: compressed, name: name };
+      });
     };
     reader.readAsDataURL(file);
   } else {
-    const icon = file.type.includes('video') ? '🎬' : file.type.includes('pdf') ? '📄' : '📎';
-    thumb.innerHTML = `<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:28px;background:#f0efec;">${icon}</div><div class="img-name">${file.name}</div><button class="remove-btn" onclick="removeImage(${idx})">×</button>`;
+    var icon = file.type.includes('video') ? '🎬' : file.type.includes('pdf') ? '📄' : '📎';
+    thumb.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;background:#f0efec;">' + icon + '</div>' +
+      '<div class="img-name">' + file.name + '</div>' +
+      '<button class="remove-btn" onclick="removeImage(' + idx + ')">×</button>';
   }
   previews.appendChild(thumb);
 }
 
 function removeImage(idx) {
   images[idx] = null;
-  const el = document.getElementById('thumb-' + idx);
+  imagesData[idx] = null;
+  var el = document.getElementById('thumb-' + idx);
   if (el) el.remove();
 }
 
