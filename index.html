@@ -150,8 +150,7 @@
 .zoom-bar button { font-family: inherit; font-size: 18px; font-weight: 700; width: 32px; height: 32px; border: 1.5px solid var(--border-strong); border-radius: 6px; background: var(--surface2); cursor: pointer; color: var(--text); display: flex; align-items: center; justify-content: center; }
 .zoom-bar button:hover { background: var(--accent-light); border-color: var(--accent); }
 .zoom-bar-val { font-size: 12px; font-weight: 600; color: var(--accent); font-family: monospace; min-width: 40px; text-align: center; }
-.zoom-bar-reset { font-size: 11px; padding: 4px 10px; border: 1px solid var(--border-strong); border-radius: 4px; background: none; color: var(--text-muted); cursor: pointer; font-family: inherit; }
-@media print { .zoom-bar { display: none !important; } }
+.zoom-bar-reset { font-size: 16px; width: 32px; height: 32px; padding: 0; border: 1.5px solid var(--border-strong); border-radius: 6px; background: var(--surface2); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; }
   
 </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -182,7 +181,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
   <button onclick="adjustZoom(-10)">−</button>
   <span class="zoom-bar-val" id="zoomVal">100%</span>
   <button onclick="adjustZoom(+10)">+</button>
-  <button class="zoom-bar-reset" onclick="adjustZoom(0)">Reset</button>
+  <button class="zoom-bar-reset" onclick="adjustZoom(0)">↺</button>
 </div>
   
 <div class="container">
