@@ -151,6 +151,7 @@
 .zoom-bar button:hover { background: var(--accent-light); border-color: var(--accent); }
 .zoom-bar-val { font-size: 12px; font-weight: 600; color: var(--accent); font-family: monospace; min-width: 40px; text-align: center; }
 .zoom-bar-reset { font-size: 16px; width: 32px; height: 32px; padding: 0; border: 1.5px solid var(--border-strong); border-radius: 6px; background: var(--surface2); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+#canvas-inspector { zoom: 1 !important; }
   
 </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -1863,7 +1864,8 @@ function adjustZoom(delta) {
   else { _zoomLevel = Math.max(70, Math.min(160, _zoomLevel + delta)); }
   document.getElementById('zoomVal').textContent = _zoomLevel + '%';
   var container = document.querySelector('.container');
-  if (container) container.style.zoom = (_zoomLevel / 100);
+  if (container) container.style.fontSize = (_zoomLevel / 100 * 14) + 'px';
+  // Canvas rămâne neafectat
 }
   
 </script>
