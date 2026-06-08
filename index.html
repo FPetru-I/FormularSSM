@@ -1864,8 +1864,9 @@ function adjustZoom(delta) {
   else { _zoomLevel = Math.max(70, Math.min(160, _zoomLevel + delta)); }
   document.getElementById('zoomVal').textContent = _zoomLevel + '%';
   var container = document.querySelector('.container');
-  if (container) container.style.fontSize = (_zoomLevel / 100 * 14) + 'px';
-  // Canvas rămâne neafectat
+  if (container) container.style.zoom = (_zoomLevel / 100);
+  var sigSection = document.querySelector('#canvas-inspector').closest('.section');
+  if (sigSection) sigSection.style.zoom = (100 / _zoomLevel);
 }
   
 </script>
