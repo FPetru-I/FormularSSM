@@ -772,7 +772,7 @@ let textAnswers = {}; (function() {
   var mm = String(now.getMonth()+1).padStart(2,'0');
   var yyyy = now.getFullYear();
   var el = document.getElementById('meta-date');
-  if (el && !el.value) el.value = dd + '/' + mm + '/' + yyyy;
+  if (el && !el.value) el.value = dd + '.' + mm + '.' + yyyy;
 })();
 
 function selectAnswer(btn) {
@@ -1801,11 +1801,11 @@ function getSigDataUrl(id) {
     });
   }
 
-  // Setează data curentă în format dd/mm/yyyy
+  // Setează data curentă în format dd.mm.yyyy
   (function() {
     var now = new Date();
-    var today = String(now.getDate()).padStart(2,'0') + '/' +
-                String(now.getMonth()+1).padStart(2,'0') + '/' +
+    var today = String(now.getDate()).padStart(2,'0') + '.' +
+                String(now.getMonth()+1).padStart(2,'0') + '.' +
                 now.getFullYear();
     var dateEl = document.getElementById('meta-date');
     if (dateEl && !dateEl.value) dateEl.value = today;
