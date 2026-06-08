@@ -1506,7 +1506,7 @@ function buildPDFHtml(p, imgData) {
           </div>
           <div>
             <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:3px;">Data</div>
-            <div style="font-size:12px;border-bottom:1px solid #ccc;padding-bottom:4px;min-height:20px;">${p.sigInspectorData || ''}</div>
+            <div style="font-size:12px;border-bottom:1px solid #ccc;padding-bottom:4px;min-height:20px;">${(p.sigInspectorData || '').replace(/\//g, '.')}</div>
           </div>
         </div>
       </div>
@@ -1602,7 +1602,7 @@ function buildPDFHtml(p, imgData) {
     <div class="meta-item"><div class="lbl">Nr. Raport</div><div class="val">${p.nrRaport || '—'}</div></div>
     <div class="meta-item"><div class="lbl">Nume</div><div class="val">${p.name}</div></div>
     <div class="meta-item"><div class="lbl">Email</div><div class="val">${p.email}</div></div>
-    <div class="meta-item"><div class="lbl">Data</div><div class="val">${p.date}</div></div>
+    <div class="meta-item"><div class="lbl">Data</div><div class="val">${p.date.replace(/\//g, '.')}</div></div>
     <div class="meta-item"><div class="lbl">Localitate</div><div class="val">${p.location || '—'}</div></div>
     <div class="meta-item"><div class="lbl">Tip lucrare</div><div class="val">${p.tipLucrare || '—'}</div></div>
   </div>
