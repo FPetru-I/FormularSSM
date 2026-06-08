@@ -1368,9 +1368,10 @@ async function trimiteRaport(bypass) {
     // Descarcă PDF local
     const winLocal = window.open('', '_blank');
     if (winLocal) {
+      const dateForTitle = payload.date ? payload.date.replace(/\//g, '.') : '';
       const localTitle = nrRaport
         + (payload.location ? '_' + payload.location : '')
-        + (payload.date     ? '_' + payload.date     : '');
+        + (dateForTitle     ? '_' + dateForTitle     : '');
       const pdfHtmlTitled = pdfHtml.replace('<title></title>', '<title>' + localTitle + '</title>');
       winLocal.document.write(pdfHtmlTitled);
       winLocal.document.close();
