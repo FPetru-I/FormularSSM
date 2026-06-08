@@ -1428,44 +1428,33 @@ function buildPDFHtml(p, imgData) {
       const hasImg  = (qImages[qkey]||[]).filter(Boolean).length > 0;
       const ans     = item.answer;
 
-      if ((ans === 'DA' || ans === 'N/A') && !hasNote && !hasImg) {
-        if (ans === 'DA') compactDA.push(`${sec}.${i+1}`);
-        else              compactNA.push(`${sec}.${i+1}`);
-      } else {
+    if (ans === 'N/A' && !hasNote && !hasImg) {
+        compactNA.push(`${sec}.${i+1}`);
+    } else {
         detailed.push({ item, i, qkey });
-      }
+    }
     });
 
-    // ── Rând compact DA ──
-    if (compactDA.length > 0) {
-      const nums = compactDA.join(', ');
-      rows.push(`<div class="row" style="background:#f0f7f0;">
-        <div class="col-q" style="color:#555;font-size:11px;"><span style="font-weight:600;color:#1a6b3c;">DA</span> — întrebările: <span style="color:#1a6b3c;font-weight:500;">${nums}</span></div>
-        <div class="col-r"><span class="badge" style="background:#1a6b3c;">DA</span></div>
-        <div class="col-c">—</div>
-      </div>`);
-    }
-
-    // ── Rând compact N/A ──
+   // ── Rând compact N/A — primul ──
     if (compactNA.length > 0) {
-      const nums = compactNA.join(', ');
-      rows.push(`<div class="row" style="background:#f5f5f5;">
-        <div class="col-q" style="color:#555;font-size:11px;"><span style="font-weight:600;color:#5a5752;">N/A</span> — întrebările: <span style="color:#5a5752;font-weight:500;">${nums}</span></div>
-        <div class="col-r"><span class="badge" style="background:#5a5752;">N/A</span></div>
-        <div class="col-c">—</div>
-      </div>`);
+        const nums = compactNA.join(', ');
+        rows.push(`<div class="row" style="background:#f5f5f5;">
+          <div class="col-q" style="color:#555;font-size:11px;"><span style="font-weight:600;color:#5a5752;">N/A</span> — întrebările: <span style="color:#5a5752;font-weight:500;">${nums}</span></div>
+          <div class="col-r"><span class="badge" style="background:#5a5752;">N/A</span></div>
+          <div class="col-c">—</div>
+        </div>`);
     }
 
-    // ── Întrebări detaliate (NU, sau DA/N/A cu note/imagini) ──
+    // ── Întrebări detaliate (toate non-N/A, în ordine) ──
     detailed.forEach(({ item, i, qkey }) => {
-      const ans   = item.answer || '—';
-      const badge = item.answer === 'DA' ? '#1a6b3c' : item.answer === 'NU' ? '#8f1a1a' : '#5a5752';
-      const imgs  = (qImages[qkey]||[]).filter(Boolean);
-      rows.push(`<div class="row">
-        <div class="col-q"><span style="display:block;text-align:left;word-spacing:normal;white-space:normal">${sec}.${i+1}. ${item.question}</span></div>
-        <div class="col-r"><span class="badge" style="background:${badge}">${ans}</span></div>
-        <div class="col-c">${item.comment || '—'}${imgs.map(img=>`<div style="margin-top:6px"><img src="${img.dataUrl}" style="max-width:100%;max-height:400px;border-radius:3px;border:1px solid #ddd;display:block"/></div>`).join('')}</div>
-      </div>`);
+        const ans   = item.answer || '—';
+        const badge = item.answer === 'DA' ? '#1a6b3c' : item.answer === 'NU' ? '#8f1a1a' : '#5a5752';
+        const imgs  = (qImages[qkey]||[]).filter(Boolean);
+        rows.push(`<div class="row">
+          <div class="col-q"><span style="display:block;text-align:left;word-spacing:normal;white-space:normal">${sec}.${i+1}. ${item.question}</span></div>
+          <div class="col-r" style="background:${badge}22;""><span class="badge" style="background:${badge}">${ans}</span></div>
+          <div class="col-c">${item.comment || '—'}${imgs.map(img=>`<div style="margin-top:6px"><img src="${img.dataUrl}" style="max-width:100%;max-height:400px;border-radius:3px;border:1px solid #ddd;display:block"/></div>`).join('')}</div>
+        </div>`);
     });
   }
   // Text sections 14 & 15
