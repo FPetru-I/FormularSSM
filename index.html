@@ -1698,8 +1698,8 @@ function buildFeedbackPdfHtml(p) {
 // FORMAT DATE INPUT (dd/mm/yyyy auto-formatting)
 function formatDateInput(el) {
   var v = el.value.replace(/\D/g, '');
-  if (v.length >= 3 && v.length <= 4) v = v.slice(0,2) + '.' + v.slice(2);
-  else if (v.length >= 5) v = v.slice(0,2) + '.' + v.slice(2,4) + '.' + v.slice(4,8);
+  if (v.length >= 5) v = v.slice(0,2) + '.' + v.slice(2,4) + '.' + v.slice(4,8);
+  else if (v.length >= 3) v = v.slice(0,2) + '.' + v.slice(2);
   el.value = v;
 }
 
@@ -1864,7 +1864,7 @@ function adjustZoom(delta) {
   else { _zoomLevel = Math.max(70, Math.min(160, _zoomLevel + delta)); }
   document.getElementById('zoomVal').textContent = _zoomLevel + '%';
   var container = document.querySelector('.container');
-  if (container) container.style.fontSize = (_zoomLevel / 100 * 14) + 'px';
+  if (container) container.style.zoom = (_zoomLevel / 100);
 }
   
 </script>
