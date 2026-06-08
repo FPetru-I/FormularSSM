@@ -134,6 +134,24 @@
   .text-question-row textarea { font-size: 20px; line-height: 1.6; }
   .comment-section textarea { font-size: 20px; line-height: 1.6; }
 }
+.zoom-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.zoom-bar-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+.zoom-bar button { font-family: inherit; font-size: 18px; font-weight: 700; width: 32px; height: 32px; border: 1.5px solid var(--border-strong); border-radius: 6px; background: var(--surface2); cursor: pointer; color: var(--text); display: flex; align-items: center; justify-content: center; }
+.zoom-bar button:hover { background: var(--accent-light); border-color: var(--accent); }
+.zoom-bar-val { font-size: 12px; font-weight: 600; color: var(--accent); font-family: monospace; min-width: 40px; text-align: center; }
+.zoom-bar-reset { font-size: 11px; padding: 4px 10px; border: 1px solid var(--border-strong); border-radius: 4px; background: none; color: var(--text-muted); cursor: pointer; font-family: inherit; }
+@media print { .zoom-bar { display: none !important; } }
   
 </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -159,6 +177,14 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
   <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v34</span></h1>
 </header>
 
+<div class="zoom-bar" id="zoomBar">
+  <span class="zoom-bar-label">Zoom text</span>
+  <button onclick="adjustZoom(-10)">−</button>
+  <span class="zoom-bar-val" id="zoomVal">100%</span>
+  <button onclick="adjustZoom(+10)">+</button>
+  <button class="zoom-bar-reset" onclick="adjustZoom(0)">Reset</button>
+</div>
+  
 <div class="container">
 
   <!-- META — Date generale -->
@@ -174,7 +200,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
     </div>
     <div class="field-group">
       <label>Data inspecției <span class="req">*</span></label>
-      <input type="text" id="meta-date" placeholder="zz/ll/aaaa" maxlength="10"
+      <input type="text" id="meta-date" placeholder="zz.ll.aaaa" maxlength="10"
         oninput="formatDateInput(this)" autocomplete="off"/>
     </div>
     <div class="field-group">
@@ -334,7 +360,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
           </div>
           <div class="field-group">
             <label>Data</label>
-            <input type="text" id="sig-inspector-data" placeholder="zz/ll/aaaa" maxlength="10"
+            <input type="text" id="sig-inspector-data" placeholder="zz.ll.aaaa" maxlength="10"
               oninput="formatDateInput(this); sigInspectorData=this.value;" autocomplete="off"/>
           </div>
         </div>
@@ -1611,12 +1637,10 @@ function buildPDFHtml(p, imgData) {
 // Convertește data din dd/mm/yyyy în yyyy-mm-dd pentru nume fișier
 function dateForFilename(dateStr) {
   if (!dateStr) return '';
-  // If already ISO format (yyyy-mm-dd), return as-is
   if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
-  // Convert dd/mm/yyyy → yyyy-mm-dd
-  var parts = dateStr.split('/');
+  var parts = dateStr.split(/[\/\.]/);
   if (parts.length === 3) return parts[2] + '-' + parts[1] + '-' + parts[0];
-  return dateStr.replace(/\//g, '-');
+  return dateStr.replace(/[\/\.]/g, '-');
 }
 
 function buildFeedbackPdfHtml(p) {
@@ -1674,8 +1698,8 @@ function buildFeedbackPdfHtml(p) {
 // FORMAT DATE INPUT (dd/mm/yyyy auto-formatting)
 function formatDateInput(el) {
   var v = el.value.replace(/\D/g, '');
-  if (v.length >= 3 && v.length <= 4) v = v.slice(0,2) + '/' + v.slice(2);
-  else if (v.length >= 5) v = v.slice(0,2) + '/' + v.slice(2,4) + '/' + v.slice(4,8);
+  if (v.length >= 3 && v.length <= 4) v = v.slice(0,2) + '.' + v.slice(2);
+  else if (v.length >= 5) v = v.slice(0,2) + '.' + v.slice(2,4) + '.' + v.slice(4,8);
   el.value = v;
 }
 
@@ -1833,6 +1857,16 @@ function getSigDataUrl(id) {
     console.warn('Nu am putut preîncărca nr raport:', e);
   }
 })();
+  
+var _zoomLevel = 100;
+function adjustZoom(delta) {
+  if (delta === 0) { _zoomLevel = 100; }
+  else { _zoomLevel = Math.max(70, Math.min(160, _zoomLevel + delta)); }
+  document.getElementById('zoomVal').textContent = _zoomLevel + '%';
+  var container = document.querySelector('.container');
+  if (container) container.style.fontSize = (_zoomLevel / 100 * 14) + 'px';
+}
+  
 </script>
 </body>
 </html>
