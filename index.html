@@ -722,7 +722,7 @@ const TEXT_SECTIONS = {
   ],
 };
 
-const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbwskGKLeV0uSWIbmiI1Urlc_9k9RI0UVr-juaJbCQ-qotRuGLEVjXVbklCxSk1jXjs6sw/exec';
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbxSozjQb8QqrwWlT5fDHNc6oAyM7yh3XR_HuXZ0ws-me0Ec3rKjcmecUhd6MU8G_by9VQ/exec';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
@@ -1095,9 +1095,10 @@ async function downloadPDF(bypass) {
       nrRaport = cachedNrRaport;
     } else {
       try {
-        const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', { method: 'GET', redirect: 'follow' });
-        const nrData = JSON.parse(await nrRes.text());
-        if (nrData.nextNr) { nrRaport = nrData.nextNr; cachedNrRaport = nrRaport; cachedNrUsed = false; }
+  const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', { method: 'GET', redirect: 'follow' });
+  const nrData = JSON.parse(await nrRes.text());
+  if (nrData.nextNr) { nrRaport = nrData.nextNr; cachedNrRaport = nrRaport; cachedNrUsed = false; }
+  if (nrData.formToken) { sessionStorage.setItem('form_token', nrData.formToken); }
       } catch(e) {}
     }
 
@@ -1160,19 +1161,20 @@ async function trimiteRaport(bypass) {
       nrRaport = cachedNrRaport;
       console.log('Refolosim nrRaport cached:', nrRaport);
     } else {
-      try {
-        const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', {
-          method: 'GET', redirect: 'follow'
-        });
-        const nrData = JSON.parse(await nrRes.text());
-        if (nrData.nextNr) {
-          nrRaport       = nrData.nextNr;
-          cachedNrRaport = nrRaport;
-          cachedNrUsed   = false;
-        }
-      } catch(e) {
-        console.warn('Nu am putut obține nr raport:', e);
-      }
+     try {
+      const nrRes  = await fetch(GAS_PROXY_URL + '?action=nextNr', {
+      method: 'GET', redirect: 'follow'
+  });
+  const nrData = JSON.parse(await nrRes.text());
+  if (nrData.nextNr) {
+    nrRaport       = nrData.nextNr;
+    cachedNrRaport = nrRaport;
+    cachedNrUsed   = false;
+  }
+  if (nrData.formToken) { sessionStorage.setItem('form_token', nrData.formToken); }
+} catch(e) {
+  console.warn('Nu am putut obține nr raport:', e);
+}
     }
 
     // ── 3. Construim payload cu numărul corect ──
@@ -1285,6 +1287,7 @@ async function trimiteRaport(bypass) {
       redirect: 'follow',
       headers:  { 'Content-Type': 'text/plain' },
       body:     JSON.stringify({
+        token:         sessionStorage.getItem('form_token') || '',  // ← adăugat
         pdfHtmlBase64: pdfBase64,
         fileExt:       'pdf',
         nrRaport:      nrRaport,
@@ -1401,6 +1404,7 @@ async function trimiteRaport(bypass) {
         method: 'POST', redirect: 'follow',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({
+          token:         sessionStorage.getItem('form_token') || '',  // ← adăugat
           pdfHtmlBase64: fbPdfBase64,
           fileExt:       'pdf',
           nrRaport:      nrRaport,
@@ -1421,6 +1425,7 @@ async function trimiteRaport(bypass) {
         method: 'POST', redirect: 'follow',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({
+          token:         sessionStorage.getItem('form_token') || '',  // ← adăugat
           pdfHtmlBase64: htmlBase64,
           fileExt:       'html',
           nrRaport:      nrRaport,
@@ -1993,6 +1998,10 @@ var _origUpdateProgress = typeof updateProgress === 'function' ? updateProgress 
       cachedNrRaport = data.nextNr;
       cachedNrUsed   = false;
       console.log('Nr raport preîncărcat:', cachedNrRaport);
+    }
+    // ── ADĂUGAT ──
+    if (data.formToken) {
+      sessionStorage.setItem('form_token', data.formToken);
     }
   } catch(e) {
     console.warn('Nu am putut preîncărca nr raport:', e);
