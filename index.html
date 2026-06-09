@@ -1514,25 +1514,17 @@ function buildPDFHtml(p, imgData) {
     }
 
     // ── Întrebări detaliate (toate non-N/A, în ordine) ──
-  detailed.forEach(({ item, i, qkey }) => {
-    const ans   = item.answer || '—';
-    const badge = item.answer === 'DA' ? '#1a6b3c' : item.answer === 'NU' ? '#8f1a1a' : '#5a5752';
-    const imgs  = (qImages[qkey]||[]).filter(Boolean);
-    const imgsHtml = imgs.length > 0
-        ? '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">' +
-            imgs.map(function(img) {
-                return '<img src="' + img.dataUrl + '" style="width:calc(50% - 3px);max-height:300px;object-fit:contain;border-radius:3px;border:1px solid #ddd;display:block"/>';
-            }).join('') +
-          '</div>'
-        : '';
-    rows.push(
-        '<div class="row">' +
-        '<div class="col-q"><span style="display:block;text-align:left;word-spacing:normal;white-space:normal">' + sec + '.' + (i+1) + '. ' + item.question + '</span></div>' +
-        '<div class="col-r" style="background:' + badge + '22;"><span class="badge" style="background:' + badge + '">' + ans + '</span></div>' +
-        '<div class="col-c">' + (item.comment || '—') + imgsHtml + '</div>' +
-        '</div>'
-    );
-});
+    detailed.forEach(({ item, i, qkey }) => {
+        const ans   = item.answer || '—';
+        const badge = item.answer === 'DA' ? '#1a6b3c' : item.answer === 'NU' ? '#8f1a1a' : '#5a5752';
+        const imgs  = (qImages[qkey]||[]).filter(Boolean);
+        rows.push(`<div class="row">
+          <div class="col-q"><span style="display:block;text-align:left;word-spacing:normal;white-space:normal">${sec}.${i+1}. ${item.question}</span></div>
+          <div class="col-r" style="background:${badge}22;""><span class="badge" style="background:${badge}">${ans}</span></div>
+          <div class="col-c">${item.comment || '—'}${imgs.map(img=>`<div style="margin-top:6px"><img src="${img.dataUrl}" style="max-width:100%;max-height:400px;border-radius:3px;border:1px solid #ddd;display:block"/></div>`).join('')}</div>
+        </div>`);
+    });
+  }
   // Text sections 14 & 15
   [14, 15].forEach(sec => {
     if (p.sections[sec]) {
