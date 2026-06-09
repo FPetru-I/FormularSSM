@@ -1521,7 +1521,7 @@ function buildPDFHtml(p, imgData) {
         rows.push(`<div class="row">
           <div class="col-q"><span style="display:block;text-align:left;word-spacing:normal;white-space:normal">${sec}.${i+1}. ${item.question}</span></div>
           <div class="col-r" style="background:${badge}22;""><span class="badge" style="background:${badge}">${ans}</span></div>
-          <div class="col-c">${item.comment || '—'}${imgs.map(img=>`<div style="margin-top:6px"><img src="${img.dataUrl}" style="max-width:100%;max-height:400px;border-radius:3px;border:1px solid #ddd;display:block"/></div>`).join('')}</div>
+          <div class="col-c">${item.comment || '—'}${imgs.length > 0 ? '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;">' + imgs.map(function(img){ return '<img src="' + img.dataUrl + '" style="width:calc(50% - 2px);max-height:280px;object-fit:contain;border-radius:3px;border:1px solid #ddd;display:block"/>'; }).join('') + '</div>' : ''}</div>
         </div>`);
     });
   }
