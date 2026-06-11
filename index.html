@@ -195,7 +195,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
 <header class="page-header">
-  <h1>Formular de Raportare <span style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;">v35</span></h1>
+  <h1>Formular de Raportare <span id="formVersionLabel" style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;"></span></h1>
 </header>
 
 <div class="zoom-bar" id="zoomBar">
@@ -723,6 +723,8 @@ const TEXT_SECTIONS = {
 };
 
 const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbzHP4yWGSvnbeGpFQ3TuGSDuS_LjH3UXO6VNZGCt_c4sKLt718DrbVRcko0sKE1Y_x0gA/exec';
+const FORM_VERSION = 'v35';
+  
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
@@ -1599,6 +1601,7 @@ function buildPDFHtml(p, imgData) {
 
   return `<!DOCTYPE html><html><head><meta charset="UTF-8"/>
   <meta name="viewport" content="width=860"/>
+  <meta name="form-version" content="${FORM_VERSION}"/>
   <title></title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: unset; }
@@ -1931,7 +1934,8 @@ var _origUpdateProgress = typeof updateProgress === 'function' ? updateProgress 
 (function initForm() {
   // Generează dinamic HTML-ul secțiunilor 1-13 din QUESTIONS{}
   buildFormHTML();
-
+  var vLabel = document.getElementById('formVersionLabel');
+  if (vLabel) vLabel.textContent = FORM_VERSION;
   // Inițializează answers{} din butoanele DA/NU/NA deja existente în DOM
   document.querySelectorAll('.opt-btn[data-key]').forEach(function(btn) {
     var k = btn.dataset.key;
