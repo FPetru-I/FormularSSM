@@ -1267,7 +1267,7 @@ async function trimiteRaport(bypass) {
       var secs = payload.sections || {};
       var row = [
         payload.nrRaport || '', payload.name || '', payload.email || '',
-        payload.date || '', payload.location || '', payload.firmaInspectata || '', payload.tipLucrare || ''
+        payload.date || '', payload.location || '', payload.locatie || '', payload.firmaInspectata || '', payload.tipLucrare || ''
       ];
       for (var s = 1; s <= 13; s++) {
         var items = secs[s] || secs[String(s)] || [];
