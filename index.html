@@ -244,8 +244,11 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       <label>Firma inspectată <span class="req">*</span></label>
       <input type="text" id="meta-firma-inspectata" placeholder="ex. Electrica SA, Romenergo..."/>
     </div>
-
-<div class="field-group">
+    <div class="field-group">
+      <label>Locație <span class="req">*</span></label>
+      <input type="text" id="meta-locatie" placeholder="ex. Turbina B12, Stația Bancă, km 45..."/>
+    </div>
+    <div class="field-group">
       <label>Tip lucrare <span class="req">*</span></label>
       <input type="text" id="meta-tiplucrare" placeholder="ex. Lucrări electrice, betonare, montaj..."/>
     </div>
@@ -1051,6 +1054,7 @@ function buildPayload() {
     name: document.getElementById('meta-name').value,
     email: document.getElementById('meta-email').value,
     location: document.getElementById('meta-location').value,
+    locatie: (document.getElementById('meta-locatie') ? document.getElementById('meta-locatie').value : ''),
     firmaInspectata: (document.getElementById('meta-firma-inspectata') ? document.getElementById('meta-firma-inspectata').value : ''),
     tipLucrare: document.getElementById('meta-tiplucrare').value,
     observatii: obsText,
@@ -1673,6 +1677,7 @@ function buildPDFHtml(p, imgData) {
     <div class="meta-item"><div class="lbl">Email</div><div class="val">${p.email}</div></div>
     <div class="meta-item"><div class="lbl">Data</div><div class="val">${p.date.replace(/\//g, '.')}</div></div>
     <div class="meta-item"><div class="lbl">Localitate</div><div class="val">${p.location || '—'}</div></div>
+    <div class="meta-item"><div class="lbl">Locație</div><div class="val">${p.locatie || '—'}</div></div>
     <div class="meta-item"><div class="lbl">Firma inspectată</div><div class="val">${p.firmaInspectata || '—'}</div></div>
     <div class="meta-item"><div class="lbl">Tip lucrare</div><div class="val">${p.tipLucrare || '—'}</div></div>
   </div>
