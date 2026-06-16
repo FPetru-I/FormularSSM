@@ -531,6 +531,9 @@ const QUESTIONS = {
     "Vehiculele și utilajele pentru șantierele de construcții (camioane, macarale, excavatoare, coșuri etc.) sunt autorizate, potrivite pentru locul de muncă, intacte, funcționale, certificate și conforme?",
     "Vehiculele și utilajele pentru șantiere (camioane, macarale, excavatoare, coșuri etc.) sunt autorizate, utilizate corect și stabile în raport cu solul?",
     "Planul de evacuare este disponibil, potrivit pentru tipul și întinderea lucrărilor, complet și ușor de implementat, cu indicarea rutelor de evacuare și a punctelor de adunare?",
+    "Trusa de prim ajutor este disponibilă la locul de muncă, completă, în stare bună și accesibilă lucrătorilor?",
+    "Există mijloace corespunzătoare pentru acordarea primului ajutor (trusă, targă etc.) disponibile, complete și în stare bună la locul de muncă?",
+    "Există punct de adunare în caz de urgență, este marcat corespunzător, cunoscut de toți lucrătorii și accesibil?",
     "Numerele de telefon pentru semnalarea situațiilor de urgență sunt indicate și disponibile în mod clar în zonele de lucru și pe centralele telefonice⁠/⁠interfoane. De asemenea, acestea sunt ușor de accesat?",
     "Vizitatorii sunt însoțiți în orice moment, nu interferează cu activitățile în desfășurare.",
     "Permisul de lucru este emis, gestionat și respectat de către lucrători?",
@@ -725,8 +728,8 @@ const TEXT_SECTIONS = {
   ],
 };
 
-const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbw7LVjY4hzAjKzo8qNdeybCw6Mr7JNaHpjfQ2iuqunYKFImYiWMlfNFpOWMOKfTiyvMaA/exec';
-const FORM_VERSION = 'v36';
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbxnJiZaVczqr8TOPjA-AIkdL8WpQCkr3P77t4Y9SCNbKIcXDFVdfhRKPfJGixsNPAvh7w/exec';
+const FORM_VERSION = 'v37';
   
 // =====================================================
 
@@ -1844,7 +1847,7 @@ function getSigDataUrl(id) {
 
 // ── NAVIGARE SECȚIUNI ──
 var NAV_SECTIONS = [
-  { id: 'section-1',       label: '1. Verificare generală șantier',              total: 26 },
+  { id: 'section-1',       label: '1. Verificare generală șantier',               total: 29 },
   { id: 'section-2',       label: '2. Lucrări electrice',                         total: 15 },
   { id: 'section-3',       label: '3. Lucru la înălțime',                         total: 10 },
   { id: 'section-4',       label: '4. Risc de cădere / Manipulare',               total: 7  },
