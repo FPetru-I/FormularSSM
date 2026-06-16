@@ -1821,7 +1821,9 @@ function initSignatures() {
     });
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
-
+    document.getElementById('zoomBar') && document.getElementById('zoomBar').addEventListener('click', function() {
+    setTimeout(resizeCanvas, 50);
+  });
   } catch(e) {
     if (dbg) dbg.textContent = '❌ Eroare: ' + e.message;
   }
@@ -2030,8 +2032,6 @@ function adjustZoom(delta) {
   document.getElementById('zoomVal').textContent = _zoomLevel + '%';
   var container = document.querySelector('.container');
   if (container) container.style.zoom = (_zoomLevel / 100);
-  var canvas = document.getElementById('canvas-inspector');
-  if (canvas) canvas.style.zoom = (100 / _zoomLevel);
 }
   
 
