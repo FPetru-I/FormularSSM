@@ -1795,19 +1795,18 @@ function initSignatures() {
 
   // ── Setăm dimensiunile interne ale canvas-ului să coincidă cu cele CSS ──
   function resizeCanvas() {
+    var zoomScale = _zoomLevel / 100;
     var ratio = window.devicePixelRatio || 1;
-    var w = canvas.offsetWidth;
-    var h = canvas.offsetHeight;
-    // Salvăm datele semnăturii înainte de resize
-    var pad      = sigCanvases['inspector'];
-    var sigData  = (pad && !pad.isEmpty()) ? pad.toData() : null;
+    var w = Math.round(canvas.offsetWidth * zoomScale);
+    var h = Math.round(canvas.offsetHeight * zoomScale);
+    var pad     = sigCanvases['inspector'];
+    var sigData = (pad && !pad.isEmpty()) ? pad.toData() : null;
     canvas.width  = Math.round(w * ratio);
     canvas.height = Math.round(h * ratio);
     var ctx = canvas.getContext('2d');
     ctx.scale(ratio, ratio);
     if (pad) {
       pad.clear();
-      // Restaurăm semnătura după resize
       if (sigData && sigData.length > 0) {
         pad.fromData(sigData);
       }
