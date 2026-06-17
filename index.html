@@ -318,7 +318,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
     </div>
     <div class="questions-list">
       <!-- 16.1 Text -->
-      <div class="question-row">
+      <div class="question-row" style="border-bottom:none;">
         <div class="q-top" style="flex-direction:column;gap:8px;align-items:flex-start;">
           <div style="display:flex;gap:12px;align-items:center;">
             <span class="q-index">16.1</span>
@@ -330,20 +330,6 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
             onblur="this.style.borderColor='';this.style.boxShadow=''"
             oninput="obsText=this.value; updateProgress();"></textarea>
         </div>
-      </div>
-      <!-- 16.2 Upload -->
-      <div class="question-row" style="border-bottom:none;">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
-          <span class="q-index">16.2</span>
-          <span class="q-text" style="text-align:left">Fișiere pentru suport (imagini)</span>
-        </div>
-        <div class="drop-zone" id="dropZone">
-          <input type="file" id="fileInput" multiple accept="image"/>
-          <div class="drop-icon">📎</div>
-          <div class="dz-text">Trage fișierele aici sau <strong>selectează fișiere</strong></div>
-          <div class="dz-sub">Imagini — max 5 MB per fișier</div>
-        </div>
-        <div class="image-previews" id="imagePreviews"></div>
       </div>
     </div>
   </div>
@@ -734,9 +720,7 @@ const FORM_VERSION = 'v37';
 // =====================================================
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
-let images = [];     // Array of File objects
-let imagesData = []; // Array de { dataUrl, name } comprimate pentru sec. 16
-let qImages = {};    // { "1-0": [ {dataUrl, name}, ... ] }
+let qImages = {};    // { "1-0": [ {dataUrl, name}, ... ] }f
 
 function clearQImagesForKey(key) {
   // Remove all images for this question key
@@ -902,67 +886,6 @@ function updateProgress() {
     buildNavItems(document.getElementById('navDrawerList'));
   }
 }
-
-// IMAGE UPLOAD
-const dropZone = document.getElementById('dropZone');
-const fileInput = document.getElementById('fileInput');
-const previews = document.getElementById('imagePreviews');
-
-fileInput.addEventListener('change', e => handleFiles(e.target.files));
-
-dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-dropZone.addEventListener('drop', e => {
-  e.preventDefault();
-  dropZone.classList.remove('dragover');
-  handleFiles(e.dataTransfer.files);
-});
-
-function handleFiles(files) {
-  Array.from(files).forEach(function(file) {
-    if (file.size > 5 * 1024 * 1024) { showToast(file.name + ': fișier prea mare (max 5 MB).', 'error'); return; }
-    if (images.length >= 10) { showToast('Maxim 10 fișiere.', 'error'); return; }
-    images.push(file);
-    imagesData.push(null);
-    var idx = images.length - 1;
-    addThumb(file, idx);
-  });
-}
-
-function addThumb(file, idx) {
-  var isImg = file.type.startsWith('image/');
-  var thumb = document.createElement('div');
-  thumb.className = 'img-thumb';
-  thumb.id = 'thumb-' + idx;
-  if (isImg) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      var raw = e.target.result;
-      var name = file.name.replace(/\.[^.]+$/, '');
-      thumb.innerHTML = '<img src="' + raw + '" alt=""/>' +
-        '<div class="img-name">' + file.name + '</div>' +
-        '<button class="remove-btn" onclick="removeImage(' + idx + ')">×</button>';
-      compressImage(raw, 1000, 0.5).then(function(compressed) {
-        imagesData[idx] = { dataUrl: compressed, name: name };
-      });
-    };
-    reader.readAsDataURL(file);
-  } else {
-    var icon = file.type.includes('video') ? '🎬' : file.type.includes('pdf') ? '📄' : '📎';
-    thumb.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;background:#f0efec;">' + icon + '</div>' +
-      '<div class="img-name">' + file.name + '</div>' +
-      '<button class="remove-btn" onclick="removeImage(' + idx + ')">×</button>';
-  }
-  previews.appendChild(thumb);
-}
-
-function removeImage(idx) {
-  images[idx] = null;
-  imagesData[idx] = null;
-  var el = document.getElementById('thumb-' + idx);
-  if (el) el.remove();
-}
-
 
 // ── MODAL COMPLETARE INCOMPLETA ──
 var _pendingAction = null; // 'download' sau 'submit'
