@@ -1480,7 +1480,6 @@ function buildPDFHtml(p, imgData) {
 
   rows.push(`<div class="sec-header"><div class="col-q">Secțiunea 16: Observații</div></div>`);
   rows.push(`<div class="row"><div class="col-q">16.1. Încălcări ale regulilor de siguranță identificate</div><div class="col-r"></div><div class="col-c">${p.observatii || '—'}</div></div>`);
-  rows.push(`<div class="row"><div class="col-q">16.2. Fișiere atașate</div><div class="col-r"></div><div class="col-c">${p.numFisiere || 0} fișiere</div></div>`);
   // Feedback form
 
   // ── Secțiunea 18: Semnătură inspector ──
@@ -1524,12 +1523,7 @@ function buildPDFHtml(p, imgData) {
       <div class="img-caption">${i + 1}. ${img.name}</div>
     </div>`).join('');
 
-  const imgsSection = imgData.length > 0
-    ? `<div class="imgs">
-        <h2>Imagini atașate (${imgData.length})</h2>
-        <div class="img-grid">${imgCards}</div>
-       </div>`
-    : `<div class="imgs"><h2>Imagini atașate (0)</h2><p style="color:#888;font-size:12px">Nu au fost atașate imagini.</p></div>`;
+  const imgsSection = '';
 
   return `<!DOCTYPE html><html><head><meta charset="UTF-8"/>
   <meta name="viewport" content="width=860"/>
