@@ -721,7 +721,9 @@ const FORM_VERSION = 'v37';
 
 let answers = {};    // { "1-0": { value: "DA", comment: "" }, ... }
 let qImages = {};    // { "1-0": [ {dataUrl, name}, ... ] }f
-
+let images = [];     // Array of File objects
+let imagesData = []; // Array de { dataUrl, name } comprimate pentru sec. 16
+  
 function clearQImagesForKey(key) {
   // Remove all images for this question key
   if (qImages[key]) {
