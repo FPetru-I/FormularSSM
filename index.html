@@ -194,8 +194,12 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 </div>
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
-<header class="page-header">
+<header class="page-header" style="display:flex;align-items:center;justify-content:space-between;">
   <h1>Formular de Raportare <span id="formVersionLabel" style="font-size:13px;font-weight:400;opacity:0.6;vertical-align:middle;"></span></h1>
+  <div style="display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.15);border-radius:20px;padding:4px;">
+    <button id="btnLangRo" onclick="setFormLang('ro')" style="padding:4px 12px;border-radius:14px;border:none;background:#fff;color:var(--accent);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;">RO</button>
+    <button id="btnLangEn" onclick="setFormLang('en')" style="padding:4px 12px;border-radius:14px;border:none;background:transparent;color:#fff;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;opacity:0.7;">EN</button>
+  </div>
 </header>
 
 <div class="zoom-bar" id="zoomBar">
@@ -503,6 +507,9 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 // CONFIGURARE ÎNTREBĂRI
 // Modificați această listă după necesitățile voastre
 // =====================================================
+
+// INTREBARI IN ROMANA
+  
 const QUESTIONS = {
   1: [
     "Este întocmit și avizat planul de SSM al șantierului? Există în format fizic și⁠/⁠sau electronic disponibil pentru verificare?",
@@ -646,6 +653,236 @@ const SECTION_META = {
   13: { title: 'Lucrări de betonare și turnare' },
 };
 
+const QUESTIONS_EN = {
+  1: [
+    "Has the site HSE plan been prepared and approved? Is it available in physical and/or electronic format for inspection?",
+    "Is the risk assessment available and does it cover: risks present at the workplace, activity-specific risks and interferences (e.g. power lines, mechanical work, etc.)?",
+    "Has the documentation of site workers been verified, is it up to date and corresponds to their trades? Is it compliant from an HSE, fire safety, environment, electrical, ISCIR perspective etc.?",
+    "Has worker induction before starting work been carried out, documented, activity-appropriate and signed? Is it available for inspection?",
+    "Is the team leader responsible for on-site works nominated, present on site and supervising workers?",
+    "Are individual and collective protective equipment available in the work area? Are they effective and appropriate (marked/certified according to the reference standard)?",
+    "Are the PPE specific to current activities worn and used correctly?",
+    "Is the equipment available in the work area functional, adequate and complete, certified, periodically checked and with installation, use and maintenance instructions?",
+    "Is the work equipment (e.g. tools, vehicles) used correctly?",
+    "Are vehicles and machinery for construction sites (trucks, cranes, excavators, baskets, etc.) authorised, suitable for the workplace, intact, functional, certified and compliant?",
+    "Are vehicles and machinery for construction sites (trucks, cranes, excavators, baskets, etc.) authorised, used correctly and stable in relation to the ground?",
+    "Is the evacuation plan available, suitable for the type and extent of the works, complete and easy to implement, indicating evacuation routes and assembly points?",
+    "Is the first aid kit available at the workplace, complete, in good condition and accessible to workers?",
+    "Are adequate first aid means (kit, stretcher, etc.) available, complete and in good condition at the workplace?",
+    "Is there an emergency assembly point, properly marked, known to all workers and accessible?",
+    "Are emergency contact numbers clearly indicated and available in work areas and on switchboards/intercoms? Are they easily accessible?",
+    "Visitors are accompanied at all times and do not interfere with ongoing activities.",
+    "Is the work permit issued, managed and respected by workers?",
+    "Are working procedures/methods available for carrying out activities?",
+    "Are activities carried out in accordance with company standards, operating procedures and HSE, fire safety and environmental contractual conditions/requirements?",
+    "Is the signage of the work point and site in accordance with legal provisions? Is it sufficient, visible and placed in designated locations?",
+    "Does all personnel involved in the activity know the \"STOP WORK POLICY\"?",
+    "Are the minimum requirements for working in high and low temperatures respected?",
+    "Are workplaces kept clean, and are resulting waste selectively collected and stored in specific storage areas?",
+    "Are waste collection containers on site sufficient, properly labelled with waste codes and not posing a risk of soil contamination or similar hazards?",
+    "Are loading/unloading areas adequate in terms of space and ground conditions?",
+    "Is the work area effectively delimited (including by third parties), equipped with adequate signs, visible and lit? In the case of sites on public roads, are road traffic regulations observed?",
+    "Is there an Environmental Plan specifying legal requirements for environmental protection?",
+    "In the case of foreign workers requiring notification and registration with local authorities in Romania, are legal provisions observed?",
+  ],
+  2: [
+    "Have electrical isolations of the installation been performed to all parts where voltage could appear?",
+    "Are safety and locking elements used on isolation equipment (remote locking and control, mechanical locking, application of LOTO devices)?",
+    "Have earthing and short-circuit devices been correctly installed in the work area?",
+    "Has the absence of voltage been verified?",
+    "Have the necessary equipotentiality/continuity devices been correctly applied?",
+    "Are equipotentiality/continuity devices, available, in use or to be used, adequate (with markings compliant with standard, complete, intact, etc. - note in \"Notes\" which devices)?",
+    "Have measures been taken to prevent inadvertent contact with live parts (distances, barriers, sheaths) and is the work area safe?",
+    "Are standards, operational procedures and HSE instructions observed for electrical activities carried out?",
+    "Is PPE for protection against electrical risk used correctly (indicate the PPE concerned in \"Notes\": dielectric gloves of the appropriate class, helmet with visor/protective shield, protective clothing, etc.)?",
+    "Is PPE for protection against electrical risk available on site, effective and adequate (complete, intact, marked/certified in accordance with reference standards etc. - note: write in \"Notes\" which devices)?",
+    "Are insulated tools/equipment available on site, used or to be used, in good condition (suitable for use, complete and intact - note in \"Notes\" which)?",
+    "Are voltage absence verification devices present and in good condition (suitable for use, complete and intact)?",
+    "Are earthing and short-circuit devices used or to be used adequate (with markings compliant with standard, complete, intact etc. - note in \"Notes\")?",
+    "Do workers correctly use the personal voltage detector (PVD) provided for the activity?",
+    "For electrical works, is a valid work permit prepared for the respective work, are provisions observed, are risks known etc.?",
+  ],
+  3: [
+    "Is the individual and collective protective equipment for working at height worn and used correctly?",
+    "Is PPE for working at height available on site, effective and adequate (complete, intact, marked/certified in accordance with reference standards etc.)?",
+    "Are all fall-from-height protections effective and used correctly (complete, intact, marked/certified in accordance with reference standards etc.)?",
+    "Is height access equipment (ladders, carabiners, scaffolding) available and suitable for the work (complete, intact, marked, certified)?",
+    "Is height access equipment (ladders, carabiners, scaffolding) installed and used correctly?",
+    "Is the scaffolding correctly constructed (visual inspection, levelness, verticality), and is it properly signalled and used?",
+    "Is scaffolding assembled, dismantled or moved by trained and qualified personnel?",
+    "Are ladders correctly positioned and secured on stable surfaces (both vertical and horizontal) and used correctly, in accordance with planned activities?",
+    "Is the work area, if it has technological gaps and otherwise, properly signalled to prevent falls from height?",
+    "Are communication systems available between personnel working at height and those at ground level (walkie-talkies, mobile phones, etc.)?",
+  ],
+  4: [
+    "Is equipment/materials used for activities at height secured against falling (e.g. by using appropriate work belts, ropes, etc.)?",
+    "Has the zone with risk of falling objects been delimited and is the prohibition on persons passing under suspended loads guaranteed?",
+    "Are suspended loads controlled with guide ropes, properly secured, and is the equipment used appropriate?",
+    "No tools or equipment are stored near edges, on railings or on high surfaces. Resulting materials are in order and regularly removed.",
+    "During load handling, is there at least one coordinator responsible for guiding manoeuvres, and do the adopted procedures guarantee the safety of operations?",
+    "Are tools to be lifted stored appropriately in approved and checked equipment? Is the indicated maximum lifting load not exceeded?",
+    "Are lifting equipment (crane hook, fastening chains, lifting slings, etc.) inspected and have visible identification elements?",
+  ],
+  5: [
+    "Are machinery and devices used for carrying out the activity equipped with adequate protections and emergency stop systems, accessible during activities?",
+    "Are all device controls clearly labelled with their function?",
+    "Do workers near machinery with moving parts follow instructions and wear appropriate clothing and accessories (avoiding necklaces, bracelets, rings, loose clothing, etc.)?",
+  ],
+  6: [
+    "Are activities carried out correctly to avoid the risk of collapse of structures/terrain (e.g. soil storage according to depth etc.)?",
+    "Are excavated areas signalled to prevent falling into trenches?",
+    "Is there a speed limit in excavated areas?",
+  ],
+  7: [
+    "Is load handling in accordance with the lifting plan, assessment of ground suitability, material weight, integrity of ropes/lifting devices?",
+    "Are manual or motorised trolleys suitable for the load to be transported; are they equipped with load locking systems?",
+    "Are racks, storage spaces, cupboards, etc. easily accessible, have their maximum capacity indicated and present correctly stacked and/or secured loads to prevent sliding or falling?",
+  ],
+  8: [
+    "Are safety data sheets for chemical substances up to date, present at the workplace and made available to workers?",
+    "Are handling, storage and use of substances carried out in accordance with safety data sheets and the risk assessment document?",
+    "Are combustible materials and chemical substances stored in separate areas, away from ignition sources, and are tanks secured to prevent overturning and damage?",
+    "If there is a risk of dangerous chemical concentrations during work, is the concentration monitored (if necessary, even continuously) with detection systems (explosimeter/gas detector)?",
+    "Are containers used for storing chemical products (solvents, cleaning solutions, petroleum substances) approved and properly labelled?",
+  ],
+  9: [
+    "If a worker carries out an activity isolated from other workers, does he/she have a means of communication that allows the employee to request help in an emergency and has he/she been trained to use it?",
+    "Is there a written procedure specifying the measures to be taken in such situations, a risk assessment, intervention times, etc.?",
+  ],
+  10: [
+    "In the case of activities that may cause fires (e.g. welding, cutting, using angle grinders), is the hot work permit available and respected?",
+    "Are there sufficient fire extinguishers when working with open fire?",
+    "Is the area free of all combustible materials?",
+    "Are fire-resistant tarpaulins/curtains used during welding activities?",
+    "Is the emergency communication protocol known (accident with casualty, fire, etc.)?",
+    "Is a specific Emergency Plan prepared?",
+    "Is there a specially arranged and signalled smoking area?",
+  ],
+  11: [
+    "Are the communication system between workers, the lighting system and atmosphere monitoring implemented and carried out in accordance with the Work and Emergency Plan?",
+    "Are first aid and recovery equipment for an injured person present, suitable and effective? Are breathing apparatus available, in good condition and compliant with applicable standards/regulations?",
+    "Have work and evacuation plans been posted at the entrance to the enclosed space?",
+    "Are gas detectors available in environments with risk of contamination from one or more substances?",
+    "Is a work permit for confined spaces prepared? Is it known and strictly observed?",
+  ],
+  12: [
+    "Are workers exposed to hazards created by cutting operations protected with personal protective equipment? What specifically?",
+    "Is equipment used for cutting (angle grinders, circular saws, jigsaws, etc.) approved, CE marked, has protections, so as not to endanger the safety and health of workers?",
+    "Do workers use appropriate PPE (protective gloves, safety glasses, etc.)?",
+    "When working with cutting equipment that produces flame/sparks, have possible sources of fire been removed?",
+  ],
+  13: [
+    "Do workers use appropriate PPE for the work carried out (helmet with chin strap, safety boots/shoes, glasses, safety harness with attachment hooks, ladders, etc.)?",
+    "Is a work procedure and risk assessment available for these activities? Is the procedure fulfilled?",
+    "Is there an area arranged and properly signalled for washing concrete mixers after pouring?",
+    "Are legal requirements for working in high and low temperatures observed, in accordance with legal provisions?",
+    "After completion of works, is the work area cleaned, and is resulting waste (iron scraps, wire, wood, plastic, concrete, etc.) collected and removed?",
+  ],
+};
+
+const SECTION_META_EN = {
+  1:  { title: 'General site inspection' },
+  2:  { title: 'Electrical works' },
+  3:  { title: 'Work at height' },
+  4:  { title: 'Risk of falling objects and load handling' },
+  5:  { title: 'Machinery and equipment with moving parts' },
+  6:  { title: 'Excavations and ground works' },
+  7:  { title: 'Material handling and storage' },
+  8:  { title: 'Chemical and hazardous substances' },
+  9:  { title: 'Isolated work' },
+  10: { title: 'Fire risk' },
+  11: { title: 'Confined spaces' },
+  12: { title: 'Cutting operations' },
+  13: { title: 'Concreting and pouring works' },
+};
+
+const TEXT_SECTIONS_EN = {
+  14: [
+    'How did the team members receive the inspection? (e.g. Open, understood it is an opportunity to improve the way of working, etc.)',
+    'What was the reaction to the identified non-conformities and remediation proposals? (e.g. They knew the standards and procedures discussed regarding the identified non-conformities; they accepted the proposals, etc.)',
+    'How do you generally assess the quality of interaction with the site manager and team members during the inspection? (e.g. They showed interest; they avoided interaction, etc.)',
+  ],
+  15: [
+    'How do you generally assess the quality of interaction with the inspector? (e.g. constructive attitude towards the inspection process; professional approach; identified non-conformities were correctly highlighted, etc.)',
+  ],
+};
+
+const SECTION_NAMES_PDF_EN = [
+  '',
+  'General site inspection',
+  'Electrical works',
+  'Work at height',
+  'Risk of falling objects and load handling',
+  'Machinery and equipment with moving parts',
+  'Excavations and ground works',
+  'Material handling and storage',
+  'Chemical and hazardous substances',
+  'Isolated work',
+  'Fire risk',
+  'Confined spaces',
+  'Cutting operations',
+  'Concreting and pouring works',
+  'Inspector feedback on the work',
+  'Team leader feedback on the work',
+  'Observations',
+  'Feedback form',
+];
+
+var currentFormLang = 'ro';
+
+function setFormLang(lang) {
+  currentFormLang = lang;
+  document.getElementById('btnLangRo').style.background = lang === 'ro' ? '#fff' : 'transparent';
+  document.getElementById('btnLangRo').style.color      = lang === 'ro' ? 'var(--accent)' : '#fff';
+  document.getElementById('btnLangRo').style.opacity    = lang === 'ro' ? '1' : '0.7';
+  document.getElementById('btnLangEn').style.background = lang === 'en' ? '#fff' : 'transparent';
+  document.getElementById('btnLangEn').style.color      = lang === 'en' ? 'var(--accent)' : '#fff';
+  document.getElementById('btnLangEn').style.opacity    = lang === 'en' ? '1' : '0.7';
+  rebuildForm();
+}
+
+function rebuildForm() {
+  var container = document.getElementById('questions-container');
+  if (!container) return;
+  container.innerHTML = '';
+  var questions = currentFormLang === 'en' ? QUESTIONS_EN : QUESTIONS;
+  var sectionMeta = currentFormLang === 'en' ? SECTION_META_EN : SECTION_META;
+  var secs = Object.keys(questions).map(Number).sort(function(a,b){return a-b;});
+  secs.forEach(function(sec) {
+    var section = document.createElement('div');
+    section.className = 'section';
+    var fontSize = sec >= 10 ? 'font-size:9px' : '';
+    var header = document.createElement('div');
+    header.className = 'section-header';
+    header.innerHTML = '<div class="section-num" style="' + fontSize + '">' + sec + '</div>' +
+      '<div class="section-title">' + sectionMeta[sec].title + '</div>';
+    section.appendChild(header);
+    var list = document.createElement('div');
+    list.className = 'questions-list';
+    list.id = 'section-' + sec;
+    questions[sec].forEach(function(q, idx) { list.appendChild(buildQuestionRow(sec, idx, q)); });
+    section.appendChild(list);
+    container.appendChild(section);
+  });
+  // Reinitializăm answers pentru noile butoane
+  document.querySelectorAll('.opt-btn[data-key]').forEach(function(btn) {
+    var k = btn.dataset.key;
+    if (!answers[k]) answers[k] = { value: null, comment: '' };
+    // Restaurăm starea vizuală
+    if (answers[k].value) {
+      var cls = answers[k].value === 'DA' ? 'selected-yes' : answers[k].value === 'NU' ? 'selected-no' : 'selected-na';
+      btn.classList.add(cls);
+      var commentSection = document.getElementById('comment-' + k);
+      if (commentSection && answers[k].value !== 'N/A') {
+        commentSection.classList.add('open');
+        var ta = commentSection.querySelector('textarea');
+        if (ta) ta.value = answers[k].comment || '';
+      }
+    }
+  });
+  updateProgress();
+}
+  
 function buildQuestionRow(sec, idx, questionText) {
   var key = sec + '-' + idx;
   var d = document.createElement('div');
@@ -677,27 +914,8 @@ function buildQuestionRow(sec, idx, questionText) {
 }
 
 function buildFormHTML() {
-  var container = document.getElementById('questions-container');
-  if (!container) return;
-  var secs = Object.keys(QUESTIONS).map(Number).filter(function(s){ return s <= 13; }).sort(function(a,b){return a-b;});
-  secs.forEach(function(sec) {
-    var section = document.createElement('div');
-    section.className = 'section';
-    var fontSize = sec >= 10 ? 'font-size:9px' : '';
-    var header = document.createElement('div');
-    header.className = 'section-header';
-    header.innerHTML = '<div class="section-num" style="' + fontSize + '">' + sec + '</div>' +
-      '<div class="section-title">' + SECTION_META[sec].title + '</div>';
-    section.appendChild(header);
-    var list = document.createElement('div');
-    list.className = 'questions-list';
-    list.id = 'section-' + sec;
-    QUESTIONS[sec].forEach(function(q, idx) { list.appendChild(buildQuestionRow(sec, idx, q)); });
-    section.appendChild(list);
-    container.appendChild(section);
-  });
+  rebuildForm();
 }
-
 
 
 // =====================================================
@@ -1352,6 +1570,7 @@ async function trimiteRaport(bypass) {
     } catch(e) { console.warn('Feedback PDF error:', e); }
 
     // ── Upload HTML raw în rapoarte_raw ──
+    // ── Upload HTML raw RO în rapoarte_raw ──
     try {
       const htmlRaw = buildPDFHtml(payload, imgData);
       const htmlBase64 = btoa(unescape(encodeURIComponent(htmlRaw)));
@@ -1359,7 +1578,7 @@ async function trimiteRaport(bypass) {
         method: 'POST', redirect: 'follow',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({
-          token:         sessionStorage.getItem('form_token') || '',  // ← adăugat
+          token:         sessionStorage.getItem('form_token') || '',
           pdfHtmlBase64: htmlBase64,
           fileExt:       'html',
           nrRaport:      nrRaport,
@@ -1370,7 +1589,29 @@ async function trimiteRaport(bypass) {
           tipLucrare:    payload.tipLucrare || ''
         })
       });
-    } catch(e) { console.warn('HTML raw upload error:', e); }
+    } catch(e) { console.warn('HTML raw RO upload error:', e); }
+
+    // ── Upload HTML raw EN în rapoarte_raw_EN ──
+    try {
+      const payloadEN = buildPayloadEN(payload, nrRaport);
+      const htmlRawEN = buildPDFHtmlEN(payloadEN, imgData);
+      const htmlBase64EN = btoa(unescape(encodeURIComponent(htmlRawEN)));
+      await fetch(GAS_PROXY_URL, {
+        method: 'POST', redirect: 'follow',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({
+          token:         sessionStorage.getItem('form_token') || '',
+          pdfHtmlBase64: htmlBase64EN,
+          fileExt:       'html',
+          nrRaport:      nrRaport,
+          folder:        'rapoarte_raw_EN',
+          inspector:     payload.name     || '',
+          data:          dateForFilename(payload.date) || '',
+          localitate:    payload.location || '',
+          tipLucrare:    payload.tipLucrare || ''
+        })
+      });
+    } catch(e) { console.warn('HTML raw EN upload error:', e); }
 
     // Descarcă PDF local
     const winLocal = window.open('', '_blank');
@@ -1419,6 +1660,94 @@ function buildPDFHtml(p, imgData) {
     'Feedback form',
   ];
 
+  function buildPayloadEN(payloadRO, nrRaport) {
+  var sectionsEN = {};
+  // Secțiunile 1-13 — traducere întrebări, păstrare răspunsuri
+  for (var sec = 1; sec <= 13; sec++) {
+    var qsEN = QUESTIONS_EN[sec] || [];
+    var itemsRO = (payloadRO.sections[sec] || payloadRO.sections[String(sec)] || []);
+    sectionsEN[sec] = qsEN.map(function(q, idx) {
+      var ro = itemsRO[idx] || {};
+      return { question: q, answer: ro.answer, comment: ro.comment };
+    });
+  }
+  // Secțiunile 14-15 — traducere întrebări text, păstrare răspunsuri
+  var textSecMap = { 14: TEXT_SECTIONS_EN[14], 15: TEXT_SECTIONS_EN[15] };
+  for (var s2 in textSecMap) {
+    var qsT = textSecMap[s2] || [];
+    var itemsT = (payloadRO.sections[s2] || payloadRO.sections[String(s2)] || []);
+    sectionsEN[s2] = qsT.map(function(q, idx) {
+      var ro = itemsT[idx] || {};
+      return { question: q, answer: ro.answer };
+    });
+  }
+  return Object.assign({}, payloadRO, { nrRaport: nrRaport, sections: sectionsEN });
+}
+
+function buildPDFHtmlEN(p, imgData) {
+  var rows = [];
+  for (var sec = 1; sec <= 13; sec++) {
+    var secName = SECTION_NAMES_PDF_EN[sec] || '';
+    rows.push('<div class="sec-header"><div class="col-q">Section ' + sec + ': ' + secName + '</div></div>');
+    var items = p.sections[sec] || p.sections[String(sec)] || [];
+    var compactNA = [];
+    var detailed  = [];
+    items.forEach(function(item, i) {
+      var qkey   = sec + '-' + i;
+      var hasNote = item.comment && item.comment.trim() !== '';
+      var hasImg  = (qImages[qkey]||[]).filter(Boolean).length > 0;
+      if (item.answer === 'N/A' && !hasNote && !hasImg) {
+        compactNA.push(sec + '.' + (i+1));
+      } else {
+        detailed.push({ item: item, i: i, qkey: qkey });
+      }
+    });
+    if (compactNA.length > 0) {
+      rows.push('<div class="row" style="background:#f5f5f5;"><div class="col-q" style="color:#555;font-size:11px;"><span style="font-weight:600;color:#5a5752;">N/A</span> — questions: <span style="color:#5a5752;font-weight:500;">' + compactNA.join(', ') + '</span></div><div class="col-r"><span class="badge" style="background:#5a5752;">N/A</span></div><div class="col-c">—</div></div>');
+    }
+    detailed.forEach(function(d) {
+      var ans   = d.item.answer || '—';
+      var badge = d.item.answer === 'DA' ? '#1a6b3c' : d.item.answer === 'NU' ? '#8f1a1a' : '#5a5752';
+      var imgs  = (qImages[d.qkey]||[]).filter(Boolean);
+      rows.push('<div class="row"><div class="col-q"><span style="display:block;text-align:left;word-spacing:normal;white-space:normal">' + sec + '.' + (d.i+1) + '. ' + d.item.question + '</span></div><div class="col-r" style="background:' + badge + '22;"><span class="badge" style="background:' + badge + '">' + ans + '</span></div><div class="col-c">' + (d.item.comment || '—') + (imgs.length > 0 ? '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;">' + imgs.map(function(img){ return '<img src="' + img.dataUrl + '" style="width:calc(50% - 2px);max-height:280px;object-fit:contain;border-radius:3px;border:1px solid #ddd;display:block"/>'; }).join('') + '</div>' : '') + '</div></div>');
+    });
+  }
+  // Secțiunile 14 & 15
+  [14, 15].forEach(function(sec) {
+    if (p.sections[sec] || p.sections[String(sec)]) {
+      var items = p.sections[sec] || p.sections[String(sec)];
+      rows.push('<div class="sec-header"><div class="col-q">Section ' + sec + ': ' + SECTION_NAMES_PDF_EN[sec] + '</div></div>');
+      items.forEach(function(item, i) {
+        rows.push('<div class="row"><div class="col-q">' + sec + '.' + (i+1) + '. ' + item.question + '</div><div class="col-r"></div><div class="col-c">' + (item.answer || '—') + '</div></div>');
+      });
+    }
+  });
+  // Concluzii & Observații
+  rows.push('<div class="sec-header"><div class="col-q">Section 17: Final conclusions</div></div>');
+  rows.push('<div class="row"><div class="col-q">17.1. General notes and conclusions following the inspection</div><div class="col-r"></div><div class="col-c">' + (p.concluzii || '—') + '</div></div>');
+  rows.push('<div class="sec-header"><div class="col-q">Section 16: Observations</div></div>');
+  rows.push('<div class="row"><div class="col-q">16.1. Safety rule violations identified during the inspection</div><div class="col-r"></div><div class="col-c">' + (p.observatii || '—') + '</div></div>');
+  // Semnătură
+  rows.push('<div class="sec-header"><div class="col-q">Section 18: Inspector signature</div></div>');
+  rows.push('<div class="row" style="display:block;padding:0;background:transparent;"><div style="display:flex;"><div style="flex:1;padding:12px 16px;border-right:1px solid #e0deda;"><div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;"><div><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:3px;">Name</div><div style="font-size:12px;border-bottom:1px solid #ccc;padding-bottom:4px;min-height:20px;">' + (p.sigInspectorName || '') + '</div></div><div><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:3px;">Position</div><div style="font-size:12px;border-bottom:1px solid #ccc;padding-bottom:4px;min-height:20px;">' + (p.sigInspectorFunctie || '') + '</div></div><div><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:3px;">Company</div><div style="font-size:12px;border-bottom:1px solid #ccc;padding-bottom:4px;min-height:20px;">' + (p.sigInspectorFirma || '') + '</div></div><div><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:3px;">Date</div><div style="font-size:12px;border-bottom:1px solid #ccc;padding-bottom:4px;min-height:20px;">' + ((p.sigInspectorData || '').replace(/\//g, '.')) + '</div></div></div></div><div style="flex:1;padding:12px 16px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:8px;">Signature</div>' + (p.sigInspector ? '<img src="' + p.sigInspector + '" style="max-width:100%;height:200px;object-fit:contain;display:block;"/>' : '<div style="height:200px;border-bottom:1.5px solid #999;"></div>') + '</div></div></div>');
+
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"/><meta name="viewport" content="width=860"/><meta name="form-version" content="' + FORM_VERSION + '"/><title></title><style>* { box-sizing: border-box; margin: 0; padding: 0; font-family: unset; } body { font-size: 12px; color: #1a1917; padding: 0; margin: 0; background: #fff; -webkit-text-size-adjust: 100%; width: 100%; } .meta { display: flex; flex-wrap: wrap; gap: 0; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; } .meta-item { flex: 1 1 33%; padding: 10px 12px; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; } .meta-item:nth-child(3n) { border-right: none; } .meta-item .lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; color: #888; margin-bottom: 3px; } .meta-item .val { font-size: 13px; font-weight: 500; } .tbl { width: 100%; margin-bottom: 28px; font-size: 11px; border: 1px solid #e0deda; border-radius: 4px; overflow: hidden; } .tbl-head { display: flex; background: #f0efec; border-bottom: 1px solid #ccc; } .tbl-head .col-q { flex: 0 0 30%; padding: 7px 8px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; } .tbl-head .col-r { flex: 0 0 50px; padding: 7px 4px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; } .tbl-head .col-c { flex: 1; padding: 7px 8px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; } .row { display: flex; border-bottom: 1px solid #e0deda; background: #fafaf8; page-break-inside: avoid; break-inside: avoid; } .row:last-child { border-bottom: none; } .col-q { flex: 0 0 30%; padding: 7px 8px; border-right: 1px solid #e0deda; line-height: 1.5; overflow-wrap: break-word; font-size: 11px !important; } .col-r { flex: 0 0 50px; padding: 7px 4px; border-right: 1px solid #e0deda; text-align: center; vertical-align: middle; display: flex; align-items: center; justify-content: center; } .col-c { flex: 1; padding: 7px 8px; line-height: 1.5; text-align: left; word-break: normal; word-spacing: normal; font-size: 11px !important; } .sec-header { display: flex; background: #e8eef7; border-bottom: 1px solid #b8c8e8; page-break-inside: avoid; break-inside: avoid; page-break-after: avoid; break-after: avoid; } .sec-header .col-q { flex: 1; font-weight: 700; font-size: 12px; color: #1a4d8f; padding: 8px 10px; border-right: none; background: #e8eef7; } .badge { color: #fff; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 600; display: inline-block; } @page { size: A4 portrait; margin: 1cm 1.5cm; } @media print { html, body { width: 210mm; min-height: 297mm; margin: 0 !important; padding: 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } }</style></head><body>'
+    + '<div style="text-align:center;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid #1a4d8f;"><h1 style="font-size:20px;font-weight:700;color:#1a1917;letter-spacing:0.02em;font-family:Arial,sans-serif;">SITE SUPERVISION REPORT</h1></div>'
+    + '<div class="meta">'
+    + '<div class="meta-item"><div class="lbl">Report No.</div><div class="val">' + (p.nrRaport || '—') + '</div></div>'
+    + '<div class="meta-item"><div class="lbl">Name</div><div class="val">' + p.name + '</div></div>'
+    + '<div class="meta-item"><div class="lbl">Email</div><div class="val">' + p.email + '</div></div>'
+    + '<div class="meta-item"><div class="lbl">Date</div><div class="val">' + p.date.replace(/\//g, '.') + '</div></div>'
+    + '<div class="meta-item"><div class="lbl">Location</div><div class="val">' + (p.location || '—') + '</div></div>'
+    + '<div class="meta-item"><div class="lbl">Site</div><div class="val">' + (p.locatie || '—') + '</div></div>'
+    + '<div class="meta-item"><div class="lbl">Inspected company</div><div class="val">' + (p.firmaInspectata || '—') + '</div></div>'
+    + '<div class="meta-item"><div class="lbl">Work type</div><div class="val">' + (p.tipLucrare || '—') + '</div></div>'
+    + '</div>'
+    + '<div class="tbl"><div class="tbl-head"><div class="col-q">Question</div><div class="col-r">Answer</div><div class="col-c">Comment</div></div>'
+    + rows.join('')
+    + '</div></body></html>';
+}
+  
   const rows = [];
   // Main DA/NU/NA sections 1-13
   for (const [sec, qs] of Object.entries(QUESTIONS)) {
