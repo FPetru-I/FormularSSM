@@ -234,7 +234,8 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
     <div class="field-group">
       <label>Data inspecției <span class="req">*</span></label>
       <input type="text" id="meta-date" placeholder="zz.ll.aaaa" maxlength="10"
-        oninput="formatDateInput(this)" autocomplete="off"/>
+        oninput="formatDateInput(this)" onblur="validateDateInput(this)" autocomplete="off"/>
+      <span class="date-error-msg" id="meta-date-error">Dată invalidă. Format: zz.ll.aaaa (zi 1-31, lună 1-12, an 2025-2099)</span>
     </div>
     <div class="field-group">
       <label>Localitate <span class="req">*</span></label>
@@ -387,7 +388,8 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
           <div class="field-group">
             <label>Data</label>
             <input type="text" id="sig-inspector-data" placeholder="zz.ll.aaaa" maxlength="10"
-              oninput="formatDateInput(this); sigInspectorData=this.value;" autocomplete="off"/>
+              oninput="formatDateInput(this); sigInspectorData=this.value;" onblur="validateDateInput(this)" autocomplete="off"/>
+            <span class="date-error-msg" id="sig-inspector-data-error">Dată invalidă. Format: zz.ll.aaaa (zi 1-31, lună 1-12, an 2025-2099)</span>
           </div>
         </div>
 
@@ -946,17 +948,25 @@ function proceedAnyway() {
 
 // VALIDATION
 function validate() {
-  // Validăm doar câmpurile obligatorii de identificare
-  const name = document.getElementById('meta-name').value.trim();
+  const name  = document.getElementById('meta-name').value.trim();
   const email = document.getElementById('meta-email').value.trim();
+
+  if (!name) {
+    document.getElementById('meta-name').focus();
+    showToast('Câmpul Nume complet este obligatoriu.', 'error');
+    return false;
+  }
   if (!email || !email.includes('@')) {
     document.getElementById('meta-email').focus();
     showToast('Email invalid.', 'error');
     return false;
   }
-  if (!name) { document.getElementById('meta-name').focus(); showToast('Câmpul Nume complet este obligatoriu.', 'error'); return false; }
-  if (!email || !email.includes('@')) { document.getElementById('meta-email').focus(); showToast('Email invalid.', 'error'); return false; }
-  // Întrebările fără răspuns sunt permise — se salvează ca „—"
+  var dateEl = document.getElementById('meta-date');
+  if (dateEl && dateEl.value && !validateDateInput(dateEl)) {
+    dateEl.focus();
+    showToast('Data inspecției este invalidă.', 'error');
+    return false;
+  }
   return true;
 }
 
@@ -1588,6 +1598,19 @@ function buildPDFHtml(p, imgData) {
         print-color-adjust: exact;
       }
     }
+    .date-error {
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 3px rgba(192,57,43,0.12);
+}
+.date-error-msg {
+  font-size: 11px;
+  color: var(--danger);
+  margin-top: 3px;
+  display: none;
+}
+.date-error-msg.show {
+  display: block;
+}
 </style>
   </head><body>
     <div style="text-align:center;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid #1a4d8f;">
@@ -1681,7 +1704,48 @@ function formatDateInput(el) {
   var pos = el.selectionStart;
   var old = el.value;
   var v = old.replace(/\D/g, '');
+function validateDateInput(el) {
+  var errorId = el.id + '-error';
+  var errorEl = document.getElementById(errorId);
+  var val = el.value.trim();
 
+  // Dacă e gol, nu afișăm eroare
+  if (!val) {
+    el.classList.remove('date-error');
+    if (errorEl) errorEl.classList.remove('show');
+    return true;
+  }
+
+  var valid = false;
+  var parts = val.split('.');
+  if (parts.length === 3) {
+    var zi  = parseInt(parts[0], 10);
+    var luna = parseInt(parts[1], 10);
+    var an  = parseInt(parts[2], 10);
+    if (
+      parts[0].length === 2 && parts[1].length === 2 && parts[2].length === 4 &&
+      zi >= 1 && zi <= 31 &&
+      luna >= 1 && luna <= 12 &&
+      an >= 2025 && an <= 2099
+    ) {
+      // Verificare suplimentară pentru zile maxime per lună
+      var zileMaxime = [0,31,29,31,30,31,30,31,31,30,31,30,31];
+      if (zi <= zileMaxime[luna]) {
+        valid = true;
+      }
+    }
+  }
+
+  if (valid) {
+    el.classList.remove('date-error');
+    if (errorEl) errorEl.classList.remove('show');
+  } else {
+    el.classList.add('date-error');
+    if (errorEl) errorEl.classList.add('show');
+  }
+
+  return valid;
+}
   // Construim valoarea formatată
   var formatted = v;
   if (v.length >= 5) formatted = v.slice(0,2) + '.' + v.slice(2,4) + '.' + v.slice(4,8);
