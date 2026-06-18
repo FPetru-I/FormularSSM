@@ -1678,12 +1678,42 @@ function buildFeedbackPdfHtml(p) {
 
 // FORMAT DATE INPUT (dd/mm/yyyy auto-formatting)
 function formatDateInput(el) {
-  var v = el.value.replace(/\D/g, '');
-  if (v.length >= 5) v = v.slice(0,2) + '.' + v.slice(2,4) + '.' + v.slice(4,8);
-  else if (v.length >= 3) v = v.slice(0,2) + '.' + v.slice(2);
-  el.value = v;
-}
+  var pos = el.selectionStart;
+  var old = el.value;
+  var v = old.replace(/\D/g, '');
 
+  // Construim valoarea formatată
+  var formatted = v;
+  if (v.length >= 5) formatted = v.slice(0,2) + '.' + v.slice(2,4) + '.' + v.slice(4,8);
+  else if (v.length >= 3) formatted = v.slice(0,2) + '.' + v.slice(2);
+
+  if (formatted === old) return; // nimic nu s-a schimbat
+
+  // Calculăm câte puncte existau înainte de poziția cursorului în textul vechi
+  var dotsBeforePos = (old.slice(0, pos).match(/\./g) || []).length;
+  // Câte cifre sunt înainte de poziția cursorului
+  var digitsBeforePos = pos - dotsBeforePos;
+
+  el.value = formatted;
+
+  // Recalculăm poziția cursorului în textul nou
+  var newPos = 0;
+  var digitsCount = 0;
+  for (var i = 0; i < formatted.length; i++) {
+    if (formatted[i] !== '.') {
+      digitsCount++;
+      if (digitsCount === digitsBeforePos) {
+        newPos = i + 1;
+        break;
+      }
+    }
+  }
+  // Dacă am depășit, punem la final
+  if (digitsBeforePos === 0) newPos = 0;
+  else if (newPos === 0) newPos = formatted.length;
+
+  el.setSelectionRange(newPos, newPos);
+}
 // TOAST
 function showToast(msg, type = '') {
   const t = document.getElementById('toast');
