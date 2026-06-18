@@ -1709,12 +1709,48 @@ function validateDateInput(el) {
   var errorEl = document.getElementById(errorId);
   var val = el.value.trim();
 
-  // Dacă e gol, nu afișăm eroare
   if (!val) {
     el.classList.remove('date-error');
     if (errorEl) errorEl.classList.remove('show');
     return true;
   }
+
+  var valid = false;
+  var parts = val.split('.');
+
+  if (parts.length === 3) {
+    var ziStr  = parts[0];
+    var lunaStr = parts[1];
+    var anStr  = parts[2];
+    var zi   = parseInt(ziStr, 10);
+    var luna = parseInt(lunaStr, 10);
+    var an   = parseInt(anStr, 10);
+
+    if (
+      ziStr.length === 2 && lunaStr.length === 2 && anStr.length === 4 &&
+      !isNaN(zi) && !isNaN(luna) && !isNaN(an) &&
+      luna >= 1 && luna <= 12 &&
+      an >= 2025 && an <= 2099 &&
+      zi >= 1
+    ) {
+      // Zile maxime per lună
+      var zileMaxime = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      if (zi <= zileMaxime[luna - 1]) {
+        valid = true;
+      }
+    }
+  }
+
+  if (valid) {
+    el.classList.remove('date-error');
+    if (errorEl) errorEl.classList.remove('show');
+  } else {
+    el.classList.add('date-error');
+    if (errorEl) errorEl.classList.add('show');
+  }
+
+  return valid;
+}
 
   var valid = false;
   var parts = val.split('.');
