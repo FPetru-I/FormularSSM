@@ -104,6 +104,7 @@
   .text-question-row:last-child{border-bottom:none;}
   .text-question-row .tq-label{display:flex;gap:10px;align-items:center;margin-bottom:8px;}
   .text-question-row textarea{width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;min-height:90px;outline:none;}
+  .section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
   .sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:20px;}
   @media(max-width:600px){.sig-grid{grid-template-columns:1fr;}}
   .sig-box{display:flex;flex-direction:column;gap:8px;}
@@ -811,6 +812,7 @@ function selectAnswer(btn) {
   const val = btn.dataset.val;
 
   const alreadySelected = btn.classList.contains('selected-' + val.toLowerCase().replace('/',''));
+  const prevVal = answers[key] ? answers[key].value : null;
 
   const row = document.getElementById('row-' + key);
   row.querySelectorAll('.opt-btn').forEach(b => b.className = 'opt-btn');
@@ -1183,7 +1185,8 @@ async function trimiteRaport(bypass) {
         pdf.addImage(slice.toDataURL('image/jpeg', 1.0), 'JPEG', margin, margin, usableW, sliceH);
       }
       return pdf.output('datauristring').split(',')[1];
-    })();
+    })();;
+;
 
 
     
@@ -1769,6 +1772,9 @@ function initSignatures() {
     document.getElementById('zoomBar') && document.getElementById('zoomBar').addEventListener('click', function() {
     setTimeout(resizeCanvas, 50);
   });
+  } catch(e) {
+    if (dbg) dbg.textContent = '❌ Eroare: ' + e.message;
+  }
 }
 
 function clearSig(id) {
@@ -1782,6 +1788,12 @@ function getSigDataUrl(id) {
   var canvas = document.getElementById('canvas-' + id);
   return canvas.toDataURL('image/jpeg', 0.65);
 }
+
+
+// ── Auto-completare număr raport ──
+
+
+
 
 // ── NAVIGARE SECȚIUNI ──
 var NAV_SECTIONS = [
@@ -1871,6 +1883,10 @@ function closeNavDrawer() {
   document.getElementById('navDrawer').classList.remove('open');
   document.getElementById('navOverlay').classList.remove('open');
 }
+
+// Hook into updateProgress to refresh nav counts
+var _origUpdateProgress = typeof updateProgress === 'function' ? updateProgress : null;
+
 
 // INIT — întrebările sunt statice în HTML, nu mai e nevoie de buildQuestions()
 (function initForm() {
