@@ -1398,6 +1398,7 @@ async function trimiteRaport(bypass) {
 }
 
 function buildPDFHtml(p, imgData) {
+  function escHtml(s){return s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'):'';}
   const SECTION_NAMES = [
     '',
     'Verificare generală șantier',
@@ -1460,7 +1461,7 @@ function buildPDFHtml(p, imgData) {
         rows.push(`<div class="row">
           <div class="col-q"><span style="display:block;text-align:left;word-spacing:normal;white-space:normal">${sec}.${i+1}. ${item.question}</span></div>
           <div class="col-r" style="background:${badge}22;""><span class="badge" style="background:${badge}">${ans}</span></div>
-          <div class="col-c">${item.comment || '—'}${imgs.length > 0 ? '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;">' + imgs.map(function(img){ return '<img src="' + img.dataUrl + '" style="width:calc(50% - 2px);max-height:280px;object-fit:contain;border-radius:3px;border:1px solid #ddd;display:block"/>'; }).join('') + '</div>' : ''}</div>
+          <div class="col-c">${escHtml(item.comment) || '—'}${imgs.length > 0 ? '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;">' + imgs.map(function(img){ return '<img src="' + img.dataUrl + '" style="width:calc(50% - 2px);max-height:280px;object-fit:contain;border-radius:3px;border:1px solid #ddd;display:block"/>'; }).join('') + '</div>' : ''}</div>
         </div>`);
     });
   }
@@ -1469,17 +1470,17 @@ function buildPDFHtml(p, imgData) {
     if (p.sections[sec]) {
       rows.push(`<div class="sec-header"><div class="col-q">Secțiunea ${sec}: ${SECTION_NAMES[sec]}</div></div>`);
       p.sections[sec].forEach((item, i) => {
-        rows.push(`<div class="row"><div class="col-q">${sec}.${i+1}. ${item.question}</div><div class="col-r"></div><div class="col-c">${item.answer || '—'}</div></div>`);
+        rows.push(`<div class="row"><div class="col-q">${sec}.${i+1}. ${item.question}</div><div class="col-r"></div><div class="col-c">${escHtml(item.answer) || '—'}</div></div>`);
       });
     }
   });
   // Observatii
   // ── Secțiunea 17: Concluzii finale ──
   rows.push(`<div class="sec-header"><div class="col-q">Secțiunea 17: Concluzii finale</div></div>`);
-  rows.push(`<div class="row"><div class="col-q">17.1. Note și concluzii generale în urma inspecției</div><div class="col-r"></div><div class="col-c">${p.concluzii || '—'}</div></div>`);
+  rows.push(`<div class="row"><div class="col-q">17.1. Note și concluzii generale în urma inspecției</div><div class="col-r"></div><div class="col-c">${escHtml(p.concluzii) || '—'}</div></div>`);
 
   rows.push(`<div class="sec-header"><div class="col-q">Secțiunea 16: Observații</div></div>`);
-  rows.push(`<div class="row"><div class="col-q">16.1. Încălcări ale regulilor de siguranță identificate</div><div class="col-r"></div><div class="col-c">${p.observatii || '—'}</div></div>`);
+  rows.push(`<div class="row"><div class="col-q">16.1. Încălcări ale regulilor de siguranță identificate</div><div class="col-r"></div><div class="col-c">${escHtml(p.observatii) || '—'}</div></div>`);
   // Feedback form
 
   // ── Secțiunea 18: Semnătură inspector ──
