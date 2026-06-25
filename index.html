@@ -255,12 +255,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 
   </div>
 
-
-
-
-
   <div id="questions-container"></div>
-
 
   <!-- ===== SECȚIUNEA 14 ===== -->
   <div class="section">
@@ -501,7 +496,6 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 <script>
 
 // CONFIGURARE ÎNTREBĂRI
-// Modificați această listă după necesitățile voastre
 // =====================================================
 const QUESTIONS = {
   1: [
@@ -698,10 +692,8 @@ function buildFormHTML() {
   });
 }
 
-
-
 // =====================================================
-// CONFIGURARE PROXY — tokenul GitHub e în GAS, nu aici
+// CONFIGURARE PROXY — tokenul GitHub e în GAS
 // =====================================================
 const TEXT_SECTIONS = {
   14: [
@@ -715,7 +707,7 @@ const TEXT_SECTIONS = {
 };
 
 const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbwCsG38ol1Y4N5H6jq4tOpqCQUs8aZmqmKwnHiYh6IoXkBZta9Z-3InpFmThp-gq6tPsQ/exec';
-const FORM_VERSION = 'v38';
+const FORM_VERSION = 'v39';
   
 // =====================================================
 
@@ -1068,7 +1060,6 @@ async function downloadPDF(bypass) {
   }
 }
 
-
 async function trimiteRaport(bypass) {
   if (!validate()) return;
   if(!bypass && getIncompleteCount() > 0){ showIncompleteModal('submit'); return; }
@@ -1188,8 +1179,6 @@ async function trimiteRaport(bypass) {
     })();;
 ;
 
-
-    
     // ── 4.5. Construim rândul CSV ──
     (function() {
       var secs = payload.sections || {};
@@ -1790,12 +1779,6 @@ function getSigDataUrl(id) {
   return canvas.toDataURL('image/jpeg', 0.65);
 }
 
-
-// ── Auto-completare număr raport ──
-
-
-
-
 // ── NAVIGARE SECȚIUNI ──
 var NAV_SECTIONS = [
   { id: 'section-1',       label: '1. Verificare generală șantier',               total: 29 },
@@ -1887,7 +1870,6 @@ function closeNavDrawer() {
 
 // Hook into updateProgress to refresh nav counts
 var _origUpdateProgress = typeof updateProgress === 'function' ? updateProgress : null;
-
 
 // INIT — întrebările sunt statice în HTML, nu mai e nevoie de buildQuestions()
 (function initForm() {
