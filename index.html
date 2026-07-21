@@ -1464,12 +1464,13 @@ function buildPDFHtml(p, imgData) {
     }
   });
   // Observatii
+  rows.push(`<div class="sec-header"><div class="col-q">Secțiunea 16: Observații</div></div>`);
+  rows.push(`<div class="row"><div class="col-q">16.1. Încălcări ale regulilor de siguranță identificate</div><div class="col-r"></div><div class="col-c">${escHtml(p.observatii) || '—'}</div></div>`);
+  
   // ── Secțiunea 17: Concluzii finale ──
   rows.push(`<div class="sec-header"><div class="col-q">Secțiunea 17: Concluzii finale</div></div>`);
   rows.push(`<div class="row"><div class="col-q">17.1. Note și concluzii generale în urma inspecției</div><div class="col-r"></div><div class="col-c">${escHtml(p.concluzii) || '—'}</div></div>`);
 
-  rows.push(`<div class="sec-header"><div class="col-q">Secțiunea 16: Observații</div></div>`);
-  rows.push(`<div class="row"><div class="col-q">16.1. Încălcări ale regulilor de siguranță identificate</div><div class="col-r"></div><div class="col-c">${escHtml(p.observatii) || '—'}</div></div>`);
   // Feedback form
 
   // ── Secțiunea 18: Semnătură inspector ──
