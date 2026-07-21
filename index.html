@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>Formular SSM</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=IBFM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
   /* CSS Reset */
   html,body,div,span,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,address,cite,code,
@@ -684,7 +684,7 @@ function buildFormHTML() {
     header.className = 'section-header';
     header.innerHTML = '<div class="section-num" style="' + fontSize + '">' + sec + '</div>' +
       '<div class="section-title">' + SECTION_META[sec].title + '</div>';
-      (sec >= 2 ? '<button class="btn-na-all" onclick="markAllNA(' + sec + ')">N/A tot</button>':'');
+      '<button class="btn-na-all" onclick="markAllNA(' + sec + ')">N/A tot</button>';
     section.appendChild(header);
     var list = document.createElement('div');
     list.className = 'questions-list';
