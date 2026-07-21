@@ -42,6 +42,8 @@
   .section-header{background:#f0efec;border-bottom:1px solid var(--border);padding:10px 18px;display:flex;align-items:center;gap:10px;}
   .section-num{width:22px;height:22px;background:var(--accent);color:#fff;border-radius:50%;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .section-title{font-size:13px;font-weight:600;}
+  .btn-na-all{margin-left:auto;font-family:inherit;font-size:11px;font-weight:600;padding:4px 10px;border:1.5px solid var(--na);border radius:4px;background:var(--na-bg);color:var(--na);cursor:pointer;letter-spacing:0.04em;white-space:nowrap;flex-shrink:0;}
+  .btn-na-all:hover{background:var(--na);color:#fff;}
   .questions-list{padding:0;}
   .question-row{border-bottom:1px solid var(--border);padding:14px 18px;}
   .question-row:last-child{border-bottom:none;}
@@ -682,6 +684,7 @@ function buildFormHTML() {
     header.className = 'section-header';
     header.innerHTML = '<div class="section-num" style="' + fontSize + '">' + sec + '</div>' +
       '<div class="section-title">' + SECTION_META[sec].title + '</div>';
+      (sec >= 2 ? '<button class="btn-na-all" onclick="markAllNA(' + sec + ')">N/A tot</button>':'');
     section.appendChild(header);
     var list = document.createElement('div');
     list.className = 'questions-list';
@@ -799,6 +802,33 @@ let textAnswers = {}; (function() {
   if (el && !el.value) el.value = dd + '.' + mm + '.' + yyyy;
 })();
 
+function markAllNA(sec) {
+  var qs = QUESTIONS[sec] || [];
+  qs.forEach(function(q, idx) {
+    var key = sec + '-' + idx;
+    var row = document.getElementById('row-' + key);
+    if (!row) return;
+    // Deselecteaza orice raspuns existent
+    row.querySelectorAll('.opt-btn').forEach(function(b) { b.className = 'opt-btn'; });
+    row.classList.remove('invalid');
+    // Seteaza N/A
+    var naBtn = row.querySelector('.opt-btn[data-val="N/A"]');
+    if (naBtn) naBtn.classList.add('selected-na');
+    if (!answers[key]) answers[key] = { value: null, comment: '' };
+    answers[key].value = 'N/A';
+    // Inchide si curata sectiunea de comentariu
+    var commentSection = document.getElementById('comment-' + key);
+    if (commentSection) {
+      var ta = commentSection.querySelector('textarea');
+      if (ta) ta.value = '';
+      answers[key].comment = '';
+      commentSection.classList.remove('open');
+      commentSection.style.display = 'none';
+    }
+  });
+  updateProgress();
+}
+  
 function selectAnswer(btn) {
   const key = btn.dataset.key;
   const val = btn.dataset.val;
