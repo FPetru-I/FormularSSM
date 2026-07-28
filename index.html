@@ -402,6 +402,59 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
     </div>
   </div>
 
+
+  <!-- ===== SECȚIUNEA 19 — FEEDBACK FORMULAR ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="font-size:9px">19</div>
+      <div class="section-title">Feedback formular</div>
+    </div>
+    <div class="questions-list">
+      <div class="question-row">
+        <div class="q-top" style="flex-direction:column;gap:8px;align-items:flex-start;">
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span class="q-index">19.1</span>
+            <span class="q-text">Ați întâmpinat probleme în utilizarea formularului?</span>
+          </div>
+          <textarea id="fb-probleme" rows="3"
+            placeholder="Descrieți orice dificultăți întâmpinate..."
+            style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;"
+            onfocus="this.style.borderColor='var(--accent)'"
+            onblur="this.style.borderColor=''"
+            oninput="fbProbleme=this.value"></textarea>
+        </div>
+      </div>
+      <div class="question-row">
+        <div class="q-top" style="flex-direction:column;gap:8px;align-items:flex-start;">
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span class="q-index">19.2</span>
+            <span class="q-text">Sugestii de îmbunătățire a formularului</span>
+          </div>
+          <textarea id="fb-sugestii-input" rows="3"
+            placeholder="Ce ați schimba sau îmbunătăți la acest formular?"
+            style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;"
+            onfocus="this.style.borderColor='var(--accent)'"
+            onblur="this.style.borderColor=''"
+            oninput="fbSugestii=this.value"></textarea>
+        </div>
+      </div>
+      <div class="question-row" style="border-bottom:none;">
+        <div class="q-top" style="flex-direction:column;gap:8px;align-items:flex-start;">
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span class="q-index">19.3</span>
+            <span class="q-text">Feedback general</span>
+          </div>
+          <textarea id="fb-general" rows="3"
+            placeholder="Orice alt comentariu sau feedback general despre experiența de utilizare..."
+            style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;"
+            onfocus="this.style.borderColor='var(--accent)'"
+            onblur="this.style.borderColor=''"
+            oninput="fbGeneral=this.value"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ACTIONS -->
   <div class="actions-bar">
     <div class="actions-left">
@@ -1084,9 +1137,78 @@ async function trimiteRaport(bypass) {
     payload.nrRaport = nrRaport;
 
     // ── 4. Generăm PDF-ul cu numărul corect ──
-    overlayMsg.textContent = 'Se generează raportul...';
+    overlayMsg.textContent = 'Se generează PDF-ul...';
     const pdfHtml   = buildPDFHtml(payload, imgData);
-    
+    const pdfBase64 = await (async function() {
+      const parser  = new DOMParser();
+      const pdfDoc  = parser.parseFromString(pdfHtml, 'text/html');
+      let cssText = '';
+      pdfDoc.querySelectorAll('style').forEach(function(s) { cssText += s.textContent; });
+      const container = document.createElement('div');
+      container.style.cssText = 'position:fixed;left:-9999px;top:0;width:860px;background:#fff;z-index:-1;font-family:Arial,sans-serif;font-size:12px;color:#1a1917;padding:20px;box-sizing:border-box;';
+      const styleEl = document.createElement('style');
+      styleEl.textContent = cssText;
+      container.appendChild(styleEl);
+      const bodyContent = document.createElement('div');
+      bodyContent.innerHTML = pdfDoc.body.innerHTML;
+      container.appendChild(bodyContent);
+      document.body.appendChild(container);
+      await new Promise(r => setTimeout(r, 1200));
+      const { jsPDF } = window.jspdf;
+      const pdf     = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      const pageW   = pdf.internal.pageSize.getWidth();
+      const pageH   = pdf.internal.pageSize.getHeight();
+      const margin  = 10;
+      const usableW = pageW - margin * 2;
+      const usableH = pageH - margin * 2;
+      const canvas = await html2canvas(container, {
+        scale: 2, useCORS: true, allowTaint: true,
+        backgroundColor: '#ffffff', width: 860, windowWidth: 860
+      });
+      const scale   = canvas.width / 860;
+      const pageHpx = Math.round(usableH * canvas.width / usableW);
+      const allEls = Array.from(container.querySelectorAll('.row, .sec-header'));
+      const safeBottoms = [];
+      allEls.forEach(function(el, idx) {
+        // If this is a sec-header, use the bottom of the NEXT row instead
+        // so the page never breaks between sec-header and its first question
+        if (el.classList.contains('sec-header') && allEls[idx + 1]) {
+          return; // skip - will be accounted for by next row
+        }
+        let top = 0, node = el;
+        while (node && node !== container) { top += node.offsetTop || 0; node = node.offsetParent; }
+        safeBottoms.push(Math.round((top + el.offsetHeight) * scale));
+      });
+      safeBottoms.sort(function(a,b){ return a-b; });
+      document.body.removeChild(container);
+      const breakPoints = [0];
+      let pageEnd = pageHpx;
+      while (pageEnd < canvas.height) {
+        let best = -1;
+        for (let k = 0; k < safeBottoms.length; k++) {
+          if (safeBottoms[k] <= pageEnd && safeBottoms[k] > breakPoints[breakPoints.length-1]) best = safeBottoms[k];
+        }
+        const cut = best > 0 ? best : pageEnd;
+        breakPoints.push(cut);
+        pageEnd = cut + pageHpx;
+      }
+      breakPoints.push(canvas.height);
+      for (let p = 0; p < breakPoints.length - 1; p++) {
+        if (p > 0) pdf.addPage();
+        const srcY = breakPoints[p];
+        const srcH = breakPoints[p+1] - srcY;
+        if (srcH <= 0) continue;
+        const sliceH = srcH * usableW / canvas.width;
+        const slice  = document.createElement('canvas');
+        slice.width  = canvas.width;
+        slice.height = srcH;
+        slice.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, srcH, 0, 0, canvas.width, srcH);
+        pdf.addImage(slice.toDataURL('image/jpeg', 1.0), 'JPEG', margin, margin, usableW, sliceH);
+      }
+      return pdf.output('datauristring').split(',')[1];
+    })();;
+;
+
     // ── 4.5. Construim rândul CSV ──
     (function() {
       var secs = payload.sections || {};
@@ -1111,30 +1233,28 @@ async function trimiteRaport(bypass) {
       payload.csvRow = row;
     })();
 
-    // ── 5. Trimitem html cu numărul atribuit ──
+    // ── 5. Trimitem PDF-ul la GAS cu numărul atribuit ──
     overlayMsg.textContent = 'Se încarcă în GitHub...';
-   const htmlBase64 = btoa(unescape(encodeURIComponent(pdfHtml)));
-   const res = await fetch(GAS_PROXY_URL, {
-     method:   'POST',
-     redirect: 'follow',
-     headers:  { 'Content-Type': 'text/plain' },
-     body:     JSON.stringify({
-     token:         sessionStorage.getItem('form_token') || '',
-     pdfHtmlBase64: htmlBase64,
-     fileExt:       'html',
-     folder:        'rapoarte_raw',
-     nrRaport:      nrRaport,
-     inspector:     payload.name        || '',
-     email:         payload.email       || '',
-     data:          dateForFilename(payload.date) || '',
-     localitate:    payload.location    || '',
-     tipLucrare:    payload.tipLucrare  || '',
-     observatii:    payload.observatii  || '',
-     concluzii:     payload.concluzii   || '',
-     sections:      payload.sections    || {},
-     csvRow:        payload.csvRow      || []
-   })
- });
+    const res = await fetch(GAS_PROXY_URL, {
+      method:   'POST',
+      redirect: 'follow',
+      headers:  { 'Content-Type': 'text/plain' },
+      body:     JSON.stringify({
+        token:         sessionStorage.getItem('form_token') || '',  // ← adăugat
+        pdfHtmlBase64: pdfBase64,
+        fileExt:       'pdf',
+        nrRaport:      nrRaport,
+        inspector:     payload.name        || '',
+        email:         payload.email       || '',
+        data:          dateForFilename(payload.date) || '',
+        localitate:    payload.location    || '',
+        tipLucrare:    payload.tipLucrare  || '',
+        observatii:    payload.observatii  || '',
+        concluzii:     payload.concluzii   || '',
+        sections:      payload.sections    || {},
+        csvRow:        payload.csvRow      || []
+      })
+    });
 
     const text = await res.text();
     let result = {};
@@ -1151,6 +1271,125 @@ async function trimiteRaport(bypass) {
     // cachedNrUsed rămâne false → downloadPDF va refolosi același număr
     cachedNrRaport = nrRaport;
     cachedNrUsed   = false;
+
+    // ── Trimitem feedback PDF în folder separat (întotdeauna) ──
+    try {
+      const fbProblemeVal = document.getElementById('fb-probleme')       ? document.getElementById('fb-probleme').value       : '';
+      const fbSugestiiVal = document.getElementById('fb-sugestii-input') ? document.getElementById('fb-sugestii-input').value : '';
+      const fbGeneralVal  = document.getElementById('fb-general')        ? document.getElementById('fb-general').value         : '';
+
+      const fbHtml = buildFeedbackPdfHtml({
+        nrRaport:   nrRaport,
+        name:       payload.name || '',
+        date:       payload.date || '',
+        fbProbleme: fbProblemeVal,
+        fbSugestii: fbSugestiiVal,
+        fbGeneral:  fbGeneralVal
+      });
+
+      // Generăm PDF binar pentru feedback (același mecanism ca raportul principal)
+      const fbPdfBase64 = await (async function() {
+        const parser  = new DOMParser();
+        const fbDoc   = parser.parseFromString(fbHtml, 'text/html');
+        let cssText = '';
+        fbDoc.querySelectorAll('style').forEach(function(s) { cssText += s.textContent; });
+        const container = document.createElement('div');
+        container.style.cssText = 'position:fixed;left:-9999px;top:0;width:860px;background:#fff;z-index:-1;font-family:Arial,sans-serif;font-size:12px;color:#1a1917;padding:20px;box-sizing:border-box;';
+        const styleEl = document.createElement('style');
+        styleEl.textContent = cssText;
+        container.appendChild(styleEl);
+        const bodyContent = document.createElement('div');
+        bodyContent.innerHTML = fbDoc.body.innerHTML;
+        container.appendChild(bodyContent);
+        document.body.appendChild(container);
+        await new Promise(r => setTimeout(r, 1200));
+        const { jsPDF } = window.jspdf;
+        const pdf     = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+        const pageW   = pdf.internal.pageSize.getWidth();
+        const pageH   = pdf.internal.pageSize.getHeight();
+        const margin  = 10;
+        const usableW = pageW - margin * 2;
+        const usableH = pageH - margin * 2;
+        const canvas = await html2canvas(container, {
+          scale: 2, useCORS: true, allowTaint: true,
+          backgroundColor: '#ffffff', width: 860, windowWidth: 860
+        });
+        const scale   = canvas.width / 860;
+        const pageHpx = Math.round(usableH * canvas.width / usableW);
+        const allEls  = Array.from(container.querySelectorAll('.row, .sec-header'));
+        const safeBottoms = [];
+        allEls.forEach(function(el, idx) {
+          if (el.classList.contains('sec-header') && allEls[idx + 1]) return;
+          let top = 0, node = el;
+          while (node && node !== container) { top += node.offsetTop || 0; node = node.offsetParent; }
+          safeBottoms.push(Math.round((top + el.offsetHeight) * scale));
+        });
+        safeBottoms.sort(function(a,b){ return a-b; });
+        document.body.removeChild(container);
+        const breakPoints = [0];
+        let pageEnd = pageHpx;
+        while (pageEnd < canvas.height) {
+          let best = -1;
+          for (let k = 0; k < safeBottoms.length; k++) {
+            if (safeBottoms[k] <= pageEnd && safeBottoms[k] > breakPoints[breakPoints.length-1]) best = safeBottoms[k];
+          }
+          const cut = best > 0 ? best : pageEnd;
+          breakPoints.push(cut);
+          pageEnd = cut + pageHpx;
+        }
+        breakPoints.push(canvas.height);
+        for (let p = 0; p < breakPoints.length - 1; p++) {
+          if (p > 0) pdf.addPage();
+          const srcY   = breakPoints[p];
+          const srcH   = breakPoints[p+1] - srcY;
+          if (srcH <= 0) continue;
+          const sliceH = srcH * usableW / canvas.width;
+          const slice  = document.createElement('canvas');
+          slice.width  = canvas.width;
+          slice.height = srcH;
+          slice.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, srcH, 0, 0, canvas.width, srcH);
+          pdf.addImage(slice.toDataURL('image/jpeg', 1), 'JPEG', margin, margin, usableW, sliceH);
+        }
+        return pdf.output('datauristring').split(',')[1];
+      })();
+
+      await fetch(GAS_PROXY_URL, {
+        method: 'POST', redirect: 'follow',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({
+          token:         sessionStorage.getItem('form_token') || '',  // ← adăugat
+          pdfHtmlBase64: fbPdfBase64,
+          fileExt:       'pdf',
+          nrRaport:      nrRaport,
+          folder:        'feedback-formular',
+          inspector:     payload.name || '',
+          data:          dateForFilename(payload.date) || '',
+          localitate:    payload.location || '',
+          tipLucrare:    payload.tipLucrare || ''
+        })
+      });
+    } catch(e) { console.warn('Feedback PDF error:', e); }
+
+    // ── Upload HTML raw în rapoarte_raw ──
+    try {
+      const htmlRaw = buildPDFHtml(payload, imgData);
+      const htmlBase64 = btoa(unescape(encodeURIComponent(htmlRaw)));
+      await fetch(GAS_PROXY_URL, {
+        method: 'POST', redirect: 'follow',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({
+          token:         sessionStorage.getItem('form_token') || '',  // ← adăugat
+          pdfHtmlBase64: htmlBase64,
+          fileExt:       'html',
+          nrRaport:      nrRaport,
+          folder:        'rapoarte_raw',
+          inspector:     payload.name     || '',
+          data:          dateForFilename(payload.date) || '',
+          localitate:    payload.location || '',
+          tipLucrare:    payload.tipLucrare || ''
+        })
+      });
+    } catch(e) { console.warn('HTML raw upload error:', e); }
 
     // Descarcă PDF local
     const winLocal = window.open('', '_blank');
@@ -1197,6 +1436,7 @@ function buildPDFHtml(p, imgData) {
     'Feedback inspector asupra lucrării',
     'Feedback șef de echipă asupra lucrării',
     'Observații',
+    'Feedback form',
   ];
 
   const rows = [];
@@ -1260,6 +1500,8 @@ function buildPDFHtml(p, imgData) {
   // ── Secțiunea 17: Concluzii finale ──
   rows.push(`<div class="sec-header"><div class="col-q">Secțiunea 17: Concluzii finale</div></div>`);
   rows.push(`<div class="row"><div class="col-q">17.1. Note și concluzii generale în urma inspecției</div><div class="col-r"></div><div class="col-c">${escHtml(p.concluzii) || '—'}</div></div>`);
+
+  // Feedback form
 
   // ── Secțiunea 18: Semnătură inspector ──
   rows.push(`<div class="sec-header"><div class="col-q">Secțiunea 18: Semnătura inspectorului</div></div>`);
@@ -1402,6 +1644,14 @@ function dateForFilename(dateStr) {
   if (parts.length === 3) return parts[2] + '-' + parts[1] + '-' + parts[0];
   return dateStr.replace(/[\/\.]/g, '-');
 }
+
+function buildFeedbackPdfHtml(p) {
+  var name      = p.name      || '—';
+  var date      = p.date      || '—';
+  var nrRaport  = p.nrRaport  || '—';
+  var probleme  = p.fbProbleme  ? p.fbProbleme  : '';
+  var sugestii  = p.fbSugestii  ? p.fbSugestii  : '';
+  var general   = p.fbGeneral   ? p.fbGeneral   : '';
 
   function answerDiv(val) {
     var cls = val ? 'q-answer' : 'q-answer empty';
@@ -1580,6 +1830,7 @@ var NAV_SECTIONS = [
   { elId: 'obs-text',      label: '16. Observații',                               total: 1  },
   { elId: 'concluzii-text',label: '17. Concluzii finale',                         total: 1  },
   { elId: 'canvas-inspector', label: '18. Semnătură',                             total: 0  },
+  { elId: 'fb-probleme',   label: '19. Feedback formular',                        total: 0  },
 ];
 
 function getSectionDone(sec) {
