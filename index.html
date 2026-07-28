@@ -403,58 +403,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
   </div>
 
 
-  <!-- ===== SECȚIUNEA 19 — FEEDBACK FORMULAR ===== -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num" style="font-size:9px">19</div>
-      <div class="section-title">Feedback formular</div>
-    </div>
-    <div class="questions-list">
-      <div class="question-row">
-        <div class="q-top" style="flex-direction:column;gap:8px;align-items:flex-start;">
-          <div style="display:flex;gap:10px;align-items:baseline;">
-            <span class="q-index">19.1</span>
-            <span class="q-text">Ați întâmpinat probleme în utilizarea formularului?</span>
-          </div>
-          <textarea id="fb-probleme" rows="3"
-            placeholder="Descrieți orice dificultăți întâmpinate..."
-            style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;"
-            onfocus="this.style.borderColor='var(--accent)'"
-            onblur="this.style.borderColor=''"
-            oninput="fbProbleme=this.value"></textarea>
-        </div>
-      </div>
-      <div class="question-row">
-        <div class="q-top" style="flex-direction:column;gap:8px;align-items:flex-start;">
-          <div style="display:flex;gap:10px;align-items:baseline;">
-            <span class="q-index">19.2</span>
-            <span class="q-text">Sugestii de îmbunătățire a formularului</span>
-          </div>
-          <textarea id="fb-sugestii-input" rows="3"
-            placeholder="Ce ați schimba sau îmbunătăți la acest formular?"
-            style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;"
-            onfocus="this.style.borderColor='var(--accent)'"
-            onblur="this.style.borderColor=''"
-            oninput="fbSugestii=this.value"></textarea>
-        </div>
-      </div>
-      <div class="question-row" style="border-bottom:none;">
-        <div class="q-top" style="flex-direction:column;gap:8px;align-items:flex-start;">
-          <div style="display:flex;gap:10px;align-items:baseline;">
-            <span class="q-index">19.3</span>
-            <span class="q-text">Feedback general</span>
-          </div>
-          <textarea id="fb-general" rows="3"
-            placeholder="Orice alt comentariu sau feedback general despre experiența de utilizare..."
-            style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--surface2);color:var(--text);resize:vertical;outline:none;"
-            onfocus="this.style.borderColor='var(--accent)'"
-            onblur="this.style.borderColor=''"
-            oninput="fbGeneral=this.value"></textarea>
-        </div>
-      </div>
-    </div>
-  </div>
-
+ 
   <!-- ACTIONS -->
   <div class="actions-bar">
     <div class="actions-left">
@@ -1456,58 +1405,6 @@ function dateForFilename(dateStr) {
   return dateStr.replace(/[\/\.]/g, '-');
 }
 
-function buildFeedbackPdfHtml(p) {
-  var name      = p.name      || '—';
-  var date      = p.date      || '—';
-  var nrRaport  = p.nrRaport  || '—';
-  var probleme  = p.fbProbleme  ? p.fbProbleme  : '';
-  var sugestii  = p.fbSugestii  ? p.fbSugestii  : '';
-  var general   = p.fbGeneral   ? p.fbGeneral   : '';
-
-  function answerDiv(val) {
-    var cls = val ? 'q-answer' : 'q-answer empty';
-    var txt = val || 'Fără răspuns';
-    return '<div class="' + cls + '">' + txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>') + '</div>';
-  }
-
-  return '<!DOCTYPE html><html><head><meta charset="UTF-8"/>' +
-    '<style>' +
-    '* { box-sizing: border-box; margin: 0; padding: 0; }' +
-    'body { font-family: Arial, sans-serif; font-size: 13px; color: #1a1917; background: #fff; padding: 32px; }' +
-    '.header { margin-bottom: 28px; border-bottom: 2px solid #1a4d8f; padding-bottom: 14px; }' +
-    '.header h1 { font-size: 20px; font-weight: 700; color: #1a4d8f; margin-bottom: 6px; }' +
-    '.header .meta { font-size: 12px; color: #555; }' +
-    '.header .meta strong { color: #1a1917; }' +
-    '.question { margin-bottom: 24px; }' +
-    '.q-num { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #9b9890; margin-bottom: 4px; letter-spacing: 0.06em; }' +
-    '.q-text { font-size: 13px; font-weight: 600; color: #1a1917; margin-bottom: 8px; }' +
-    '.q-answer { border: 1px solid #dddbd4; border-radius: 4px; padding: 12px 14px; min-height: 70px; font-size: 13px; line-height: 1.6; background: #f9f8f5; }' +
-    '.q-answer.empty { color: #9b9890; font-style: italic; }' +
-    '@page { size: A4 portrait; margin: 1.5cm; }' +
-    '</style>' +
-    '</head><body>' +
-    '<div class="header">' +
-    '<h1>Feedback Formular &mdash; Sec\u021biunea 19</h1>' +
-    '<div class="meta">Inspector: <strong>' + name + '</strong> &nbsp;&nbsp;|&nbsp;&nbsp; Data: <strong>' + date + '</strong> &nbsp;&nbsp;|&nbsp;&nbsp; Nr. Raport: <strong>' + nrRaport + '</strong></div>' +
-    '</div>' +
-    '<div class="question">' +
-    '<div class="q-num">19.1</div>' +
-    '<div class="q-text">A\u021bi \u00eent\u00e2mpinat probleme \u00een utilizarea formularului?</div>' +
-    answerDiv(probleme) +
-    '</div>' +
-    '<div class="question">' +
-    '<div class="q-num">19.2</div>' +
-    '<div class="q-text">Sugestii de \u00eembun\u0103t\u0103\u021bire a formularului</div>' +
-    answerDiv(sugestii) +
-    '</div>' +
-    '<div class="question">' +
-    '<div class="q-num">19.3</div>' +
-    '<div class="q-text">Feedback general</div>' +
-    answerDiv(general) +
-    '</div>' +
-    '</body></html>';
-}
-
 // FORMAT DATE INPUT (dd/mm/yyyy auto-formatting)
 function formatDateInput(el) {
   var pos = el.selectionStart;
@@ -1641,7 +1538,6 @@ var NAV_SECTIONS = [
   { elId: 'obs-text',      label: '16. Observații',                               total: 1  },
   { elId: 'concluzii-text',label: '17. Concluzii finale',                         total: 1  },
   { elId: 'canvas-inspector', label: '18. Semnătură',                             total: 0  },
-  { elId: 'fb-probleme',   label: '19. Feedback formular',                        total: 0  },
 ];
 
 function getSectionDone(sec) {
